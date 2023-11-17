@@ -1,0 +1,37 @@
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 200px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #edeff2;
+  border-radius: 8px;
+  cursor: pointer;
+
+  .link_content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-left: 10px;
+
+    div {
+      background-color: #ffedec;
+      padding: 15px;
+      border-radius: 50%;
+    }
+
+    h5 {
+      font-style: normal;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 38px;
+      color: var(--text-color);
+    }
+  }
+}
