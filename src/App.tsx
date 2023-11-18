@@ -17,6 +17,8 @@ import {
   SuggestVisit,
   TouristRoutes,
   CalendarEvents,
+  TouristRoute,
+  Subject,
 } from "./components";
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
           </Route>
           <Route path={TOURIST_ROUTES} element={<ContentLayout />}>
             <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />
+            <Route path=":id" element={<TouristRoute />} />
+            <Route path=":id/:entityId" element={<Subject />} />
           </Route>
           <Route path={SUGGEST_VISIT} element={<ContentLayout />}>
             <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />

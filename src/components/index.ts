@@ -12,3 +12,7 @@ export { default as CalendarEvents } from "src/components/ChangedBlock/CalendarE
 export { default as ChangedBlock } from "./ChangedBlock/ChangedBlock";
 export { default as Title } from "./ChangedBlock/Title/Title";
 export { default as Tag } from "./Tag/Tag";
+export { default as TouristRoute } from "./ChangedBlock/TouristRoutes/TouristRoute/TouristRoute";
+export { default as Subject } from "./ChangedBlock/TouristRoutes/TouristRoute/Subject/Subject";
+export { default as ImageSlider } from "./ImageSlider/ImageSlider";
+export { default as Button } from "./Button/Button";

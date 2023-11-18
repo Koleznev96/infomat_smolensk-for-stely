@@ -1,0 +1,79 @@
+.touristRoute {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  @mixin paragraph {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--primary-color);
+  }
+
+  @mixin title {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--primary-color);
+  }
+
+  .description {
+    h5 {
+      @include title;
+      margin-bottom: 10px;
+    }
+
+    p {
+      @include paragraph;
+    }
+  }
+
+  .touristObjects {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .object {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      cursor: pointer;
+
+      .image {
+        position: relative;
+
+        .number {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          background-color: white;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 22px;
+          text-align: center;
+          color: #28892c;
+          width: 24px;
+          height: 24px;
+          border-radius: 5px;
+        }
+      }
+
+      h6 {
+        @include title;
+      }
+
+      p {
+        @include paragraph;
+        color: var(--secondary-color);
+      }
+    }
+
+    h5 {
+      @include title;
+      margin-bottom: 10px;
+    }
+  }
+}

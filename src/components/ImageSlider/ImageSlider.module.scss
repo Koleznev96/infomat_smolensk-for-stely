@@ -1,0 +1,32 @@
+.imageSlider {
+  position: relative;
+
+  .slider {
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+  }
+
+  @mixin common {
+    position: absolute;
+    bottom: 15px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .left {
+    left: 15px;
+    @include common;
+  }
+
+  .right {
+    right: 15px;
+    @include common;
+  }
+}

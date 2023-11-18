@@ -5,9 +5,10 @@ import styles from "./Title.module.scss";
 interface TitleProps {
   text: string;
   image?: string;
+  children?: React.ReactNode;
 }
 
-const Title = ({ text }: TitleProps) => {
+const Title = ({ text, children }: TitleProps) => {
   return (
     <div className={styles.title}>
       <div className={styles.image}>
@@ -29,7 +30,16 @@ const Title = ({ text }: TitleProps) => {
           />
         </svg>
       </div>
-      <h6>{text}</h6>
+      {children ? (
+        <div className={styles.info}>
+          <h6>{text}</h6>
+          <div>{children}</div>
+        </div>
+      ) : (
+        <div className={styles.info}>
+          <h6>{text}</h6>
+        </div>
+      )}
     </div>
   );
 };
