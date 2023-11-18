@@ -1,0 +1,41 @@
+.suggestVisit {
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    .card {
+      width: 100%;
+      min-width: 300px;
+      background-color: var(--background-card);
+      border-radius: 10px;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .info {
+        padding: 16px;
+
+        h6 {
+          font-style: normal;
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 30px;
+          color: var(--primary-color);
+          margin-bottom: 12px;
+        }
+
+        p {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: var(--secondary-color);
+        }
+      }
+    }
+  }
+}

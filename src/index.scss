@@ -1,5 +1,8 @@
 :root {
   --primary-color: #101828;
+  --secondary-color: #667085;
+  --background-card: #edeff2;
+  --border-card: #d9d9d9;
   --blur-color: #d0d5dd;
   --border-color: #d0d5dd;
   --background-active: #e2e8f0;
@@ -11,6 +14,8 @@
   box-sizing: border-box;
   font-family: "Manrope", sans-serif;
   //font-family: 'Inter', sans-serif;
+  user-select: none;
+  text-decoration: none;
 }
 
 .App {
@@ -23,4 +28,22 @@
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+}
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #555555 #ffffff;
+}
+
+*::-webkit-scrollbar {
+  width: 13px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #555555;
+  border-radius: 10px;
 }
