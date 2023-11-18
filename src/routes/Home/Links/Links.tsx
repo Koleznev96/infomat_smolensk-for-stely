@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link } from "src/components";
+import Link from "./Link";
 
 import { ReactComponent as Book } from "src/icons/links/book.svg";
 import { ReactComponent as BookBg } from "src/icons/links/book-bg.svg";
