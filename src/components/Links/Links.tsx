@@ -11,6 +11,13 @@ import { ReactComponent as MapBg } from "src/icons/links/map-bg.svg";
 import { ReactComponent as Calendar } from "src/icons/links/calendar.svg";
 import { ReactComponent as CalendarBg } from "src/icons/links/calendar-bg.svg";
 
+import {
+  CALENDAR_EVENT,
+  SUGGEST_VISIT,
+  TOURIST_OBJECTS,
+  TOURIST_ROUTES,
+} from "src/conts/routes";
+
 import styles from "./Link.module.scss";
 
 const Links = () => {
@@ -20,13 +27,25 @@ const Links = () => {
         BgSVG={BookBg}
         MainSvg={Book}
         text="Туристские объекты на карте города"
+        href={TOURIST_OBJECTS}
       />
-      <Link BgSVG={MapBg} MainSvg={Map} text="Туристские маршруты" />
-      <Link BgSVG={HomeBg} MainSvg={Home} text="Рекомендуем" />
+      <Link
+        BgSVG={MapBg}
+        MainSvg={Map}
+        text="Туристские маршруты"
+        href={TOURIST_ROUTES}
+      />
+      <Link
+        BgSVG={HomeBg}
+        MainSvg={Home}
+        text="Рекомендуем"
+        href={SUGGEST_VISIT}
+      />
       <Link
         BgSVG={CalendarBg}
         MainSvg={Calendar}
         text="Календарь мероприятий"
+        href={CALENDAR_EVENT}
       />
     </div>
   );
