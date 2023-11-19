@@ -2,11 +2,9 @@ import React from "react";
 
 import { CardView } from "src/components";
 
-import styles from "./Subject.module.scss";
-
-const Subject = () => {
+const SuggestCard = () => {
   return (
-    <div className={styles.subject}>
+    <>
       <CardView
         title="Церковь святых апостолов Петра и Павла (12 век)"
         descriptionTitle="Описание"
@@ -22,8 +20,8 @@ const Subject = () => {
           "«Мой Смоленск» об объекте",
         ]}
       />
-    </div>
+    </>
   );
 };
 
-export default Subject;
+export default SuggestCard;

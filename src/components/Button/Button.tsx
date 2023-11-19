@@ -10,9 +10,9 @@ interface ButtonProps {
 
 const Button = ({ children, image, onClick }: ButtonProps) => {
   return (
-    <div className={styles.button}>
+    <div className={styles.button} onClick={onClick}>
       {image}
-      <div onClick={onClick}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

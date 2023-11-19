@@ -1,45 +1,36 @@
 import React from "react";
 
-import { Card, Title } from "src/components";
+import { TOURIST_OBJECTS_ID_ENTITY } from "src/conts/routes";
 
-import { CALENDAR_EVENT_ID } from "src/conts/routes";
+import { Card } from "src/components";
 
-import styles from "./CalendarEvents.module.scss";
+import styles from "./WithoutCategory.module.scss";
 
-const CalendarEvents = () => {
+const WithoutCategory = () => {
   return (
-    <div className={styles.calendarEvents}>
-      <Title text="Календарь мероприятий" />
+    <div className={styles.withoutCategory}>
       <Card
-        type="full"
         title="Заседание комиссии по делам несовершеннолетних и защите их прав"
         paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные решения, подчёркивающие гармонию формы и содержания. Месторасположение отеля уникально: он находится в самом центре города, на..."
-        tags={["10.10.2023", "09:30-11:30"]}
-        href={CALENDAR_EVENT_ID(1)}
+        href={TOURIST_OBJECTS_ID_ENTITY(1, 1)}
       />
       <Card
-        type="full"
         title="Заседание комиссии по делам несовершеннолетних и защите их прав"
         paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные решения, подчёркивающие гармонию формы и содержания. Месторасположение отеля уникально: он находится в самом центре города, на..."
-        tags={["10.10.2023", "09:30-11:30"]}
-        href={CALENDAR_EVENT_ID(2)}
+        href={TOURIST_OBJECTS_ID_ENTITY(1, 1)}
       />
       <Card
-        type="full"
         title="Заседание комиссии по делам несовершеннолетних и защите их прав"
         paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные решения, подчёркивающие гармонию формы и содержания. Месторасположение отеля уникально: он находится в самом центре города, на..."
-        tags={["10.10.2023", "09:30-11:30"]}
-        href={CALENDAR_EVENT_ID(3)}
+        href={TOURIST_OBJECTS_ID_ENTITY(1, 1)}
       />
       <Card
-        type="full"
         title="Заседание комиссии по делам несовершеннолетних и защите их прав"
         paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные решения, подчёркивающие гармонию формы и содержания. Месторасположение отеля уникально: он находится в самом центре города, на..."
-        tags={["10.10.2023", "09:30-11:30"]}
-        href={CALENDAR_EVENT_ID(4)}
+        href={TOURIST_OBJECTS_ID_ENTITY(1, 1)}
       />
     </div>
   );
 };
 
-export default CalendarEvents;
+export default WithoutCategory;

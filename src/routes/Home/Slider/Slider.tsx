@@ -2,39 +2,26 @@ import React from "react";
 
 import styles from "./Slider.module.scss";
 
+import video from "src/movie.mp4";
+
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
   const sliders = {
     first: (
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/nPJZWTwZ9gY?autoplay=1"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
+      <video controls={true} width="560" height="315" autoPlay={true}>
+        <source src={video} />
+      </video>
     ),
     second: (
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/NdUCpfOn0J8?autoplay=1"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
+      <video controls={true} width="560" height="315" autoPlay={true}>
+        <source src={video} type="video/mp4" />
+      </video>
     ),
     third: (
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/RxzD6zcvkKw?autoplay=1"
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
+      <video controls={true} width="560" height="315" autoPlay={true}>
+        <source src={video} type="video/mp4" />
+      </video>
     ),
   };
 

@@ -2,11 +2,9 @@ import React from "react";
 
 import { CardView } from "src/components";
 
-import styles from "./Subject.module.scss";
-
-const Subject = () => {
+const WithoutCategoryEntity = () => {
   return (
-    <div className={styles.subject}>
+    <div>
       <CardView
         title="Церковь святых апостолов Петра и Павла (12 век)"
         descriptionTitle="Описание"
@@ -26,4 +24,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default WithoutCategoryEntity;

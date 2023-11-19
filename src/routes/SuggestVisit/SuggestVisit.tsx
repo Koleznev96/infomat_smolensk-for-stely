@@ -1,78 +1,38 @@
 import React from "react";
 
-import Image from "./Image.png";
+import { Card, Title } from "src/components";
 
-import { Title } from "src/components";
+import { SUGGEST_VISIT_ID } from "src/conts/routes";
 
 import styles from "./SuggestVisit.module.scss";
 
 const SuggestVisit = () => {
   return (
-    <div className={styles.suggestVisit}>
+    <>
       <Title text="Рекомендуем" />
       <div className={styles.cards}>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
-        <div className={styles.card}>
-          <img src={Image} alt="hotel" />
-          <div className={styles.info}>
-            <h6>Гранд-отель «Мегаполис»</h6>
-            <p>
-              «Мегаполис» – это безупречно стильные интерьеры, инновационные
-              технологии, лаконичные архитектурные реш...
-            </p>
-          </div>
-        </div>
+        <Card
+          title="Гранд-отель «Мегаполис»"
+          paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные реш..."
+          href={SUGGEST_VISIT_ID(1)}
+        />
+        <Card
+          title="Гранд-отель «Мегаполис»"
+          paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные реш..."
+          href={SUGGEST_VISIT_ID(2)}
+        />
+        <Card
+          title="Гранд-отель «Мегаполис»"
+          paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные реш..."
+          href={SUGGEST_VISIT_ID(3)}
+        />
+        <Card
+          title="Гранд-отель «Мегаполис»"
+          paragraph="«Мегаполис» – это безупречно стильные интерьеры, инновационные технологии, лаконичные архитектурные реш..."
+          href={SUGGEST_VISIT_ID(4)}
+        />
       </div>
-    </div>
+    </>
   );
 };
 

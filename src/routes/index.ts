@@ -1,8 +1,15 @@
 export { default as Subject } from "./TouristRoutes/TouristRoute/Subject/Subject";
+export { default as Category } from "./TouristObjects/Category/Category";
+export { default as CategoryId } from "./TouristObjects/Category/CategoryId/CategoryId";
 export { default as MainContent } from "./Home/MainContent/MainContent";
 export { default as ReactRoutes } from "./ReactRoutes/Routes";
+export { default as SuggestCard } from "./SuggestVisit/SuggestCard/SuggestCard";
 export { default as TouristRoute } from "./TouristRoutes/TouristRoute/TouristRoute";
+export { default as CalendarCard } from "./CalendarEvents/CalendarCard/CalendarCard";
 export { default as SuggestVisit } from "./SuggestVisit/SuggestVisit";
 export { default as TouristRoutes } from "./TouristRoutes/TouristRoutes";
 export { default as CalendarEvents } from "./CalendarEvents/CalendarEvents";
 export { default as TouristObjects } from "./TouristObjects/TouristObjects";
+export { default as WithoutCategory } from "./TouristObjects/WithoutCategory/WithoutCategory";
+export { default as CategoryEntityId } from "./TouristObjects/Category/CategoryId/CategoryEntityId/CategoryEntityId";
+export { default as WithoutCategoryEntity } from "./TouristObjects/WithoutCategory/WithoutCategoryEntity/WithoutCategoryEntity";
