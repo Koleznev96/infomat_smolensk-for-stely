@@ -25,7 +25,7 @@ import {
   TOURIST_ROUTES,
 } from "src/conts/routes";
 
-import { Button, ChangedBlock, Header, Map } from "src/components";
+import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
@@ -39,6 +39,7 @@ const ReactRoutes = () => {
 
   const ContentLayout = (
     <>
+      <Breadcrumbs />
       <Map />
       <ChangedBlock>
         <Outlet />

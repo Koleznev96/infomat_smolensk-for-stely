@@ -1,0 +1,20 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .breadcrumb {
+    a {
+      color: var(--breadcrumb-color);
+    }
+
+    span:not(:first-child) {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--breadcrumb-arraw-color);
+      margin: 0 10px;
+    }
+  }
+}

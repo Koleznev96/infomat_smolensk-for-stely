@@ -6,4 +6,5 @@ export { default as Button } from "./Button/Button";
 export { default as Header } from "./Header/Header";
 export { default as CardView } from "./CardView/CardView";
 export { default as ImageSlider } from "./ImageSlider/ImageSlider";
+export { default as Breadcrumbs } from "./Breadcrumbs/Breadcrumbs";
 export { default as ChangedBlock } from "./ChangedBlock/ChangedBlock";
