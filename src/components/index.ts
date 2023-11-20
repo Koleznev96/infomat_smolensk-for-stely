@@ -1,6 +1,7 @@
 export { default as Tag } from "./Tag/Tag";
 export { default as Map } from "./Map/Map";
 export { default as Card } from "./Card/Card";
+export { default as Modal } from "./Modal/Modal";
 export { default as Title } from "./Title/Title";
 export { default as Button } from "./Button/Button";
 export { default as Header } from "./Header/Header";
