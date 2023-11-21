@@ -30,7 +30,7 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
       resizeableEle.style.height = `${height}px`;
     };
 
-    const onMouseUpTopResize = (event: any) => {
+    const onMouseUpTopResize = () => {
       document.removeEventListener("mousemove", onMouseMoveTopResize);
     };
 
