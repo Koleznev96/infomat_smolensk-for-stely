@@ -33,7 +33,7 @@ const CardView = ({
         <h4>{title}</h4>
         <div className={styles.tags}>
           {tags.map((tag) => (
-            <Tag text={tag} />
+            <Tag key={tag} text={tag} />
           ))}
         </div>
         <div className={styles.description}>
@@ -42,7 +42,7 @@ const CardView = ({
         </div>
         <div className={styles.buttons}>
           {buttons.map((button) => (
-            <Button>{button}</Button>
+            <Button key={button}>{button}</Button>
           ))}
         </div>
       </div>

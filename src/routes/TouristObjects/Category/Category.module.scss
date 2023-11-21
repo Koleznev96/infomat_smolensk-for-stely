@@ -12,6 +12,9 @@
   padding: 12px;
   border: 1px solid var(--border-color);
   border-radius: 5px;
+  box-shadow:
+    2px 2px 4px -2px rgba(16, 24, 40, 0.06),
+    2px 2px 2px -2px rgba(16, 24, 40, 0.1);
 
   span {
     font-style: normal;

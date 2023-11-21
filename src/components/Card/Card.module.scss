@@ -5,7 +5,14 @@
   overflow: hidden;
 }
 
+@mixin box-shadow {
+  box-shadow:
+    2px 2px 4px -2px rgba(16, 24, 40, 0.06),
+    4px 4px 4px -2px rgba(16, 24, 40, 0.1);
+}
+
 .cardFlex {
+  @include box-shadow;
   width: 100%;
   min-width: 300px;
   background-color: var(--background-card);
@@ -49,6 +56,7 @@
   border: 1px solid var(--border-card);
   border-radius: 10px;
   cursor: pointer;
+  @include box-shadow;
 
   .image {
     img {

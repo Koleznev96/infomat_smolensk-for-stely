@@ -1,10 +1,15 @@
 .imageSlider {
   position: relative;
+  margin-bottom: 15px;
 
   .slider {
     display: flex;
     gap: 10px;
     overflow: hidden;
+
+    img {
+      cursor: pointer;
+    }
   }
 
   @mixin common {

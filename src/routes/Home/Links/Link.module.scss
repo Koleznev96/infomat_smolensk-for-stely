@@ -13,6 +13,9 @@
   background-color: #edeff2;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow:
+    2px 2px 4px -2px rgba(16, 24, 40, 0.06),
+    4px 4px 4px -2px rgba(16, 24, 40, 0.1);
 
   .link_content {
     display: flex;

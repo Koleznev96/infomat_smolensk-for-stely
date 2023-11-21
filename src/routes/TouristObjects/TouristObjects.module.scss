@@ -12,6 +12,9 @@
     border-radius: 10px;
     border: 1ps solid var(--border-card);
     cursor: pointer;
+    box-shadow:
+      0 2px 4px -2px rgba(16, 24, 40, 0.06),
+      2px 2px 2px -2px rgba(16, 24, 40, 0.1);
 
     .image {
       padding: 10px;
