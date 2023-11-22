@@ -5,16 +5,22 @@ import styles from "./Tag.module.scss";
 interface TagProps {
   text: string;
   icon?: React.ReactNode;
+  padding?: string;
+  size?: "small" | "large";
   color?: {
     bg: string;
     text: string;
   };
 }
 
-const Tag = ({ text, color, icon }: TagProps) => {
+const Tag = ({ text, color, icon, padding, size = "small" }: TagProps) => {
   return (
     <div className={styles.tag}>
-      <div>
+      <div
+        style={{
+          padding: padding,
+        }}
+      >
         <svg
           width="14"
           height="16"
@@ -37,7 +43,9 @@ const Tag = ({ text, color, icon }: TagProps) => {
             strokeLinejoin="round"
           />
         </svg>
-        <span>{text}</span>
+        <span style={{ fontSize: size === "small" ? "16px" : "20px" }}>
+          {text}
+        </span>
       </div>
     </div>
   );

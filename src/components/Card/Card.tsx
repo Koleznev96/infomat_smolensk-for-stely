@@ -33,8 +33,8 @@ const Card = ({ title, paragraph, href, type = "flex", tags }: CardProps) => {
           </div>
           <div className={styles.info}>
             <div className={styles.date}>
-              <Tag text="10.10.2023" />
-              <Tag text="09:30-11:30" />
+              <Tag text="10.10.2023" padding="2px 8px 2px 4px" size="large" />
+              <Tag text="09:30-11:30" padding="2px 8px 2px 4px" size="large" />
             </div>
             <h4>{title}</h4>
             <p>{paragraph}</p>
