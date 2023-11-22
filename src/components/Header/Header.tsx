@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import yandex from "src/icons/header/yandex.png";
 import logo from "src/icons/header/logo.png";
 import head_bg from "src/icons/header/head-bg.png";
+
+import {
+  CALENDAR_EVENT,
+  SUGGEST_VISIT,
+  TOURIST_OBJECTS,
+  TOURIST_ROUTES,
+} from "src/conts/routes";
 
 import { ReactComponent as RU } from "src/icons/header/ru.svg";
 import { ReactComponent as GB } from "src/icons/header/gb.svg";
@@ -10,6 +18,7 @@ import { ReactComponent as GB } from "src/icons/header/gb.svg";
 import styles from "./Header.module.scss";
 
 const Header = () => {
+  const location = useLocation();
   const [date, setDate] = useState(new Date());
 
   const moscowTime = new Date().toLocaleTimeString("ru", {
@@ -25,6 +34,23 @@ const Header = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  const title = useMemo(() => {
+    const path = location.pathname;
+
+    switch (true) {
+      case path.includes(TOURIST_OBJECTS):
+        return "Туристские объекты на карте города";
+      case path.includes(SUGGEST_VISIT):
+        return "Рекомендуем";
+      case path.includes(CALENDAR_EVENT):
+        return "Календарь мероприятий";
+      case path.includes(TOURIST_ROUTES):
+        return "Туристские маршруты";
+      default:
+        return "Интерактивный туристский гид";
+    }
+  }, [location.pathname]);
 
   return (
     <div className={styles.header}>
@@ -59,7 +85,7 @@ const Header = () => {
         <img src={logo} alt="logo" />
         <div className={styles.info}>
           <h3>Добро пожаловать в город-герой Смоленск!</h3>
-          <p>Интерактивный туристский гид</p>
+          <p>{title}</p>
         </div>
         <img className={styles.backgroundImage} src={head_bg} alt="head-bg" />
       </div>
