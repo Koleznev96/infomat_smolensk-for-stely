@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import yandex from "src/icons/header/yandex.png";
 import logo from "src/icons/header/logo.png";
@@ -10,36 +10,59 @@ import { ReactComponent as GB } from "src/icons/header/gb.svg";
 import styles from "./Header.module.scss";
 
 const Header = () => {
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDate(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className={styles.header}>
-      <div className={styles.header_content_top}>
-        <span className={styles.date}>Вторник, 17.10.2023, 12:00</span>
-        <img src={yandex} alt="yandex" />
-        <span className={styles.info}>
-          <span>Cмоленск +4°C</span>
-          <span className={styles.blur}>Днем +6°C</span>
-          <span className={styles.blur}>Вечером +7°C</span>
-        </span>
-        <div className={styles.language}>
-          <span className={styles.active}>
-            <RU />
-            РУ
+      <div className={styles.headerContent}>
+        <div className={styles.date}>
+          <span>
+            {date.toLocaleDateString("ru", { weekday: "long" })},
+            <span> {date.toLocaleDateString("ru")}</span>
           </span>
           <span>
-            <GB />
-            EN
+            {date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:
+            {date.getMinutes() < 10
+              ? `0${date.getMinutes()}`
+              : date.getMinutes()}
           </span>
         </div>
+        <div className={styles.weather}>
+          <img src={yandex} alt="yandex" />
+          <span className={styles.info}>
+            <span>Cмоленск +4°C</span>
+            <span className={styles.blur}>Днем +6°C</span>
+            <span className={styles.blur}>Вечером +7°C</span>
+          </span>
+          <div className={styles.language}>
+            <span className={styles.active}>
+              <RU />
+              РУ
+            </span>
+            <span>
+              <GB />
+              EN
+            </span>
+          </div>
+        </div>
       </div>
-      <div className={styles.header_content_middle}>
+      <div className={styles.headerMiddle}>
         <img src={logo} alt="logo" />
         <div className={styles.info}>
           <h3>Добро пожаловать в город-герой Смоленск!</h3>
           <p>Интерактивный туристский гид</p>
         </div>
-        <img className={styles.background_image} src={head_bg} alt="head-bg" />
+        <img className={styles.backgroundImage} src={head_bg} alt="head-bg" />
       </div>
-      <div className={styles.header_content_bottom}>
+      <div className={styles.headerBottom}>
         <input type="text" placeholder="Поиск" />
       </div>
     </div>
