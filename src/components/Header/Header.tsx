@@ -12,6 +12,12 @@ import styles from "./Header.module.scss";
 const Header = () => {
   const [date, setDate] = useState(new Date());
 
+  const moscowTime = new Date().toLocaleTimeString("ru", {
+    timeZone: "Europe/Moscow",
+    hour: "numeric",
+    minute: "numeric",
+  });
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDate(new Date());
@@ -28,12 +34,7 @@ const Header = () => {
             {date.toLocaleDateString("ru", { weekday: "long" })},
             <span> {date.toLocaleDateString("ru")}</span>
           </span>
-          <span>
-            {date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:
-            {date.getMinutes() < 10
-              ? `0${date.getMinutes()}`
-              : date.getMinutes()}
-          </span>
+          <span>{moscowTime}</span>
         </div>
         <div className={styles.weather}>
           <img src={yandex} alt="yandex" />
