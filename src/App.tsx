@@ -1,12 +1,16 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
+import { ColorModeProvider } from "src/store/language";
+
 import { ReactRoutes } from "src/routes";
 
 function App() {
   return (
     <BrowserRouter>
-      <ReactRoutes />
+      <ColorModeProvider>
+        <ReactRoutes />
+      </ColorModeProvider>
     </BrowserRouter>
   );
 }

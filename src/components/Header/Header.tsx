@@ -12,6 +12,8 @@ import {
   TOURIST_ROUTES,
 } from "src/conts/routes";
 
+import { useLanguage } from "src/store/language";
+
 import { ReactComponent as RU } from "src/icons/header/ru.svg";
 import { ReactComponent as GB } from "src/icons/header/gb.svg";
 
@@ -20,6 +22,7 @@ import styles from "./Header.module.scss";
 const Header = () => {
   const location = useLocation();
   const [date, setDate] = useState(new Date());
+  const { language, update } = useLanguage();
 
   const moscowTime = new Date().toLocaleTimeString("ru", {
     timeZone: "Europe/Moscow",
@@ -52,6 +55,10 @@ const Header = () => {
     }
   }, [location.pathname]);
 
+  const changeLanguage = (lang: "ru" | "en") => {
+    update(lang);
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.headerContent}>
@@ -70,11 +77,17 @@ const Header = () => {
             <span className={styles.blur}>Вечером +7°C</span>
           </span>
           <div className={styles.language}>
-            <span className={styles.active}>
+            <span
+              onClick={() => changeLanguage("ru")}
+              className={language === "ru" ? styles.active : ""}
+            >
               <RU />
               РУ
             </span>
-            <span>
+            <span
+              onClick={() => changeLanguage("en")}
+              className={language === "en" ? styles.active : ""}
+            >
               <GB />
               EN
             </span>
