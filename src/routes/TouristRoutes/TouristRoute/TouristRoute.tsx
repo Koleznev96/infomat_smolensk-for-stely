@@ -5,14 +5,12 @@ import img from "./Image.png";
 
 import { Tag, Title } from "src/components";
 
-import { Params } from "src/types";
-
 import { TOURIST_ROUTES_ID_VIEW } from "src/conts/routes";
 
 import styles from "./TouristRoute.module.scss";
 
 const TouristRoute = () => {
-  const { id } = useParams<Params>();
+  const { id } = useParams();
 
   return (
     <div className={styles.touristRoute}>
