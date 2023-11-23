@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "get-api": "npx swagger-typescript-api -p http://5f8104486938.vps.myjino.ru/swagger/docs -o ./src/api -n myApi.ts",
+    "get-api": "npx swagger-typescript-api -p http://5f8104486938.vps.myjino.ru/swagger/docs -o ./src/api -n myApi.ts --no-client",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

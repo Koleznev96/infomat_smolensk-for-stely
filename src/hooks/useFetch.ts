@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export function useFetch<T>(url: string): {
-  data: T | null;
+  response: T | null;
   loading: boolean | null;
   error: null | Error;
 } {
@@ -17,7 +17,7 @@ export function useFetch<T>(url: string): {
           `http://5f8104486938.vps.myjino.ru/api/${url}`,
         );
         const json = await response.json();
-        setData(json.data);
+        setData(json);
       } catch (error) {
         setError(error as Error);
       } finally {
@@ -27,5 +27,5 @@ export function useFetch<T>(url: string): {
     void fetchData();
   }, [url]);
 
-  return { data, loading, error };
+  return { response: data, loading, error };
 }
