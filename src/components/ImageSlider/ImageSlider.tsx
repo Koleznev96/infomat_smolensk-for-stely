@@ -1,15 +1,19 @@
 import React, { useRef } from "react";
 
-import img from "./Image.png";
+import { Image } from "src/api/myApi";
+import { Modal } from "src/components";
 
 import styles from "./ImageSlider.module.scss";
 
 interface ImageSliderProps {
-  images?: string[];
+  images?: Image[];
 }
 
 const ImageSlider = ({ images }: ImageSliderProps) => {
   const contentRef = useRef<null | HTMLDivElement>(null);
+
+  const [visible, setVisible] = React.useState(false);
+  const [currentImages, setCurrentImages] = React.useState(0);
 
   const handleMoveLeft = (e: React.MouseEvent<HTMLDivElement>) => {
     contentRef.current?.scrollBy(-100, 0);
@@ -19,14 +23,34 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
     contentRef.current?.scrollBy(100, 0);
   };
 
+  const handleCloseModal = () => {
+    setVisible(false);
+  };
+
+  const handleOpenModal = (index: number) => {
+    setVisible(true);
+    setCurrentImages(index);
+  };
+
   return (
     <div className={styles.imageSlider}>
+      <Modal
+        visible={visible}
+        onClose={handleCloseModal}
+        setCurrentImages={setCurrentImages}
+        imageLength={images?.length || 0}
+      >
+        <img src={images?.[currentImages]?.urlOriginal} alt="" />
+      </Modal>
       <div className={styles.slider} ref={contentRef}>
-        <img src={img} alt="object" />
-        <img src={img} alt="object" />
-        <img src={img} alt="object" />
-        <img src={img} alt="object" />
-        <img src={img} alt="object" />
+        {images?.map((image, index) => (
+          <img
+            key={image.id}
+            onClick={() => handleOpenModal(index)}
+            src={image.url3x2Original}
+            alt="object"
+          />
+        ))}
       </div>
       <div className={styles.left} onClick={handleMoveLeft}>
         <svg
