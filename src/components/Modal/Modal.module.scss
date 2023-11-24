@@ -26,6 +26,18 @@
       background: white;
     }
 
+    .buttons {
+      position: absolute;
+      bottom: -80px;
+      display: flex;
+      gap: 25px;
+
+      div {
+        border-radius: 50%;
+        background-color: white;
+      }
+    }
+
     img {
       width: 100%;
       height: 100%;
