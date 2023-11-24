@@ -28,6 +28,7 @@ const WithoutCategory = () => {
       <div className={styles.withoutCategoryList}>
         {response.rows.map((row) => (
           <Card
+            key={row.id}
             title={row.title}
             paragraph={row.description}
             href={TOURIST_OBJECTS_ID_ENTITY(params.id, row.id)}
