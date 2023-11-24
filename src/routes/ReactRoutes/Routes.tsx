@@ -66,9 +66,12 @@ const ReactRoutes = () => {
           <Route path={TOURIST_OBJECTS} element={<TouristObjects />} />
           <Route path=":id" element={<WithoutCategory />} />
           <Route path=":id/:entityId" element={<WithoutCategoryEntity />} />
-          <Route path="category" element={<Category />} />
-          <Route path="category/:id" element={<CategoryId />} />
-          <Route path="category/:id/:entityId" element={<CategoryEntityId />} />
+          <Route path=":categoryId-category" element={<Category />} />
+          <Route path=":categoryId-category/:id" element={<CategoryId />} />
+          <Route
+            path=":categoryId-category/:id/:entityId"
+            element={<CategoryEntityId />}
+          />
         </Route>
         <Route path={TOURIST_ROUTES} element={ContentLayout}>
           <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />

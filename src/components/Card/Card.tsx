@@ -1,35 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Image from "./Image.png";
-
 import { Tag } from "src/components";
 
 import styles from "./Card.module.scss";
 
-interface CardProps {
-  title: string;
-  paragraph: string;
-  href: string;
-  type?: "full" | "flex";
-  tags?: string[];
+interface Cover {
+  id?: number;
+  url?: string;
 }
 
-const Card = ({ title, paragraph, href, type = "flex", tags }: CardProps) => {
+interface CardProps {
+  title?: string;
+  paragraph?: string;
+  href?: string;
+  type?: "full" | "flex";
+  tags?: string[];
+  cover?: Cover;
+}
+
+const Card = ({
+  title,
+  paragraph,
+  href,
+  type = "flex",
+  tags,
+  cover,
+}: CardProps) => {
   return (
     <>
       {type === "flex" ? (
-        <Link to={href} className={styles.cardFlex}>
-          <img src={Image} alt="hotel" />
+        <Link to={href || ""} className={styles.cardFlex}>
+          <img src={cover?.url} alt="hotel" />
           <div className={styles.info}>
             <h6>{title}</h6>
             <p>{paragraph}</p>
           </div>
         </Link>
       ) : (
-        <Link to={href} className={styles.cardFull}>
+        <Link to={href || ""} className={styles.cardFull}>
           <div className={styles.image}>
-            <img width={360} height={240} src={Image} alt="news" />
+            <img width={360} height={240} src={cover?.url} alt="news" />
           </div>
           <div className={styles.info}>
             <div className={styles.date}>

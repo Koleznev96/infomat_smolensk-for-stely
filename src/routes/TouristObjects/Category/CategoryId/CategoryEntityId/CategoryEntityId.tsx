@@ -1,14 +1,28 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 import { CardView } from "src/components";
+import { useFetch } from "src/hooks/useFetch";
+import { ApiResponsePlaceOut } from "src/api/myApi";
 
 const CategoryEntityId = () => {
+  const params = useParams();
+
+  const { response } = useFetch<ApiResponsePlaceOut>(
+    `places/${params.entityId}`,
+  );
+
+  if (!response?.data?.id) {
+    return <></>;
+  }
+
   return (
     <div>
       <CardView
-        title="Церковь святых апостолов Петра и Павла (12 век)"
+        title={response.data.title}
         descriptionTitle="Описание"
-        descriptionParagraph="К концу июня 1942 года гитлеровское командование начало наращивать силы вокруг районов Смоленской области, освобожденных партизанским соединением под командованием Никифора Захаровича Коляды (партизанский псевдоним «Батя»), с целью их повторной оккупации. Фашисты жгли деревни, зверски уничтожали мирное население, не щадили стариков и детей. Детям и подросткам угрожала опасность угона в Германию."
+        descriptionParagraph={response.data.description}
+        images={response.data.photos}
         tags={[
           "Протяженность: 5 км",
           "Время: 2-2,5 часа",

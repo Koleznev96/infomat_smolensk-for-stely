@@ -1,26 +1,38 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 import { CardView } from "src/components";
+import { useFetch } from "src/hooks/useFetch";
+import { ApiResponsePlaceOut } from "src/api/myApi";
 
 const WithoutCategoryEntity = () => {
+  const params = useParams();
+
+  const { response } = useFetch<ApiResponsePlaceOut>(
+    `places/${params.entityId}`,
+  );
+
+  if (!response?.data?.id) {
+    return <></>;
+  }
+
   return (
-    <div>
-      <CardView
-        title="Церковь святых апостолов Петра и Павла (12 век)"
-        descriptionTitle="Описание"
-        descriptionParagraph="К концу июня 1942 года гитлеровское командование начало наращивать силы вокруг районов Смоленской области, освобожденных партизанским соединением под командованием Никифора Захаровича Коляды (партизанский псевдоним «Батя»), с целью их повторной оккупации. Фашисты жгли деревни, зверски уничтожали мирное население, не щадили стариков и детей. Детям и подросткам угрожала опасность угона в Германию."
-        tags={[
-          "Протяженность: 5 км",
-          "Время: 2-2,5 часа",
-          "Тип маршрута: Автомобильный",
-        ]}
-        buttons={[
-          "Показать на карте",
-          "Посмотреть маршрут",
-          "«Мой Смоленск» об объекте",
-        ]}
-      />
-    </div>
+    <CardView
+      title={response.data.title}
+      images={response.data.photos}
+      descriptionTitle="Описание"
+      descriptionParagraph={response.data.title}
+      tags={[
+        "Протяженность: 5 км",
+        "Время: 2-2,5 часа",
+        "Тип маршрута: Автомобильный",
+      ]}
+      buttons={[
+        "Показать на карте",
+        "Посмотреть маршрут",
+        "«Мой Смоленск» об объекте",
+      ]}
+    />
   );
 };
 

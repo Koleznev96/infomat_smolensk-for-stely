@@ -9,6 +9,138 @@
  * ---------------------------------------------------------------
  */
 
+export interface PlaceSubcategoryCreate {
+  /**
+   * The title in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title: string;
+  /**
+   * The title in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+  /**
+   * The id of parent category
+   * @format int64
+   */
+  categoryId?: number;
+}
+
+export interface ApiResponsePlaceSubcategoryOut {
+  data?: PlaceSubcategoryOut;
+  /** The list of an errors */
+  errors?: ErrorRecord[];
+}
+
+/** The info about background */
+export interface Background {
+  /**
+   * The id of image
+   * @format int64
+   */
+  id?: number;
+  /** The URL for getting background */
+  url?: string;
+}
+
+/** The list of an errors */
+export interface ErrorRecord {
+  /** Details about error */
+  details?: string;
+  /** Field which caused this error */
+  field?: string;
+}
+
+/** The info about icon */
+export interface Icon {
+  /**
+   * The id of image
+   * @format int64
+   */
+  id?: number;
+  /** The URL for getting icon */
+  url?: string;
+}
+
+/** The parent category */
+export interface PlaceCategoryShortOut {
+  /**
+   * The id of place category
+   * @format int64
+   */
+  id?: number;
+  /** The title of place category in Russian */
+  title?: string;
+  /** The title of place category in English */
+  titleEn?: string;
+  background?: Background;
+  icon?: Icon;
+}
+
+/** The requested data */
+export interface PlaceSubcategoryOut {
+  /**
+   * The id of place subcategory
+   * @format int64
+   */
+  id?: number;
+  /** The title of place subcategory in Russian */
+  title?: string;
+  /** The title of place subcategory in English */
+  titleEn?: string;
+  category?: PlaceCategoryShortOut;
+  icon?: Icon;
+}
+
+/** The address of place */
+export interface AddressIn {
+  /** The text address */
+  address: string;
+  /**
+   * The latitude of address
+   * @format double
+   * @min -90
+   * @max 90
+   */
+  latitude: number;
+  /**
+   * The longitude of address
+   * @format double
+   * @min -180
+   * @max 180
+   */
+  longitude: number;
+}
+
+/** The list of frames. Each frame describes coordinates and size for cropping respective image */
+export interface Frame {
+  /** The name of part where image is located */
+  partName: string;
+  /**
+   * The x-coordinate of the top-left corner
+   * @format int32
+   */
+  x: number;
+  /**
+   * The y-coordinate of the top-left corner
+   * @format int32
+   */
+  y: number;
+  /**
+   * The width for cropping
+   * @format int32
+   */
+  width: number;
+  /**
+   * The height for cropping
+   * @format int32
+   */
+  height: number;
+}
+
 export interface PlaceCreate {
   /**
    * The title in Russian
@@ -22,6 +154,54 @@ export interface PlaceCreate {
    * @maxLength 127
    */
   titleEn?: string;
+  /** The status of place */
+  status: string;
+  /** Is recommended or not */
+  recommended?: boolean;
+  /**
+   * The id of subcategory
+   * @format int64
+   */
+  subcategoryId: number;
+  /**
+   * The phone of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  phone?: string;
+  /**
+   * The email of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  email?: string;
+  /**
+   * The website of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  website?: string;
+  /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  address: AddressIn;
+  /**
+   * The working hours of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  workingHours?: string;
+  /** The list of frames. Each frame describes coordinates and size for cropping respective image */
+  frames?: Frame[];
 }
 
 /** The address of place */
@@ -51,17 +231,6 @@ export interface ApiResponsePlaceOut {
   errors?: ErrorRecord[];
 }
 
-/** The info about background */
-export interface Background {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting background */
-  url?: string;
-}
-
 /** The cover of place */
 export interface Cover {
   /**
@@ -70,25 +239,6 @@ export interface Cover {
    */
   id?: number;
   /** The URL for getting cover */
-  url?: string;
-}
-
-/** The list of an errors */
-export interface ErrorRecord {
-  /** Details about error */
-  details?: string;
-  /** Field which caused this error */
-  field?: string;
-}
-
-/** The info about icon */
-export interface Icon {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting icon */
   url?: string;
 }
 
@@ -105,21 +255,6 @@ export interface Image {
   url3x2Original?: string;
   /** The URL for getting 3x2 cropped and resized image */
   url3x2?: string;
-}
-
-/** The parent category */
-export interface PlaceCategoryShortOut {
-  /**
-   * The id of place category
-   * @format int64
-   */
-  id?: number;
-  /** The title of place category in Russian */
-  title?: string;
-  /** The title of place category in English */
-  titleEn?: string;
-  background?: Background;
-  icon?: Icon;
 }
 
 /** The requested data */
@@ -153,68 +288,7 @@ export interface PlaceOut {
   descriptionEn?: string;
   address?: AddressOut;
   /** The working hours of place */
-  workingHours?: WorkingHoursOut[];
-}
-
-/** The subcategory of place */
-export interface PlaceSubcategoryOut {
-  /**
-   * The id of place subcategory
-   * @format int64
-   */
-  id?: number;
-  /** The title of place subcategory in Russian */
-  title?: string;
-  /** The title of place subcategory in English */
-  titleEn?: string;
-  category?: PlaceCategoryShortOut;
-  icon?: Icon;
-}
-
-/** The working hours of place */
-export interface WorkingHoursOut {
-  /**
-   * The id of WorkingHours
-   * @format int64
-   */
-  id?: number;
-  /** Is enable or not on that day */
-  enable?: boolean;
-  /**
-   * The number of day, 0 means Monday and 6 means Sunday
-   * @format byte
-   */
-  day?: string;
-  /** @example "16:43" */
-  start?: string;
-  /** @example "16:43" */
-  end?: string;
-}
-
-export interface PlaceSubcategoryCreate {
-  /**
-   * The title in Russian
-   * @minLength 1
-   * @maxLength 127
-   */
-  title: string;
-  /**
-   * The title in English
-   * @minLength 1
-   * @maxLength 127
-   */
-  titleEn?: string;
-  /**
-   * The id of parent category
-   * @format int64
-   */
-  categoryId?: number;
-}
-
-export interface ApiResponsePlaceSubcategoryOut {
-  data?: PlaceSubcategoryOut;
-  /** The list of an errors */
-  errors?: ErrorRecord[];
+  workingHours?: string;
 }
 
 export interface PlaceCategoryCreate {
@@ -269,21 +343,6 @@ export interface PlaceSubcategoryShortOut {
   icon?: Icon;
 }
 
-export interface PlacePatch {
-  /**
-   * The title in Russian
-   * @minLength 1
-   * @maxLength 127
-   */
-  title?: string;
-  /**
-   * The title in English
-   * @minLength 1
-   * @maxLength 127
-   */
-  titleEn?: string;
-}
-
 export interface PlaceSubcategoryPatch {
   /**
    * The title in Russian
@@ -304,7 +363,7 @@ export interface PlaceSubcategoryPatch {
   categoryId?: number;
 }
 
-export interface PlaceCategoryPatch {
+export interface PlacePatch {
   /**
    * The title in Russian
    * @minLength 1
@@ -317,6 +376,59 @@ export interface PlaceCategoryPatch {
    * @maxLength 127
    */
   titleEn?: string;
+  /** The status of place */
+  status?: string;
+  /** Is recommended or not */
+  recommended?: boolean;
+  /**
+   * The id of subcategory
+   * @format int64
+   */
+  subcategoryId?: number;
+  /**
+   * The phone of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  phone?: string;
+  /**
+   * The email of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  email?: string;
+  /**
+   * The website of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  website?: string;
+  /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description?: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  address?: AddressIn;
+  /**
+   * The working hours of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  workingHours?: string;
+  /** The list of frames. Each frame describes coordinates and size for cropping respective image */
+  frames?: Frame[];
+  /**
+   * The ids of photos for removing
+   * @uniqueItems true
+   */
+  photoIdsForRemoving?: number[];
 }
 
 export interface GeneralIn {
@@ -374,6 +486,31 @@ export interface VideoOut {
   url?: string;
 }
 
+export interface PlaceCategoryPatch {
+  /**
+   * The title in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title?: string;
+  /**
+   * The title in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+}
+
+export interface ApiPagePlaceSubcategoryOut {
+  /** The list of requested rows */
+  rows?: PlaceSubcategoryOut[];
+  /**
+   * The total count of rows
+   * @format int64
+   */
+  total?: number;
+}
+
 export interface ApiPagePlaceShortOut {
   /** The list of requested rows */
   rows?: PlaceShortOut[];
@@ -398,16 +535,11 @@ export interface PlaceShortOut {
   /** The status of place */
   status?: "DRAFT" | "PUBLISHED";
   cover?: Cover;
-}
-
-export interface ApiPagePlaceSubcategoryOut {
-  /** The list of requested rows */
-  rows?: PlaceSubcategoryOut[];
-  /**
-   * The total count of rows
-   * @format int64
-   */
-  total?: number;
+  /** The description of place in Russian */
+  description?: string;
+  /** The description of place in English */
+  descriptionEn?: string;
+  subcategory?: PlaceSubcategoryShortOut;
 }
 
 export interface ApiPagePlaceCategoryOut {
