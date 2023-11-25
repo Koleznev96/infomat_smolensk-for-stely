@@ -26,24 +26,13 @@ export interface PlaceSubcategoryCreate {
    * The id of parent category
    * @format int64
    */
-  categoryId?: number;
+  categoryId: number;
 }
 
 export interface ApiResponsePlaceSubcategoryOut {
   data?: PlaceSubcategoryOut;
   /** The list of an errors */
   errors?: ErrorRecord[];
-}
-
-/** The info about background */
-export interface Background {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting background */
-  url?: string;
 }
 
 /** The list of an errors */
@@ -76,7 +65,8 @@ export interface PlaceCategoryShortOut {
   title?: string;
   /** The title of place category in English */
   titleEn?: string;
-  background?: Background;
+  /** The background color of place category */
+  backgroundColor?: string;
   icon?: Icon;
 }
 
@@ -93,6 +83,244 @@ export interface PlaceSubcategoryOut {
   titleEn?: string;
   category?: PlaceCategoryShortOut;
   icon?: Icon;
+}
+
+export interface RouteCreate {
+  /** The status of route */
+  status: string;
+  /**
+   * The background color of route
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor: string;
+  /**
+   * The color of route
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  routeColor: string;
+  /**
+   * The title of route in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title: string;
+  /**
+   * The title of route in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+  /**
+   * The length of route in Russian
+   * @minLength 1
+   * @maxLength 31
+   */
+  length: string;
+  /**
+   * The length of route in English
+   * @minLength 1
+   * @maxLength 31
+   */
+  lengthEn?: string;
+  /**
+   * The duration of route in Russian
+   * @minLength 1
+   * @maxLength 31
+   */
+  duration: string;
+  /**
+   * The duration of route in English
+   * @minLength 1
+   * @maxLength 31
+   */
+  durationEn?: string;
+  /**
+   * The type of route in Russian
+   * @minLength 1
+   * @maxLength 63
+   */
+  type: string;
+  /**
+   * The type of route in English
+   * @minLength 1
+   * @maxLength 63
+   */
+  typeEn?: string;
+  /**
+   * The description of route in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description: string;
+  /**
+   * The description of route in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  /**
+   * The stops of route
+   * @maxItems 127
+   * @minItems 1
+   */
+  stops?: StopIn[];
+}
+
+/** The stops of route */
+export interface StopIn {
+  /**
+   * The id of place
+   * @format int64
+   */
+  placeId: number;
+  /**
+   * The sequence number of stop in route
+   * @format byte
+   * @minLength 1
+   * @maxLength 127
+   */
+  sequenceNumber: string;
+}
+
+/** The address of place */
+export interface AddressOut {
+  /**
+   * The id of address
+   * @format int64
+   */
+  id?: number;
+  /** The text address */
+  address?: string;
+  /**
+   * The latitude of address
+   * @format double
+   */
+  latitude?: number;
+  /**
+   * The longitude of address
+   * @format double
+   */
+  longitude?: number;
+}
+
+export interface ApiResponseRouteOut {
+  data?: RouteOut;
+  /** The list of an errors */
+  errors?: ErrorRecord[];
+}
+
+/** The cover of place */
+export interface Cover {
+  /**
+   * The id of image
+   * @format int64
+   */
+  id?: number;
+  /** The URL for getting cover */
+  url?: string;
+}
+
+/** The photos of place */
+export interface Image {
+  /**
+   * The id of image
+   * @format int64
+   */
+  id?: number;
+  /** The URL for getting original image */
+  urlOriginal?: string;
+  /** The URL for getting original 3x2 cropped image */
+  url3x2Original?: string;
+  /** The URL for getting 3x2 cropped and resized image */
+  url3x2?: string;
+}
+
+/** The requested data */
+export interface RouteOut {
+  /**
+   * The id of route
+   * @format int64
+   */
+  id?: number;
+  /** The status of route */
+  status?: "DRAFT" | "PUBLISHED";
+  /** The background color of route */
+  backgroundColor?: string;
+  icon?: Icon;
+  /** The color of route */
+  routeColor?: string;
+  /** The title of route in Russian */
+  title?: string;
+  /** The title of route in English */
+  titleEn?: string;
+  /** The length of route in Russian */
+  length?: string;
+  /** The length of route in English */
+  lengthEn?: string;
+  /** The duration of route in Russian */
+  duration?: string;
+  /** The duration of route in English */
+  durationEn?: string;
+  /** The type of route in Russian */
+  type?: string;
+  /** The type of route in English */
+  typeEn?: string;
+  /** The description of route in Russian */
+  description?: string;
+  /** The description of route in English */
+  descriptionEn?: string;
+  /**
+   * The list of stops of route
+   * The stops are sorted by sequence number
+   */
+  stops?: StopOut[];
+}
+
+/**
+ * The list of stops of route
+ * The stops are sorted by sequence number
+ */
+export interface StopOut {
+  /**
+   * The id of stop
+   * @format int64
+   */
+  id?: number;
+  place?: StopPlace;
+  /**
+   * The sequence number of stop
+   * @format byte
+   */
+  sequenceNumber?: string;
+}
+
+/** The place related to that stop */
+export interface StopPlace {
+  /**
+   * The id of place
+   * @format int64
+   */
+  id?: number;
+  /** The title of place in Russian */
+  title?: string;
+  /** The title of place in English */
+  titleEn?: string;
+  cover?: Cover;
+  /** The photos of place */
+  photos?: Image[];
+  /** The phone of place */
+  phone?: string;
+  /** The email of place */
+  email?: string;
+  /** The website of place */
+  website?: string;
+  /** The description of place in Russian */
+  description?: string;
+  /** The description of place in English */
+  descriptionEn?: string;
+  address?: AddressOut;
+  /** The working hours of place */
+  workingHours?: string;
 }
 
 /** The address of place */
@@ -204,57 +432,10 @@ export interface PlaceCreate {
   frames?: Frame[];
 }
 
-/** The address of place */
-export interface AddressOut {
-  /**
-   * The id of address
-   * @format int64
-   */
-  id?: number;
-  /** The text address */
-  address?: string;
-  /**
-   * The latitude of address
-   * @format double
-   */
-  latitude?: number;
-  /**
-   * The longitude of address
-   * @format double
-   */
-  longitude?: number;
-}
-
 export interface ApiResponsePlaceOut {
   data?: PlaceOut;
   /** The list of an errors */
   errors?: ErrorRecord[];
-}
-
-/** The cover of place */
-export interface Cover {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting cover */
-  url?: string;
-}
-
-/** The photos of place */
-export interface Image {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting original image */
-  urlOriginal?: string;
-  /** The URL for getting original 3x2 cropped image */
-  url3x2Original?: string;
-  /** The URL for getting 3x2 cropped and resized image */
-  url3x2?: string;
 }
 
 /** The requested data */
@@ -304,6 +485,13 @@ export interface PlaceCategoryCreate {
    * @maxLength 127
    */
   titleEn?: string;
+  /**
+   * The background color of place category
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor: string;
 }
 
 export interface ApiResponsePlaceCategoryOut {
@@ -323,7 +511,8 @@ export interface PlaceCategoryOut {
   title?: string;
   /** The title of place category in English */
   titleEn?: string;
-  background?: Background;
+  /** The background color of place category */
+  backgroundColor?: string;
   icon?: Icon;
   /** The subcategories of the category */
   subcategories?: PlaceSubcategoryShortOut[];
@@ -361,6 +550,87 @@ export interface PlaceSubcategoryPatch {
    * @format int64
    */
   categoryId?: number;
+}
+
+export interface RoutePatch {
+  /** The status of route */
+  status?: string;
+  /**
+   * The background color of route
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor?: string;
+  /**
+   * The color of route
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  routeColor?: string;
+  /**
+   * The title of route in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title?: string;
+  /**
+   * The title of route in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+  /**
+   * The length of route in Russian
+   * @minLength 1
+   * @maxLength 31
+   */
+  length?: string;
+  /**
+   * The length of route in English
+   * @minLength 1
+   * @maxLength 31
+   */
+  lengthEn?: string;
+  /**
+   * The duration of route in Russian
+   * @minLength 1
+   * @maxLength 31
+   */
+  duration?: string;
+  /**
+   * The duration of route in English
+   * @minLength 1
+   * @maxLength 31
+   */
+  durationEn?: string;
+  /**
+   * The type of route in Russian
+   * @minLength 1
+   * @maxLength 63
+   */
+  type?: string;
+  /**
+   * The type of route in English
+   * @minLength 1
+   * @maxLength 63
+   */
+  typeEn?: string;
+  /**
+   * The description of route in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description?: string;
+  /**
+   * The description of route in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  /**
+   * The stops of route
+   * @maxItems 127
+   * @minItems 1
+   */
+  stops?: StopIn[];
 }
 
 export interface PlacePatch {
@@ -499,6 +769,13 @@ export interface PlaceCategoryPatch {
    * @maxLength 127
    */
   titleEn?: string;
+  /**
+   * The background color of place category
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor?: string;
 }
 
 export interface ApiPagePlaceSubcategoryOut {
@@ -509,6 +786,48 @@ export interface ApiPagePlaceSubcategoryOut {
    * @format int64
    */
   total?: number;
+}
+
+export interface ApiPageRouteShortOut {
+  /** The list of requested rows */
+  rows?: RouteShortOut[];
+  /**
+   * The total count of rows
+   * @format int64
+   */
+  total?: number;
+}
+
+/** The list of requested rows */
+export interface RouteShortOut {
+  /**
+   * The id of route
+   * @format int64
+   */
+  id?: number;
+  /** The status of route */
+  status?: "DRAFT" | "PUBLISHED";
+  /** The background color of route */
+  backgroundColor?: string;
+  icon?: Icon;
+  /** The color of route */
+  routeColor?: string;
+  /** The title of route in Russian */
+  title?: string;
+  /** The title of route in English */
+  titleEn?: string;
+  /** The length of route in Russian */
+  length?: string;
+  /** The length of route in English */
+  lengthEn?: string;
+  /** The duration of route in Russian */
+  duration?: string;
+  /** The duration of route in English */
+  durationEn?: string;
+  /** The type of route in Russian */
+  type?: string;
+  /** The type of route in English */
+  typeEn?: string;
 }
 
 export interface ApiPagePlaceShortOut {

@@ -47,7 +47,10 @@ const TouristObjects = () => {
             {isSubCategory ? (
               <Link to={TOURIST_OBJECTS_CATEGORY(row.id)}>
                 <div className={styles.touristElem}>
-                  <div className={styles.image}>
+                  <div
+                    className={styles.image}
+                    style={{ backgroundColor: row.backgroundColor }}
+                  >
                     <img src={row.icon?.url} alt="icon" />
                   </div>
                   <div className={styles.info}>
@@ -61,7 +64,10 @@ const TouristObjects = () => {
             ) : (
               <Link to={TOURIST_OBJECTS_ID(row.subcategories?.[0].id)}>
                 <div className={styles.touristElem}>
-                  <div className={styles.image}>
+                  <div
+                    className={styles.image}
+                    style={{ backgroundColor: row.backgroundColor }}
+                  >
                     <img src={row.icon?.url} alt="icon" />
                   </div>
                   <div className={styles.info}>

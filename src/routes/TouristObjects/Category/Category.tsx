@@ -21,7 +21,11 @@ const Category = () => {
 
   return (
     <>
-      <Title text={response?.data?.title} image={response?.data?.icon?.url} />
+      <Title
+        text={response?.data?.title}
+        image={response?.data?.icon?.url}
+        bgColor={response?.data.backgroundColor}
+      />
       <div className={styles.categoryList}>
         {response?.data?.subcategories?.map((subCat) => (
           <Link

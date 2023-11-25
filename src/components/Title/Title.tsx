@@ -6,13 +6,20 @@ interface TitleProps {
   text?: string;
   image?: string;
   children?: React.ReactNode;
+  bgColor?: string;
   svg?: React.ReactNode;
 }
 
-const Title = ({ text, children, image, svg }: TitleProps) => {
+const Title = ({
+  text,
+  children,
+  image,
+  svg,
+  bgColor = "#ffedec",
+}: TitleProps) => {
   return (
     <div className={styles.title}>
-      <div className={styles.image}>
+      <div className={styles.image} style={{ backgroundColor: bgColor }}>
         {svg ? svg : <img src={image} alt="icon" />}
       </div>
       {children ? (
