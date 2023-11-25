@@ -10,8 +10,6 @@ const SuggestCard = () => {
 
   const { response } = useFetch<ApiResponsePlaceOut>(`places/${params.id}`);
 
-  console.log(response);
-
   return (
     <>
       <CardView
