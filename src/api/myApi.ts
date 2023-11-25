@@ -182,7 +182,6 @@ export interface StopIn {
   sequenceNumber: string;
 }
 
-/** The address of place */
 export interface AddressOut {
   /**
    * The id of address
@@ -218,21 +217,6 @@ export interface Cover {
   id?: number;
   /** The URL for getting cover */
   url?: string;
-}
-
-/** The photos of place */
-export interface Image {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting original image */
-  urlOriginal?: string;
-  /** The URL for getting original 3x2 cropped image */
-  url3x2Original?: string;
-  /** The URL for getting 3x2 cropped and resized image */
-  url3x2?: string;
 }
 
 /** The requested data */
@@ -306,21 +290,7 @@ export interface StopPlace {
   /** The title of place in English */
   titleEn?: string;
   cover?: Cover;
-  /** The photos of place */
-  photos?: Image[];
-  /** The phone of place */
-  phone?: string;
-  /** The email of place */
-  email?: string;
-  /** The website of place */
-  website?: string;
-  /** The description of place in Russian */
-  description?: string;
-  /** The description of place in English */
-  descriptionEn?: string;
   address?: AddressOut;
-  /** The working hours of place */
-  workingHours?: string;
 }
 
 /** The address of place */
@@ -438,6 +408,21 @@ export interface ApiResponsePlaceOut {
   errors?: ErrorRecord[];
 }
 
+/** The photos of place */
+export interface Image {
+  /**
+   * The id of image
+   * @format int64
+   */
+  id?: number;
+  /** The URL for getting original image */
+  urlOriginal?: string;
+  /** The URL for getting original 3x2 cropped image */
+  url3x2Original?: string;
+  /** The URL for getting 3x2 cropped and resized image */
+  url3x2?: string;
+}
+
 /** The requested data */
 export interface PlaceOut {
   /**
@@ -470,6 +455,119 @@ export interface PlaceOut {
   address?: AddressOut;
   /** The working hours of place */
   workingHours?: string;
+}
+
+export interface EventCreate {
+  /**
+   * The title in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title: string;
+  /**
+   * The title in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+  /** The status of event */
+  status: string;
+  /**
+   * The start date of event
+   * @format date
+   */
+  startDate: string;
+  /**
+   * The end date of event
+   * @format date
+   */
+  endDate?: string;
+  /** @example "22:40" */
+  startTime: string;
+  /** @example "22:40" */
+  endTime?: string;
+  /**
+   * The phone of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  phone?: string;
+  /**
+   * The email of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  email?: string;
+  /**
+   * The website of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  website?: string;
+  /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  address: AddressIn;
+  /** The list of frames. Each frame describes coordinates and size for cropping respective image */
+  frames?: Frame[];
+}
+
+export interface ApiResponseEventOut {
+  data?: EventOut;
+  /** The list of an errors */
+  errors?: ErrorRecord[];
+}
+
+/** The requested data */
+export interface EventOut {
+  /**
+   * The id of event
+   * @format int64
+   */
+  id?: number;
+  /** The title of event in Russian */
+  title?: string;
+  /** The title of event in English */
+  titleEn?: string;
+  /** The status of event */
+  status?: "DRAFT" | "PUBLISHED";
+  cover?: Cover;
+  /** The photos of event */
+  photos?: Image[];
+  /**
+   * The start date of event
+   * @format date
+   */
+  startDate?: string;
+  /**
+   * The end date of event
+   * @format date
+   */
+  endDate?: string;
+  /** @example "22:40" */
+  startTime?: string;
+  /** @example "22:40" */
+  endTime?: string;
+  /** The phone of event */
+  phone?: string;
+  /** The email of event */
+  email?: string;
+  /** The website of event */
+  website?: string;
+  /** The description of event in Russian */
+  description?: string;
+  /** The description of event in English */
+  descriptionEn?: string;
+  address?: AddressOut;
 }
 
 export interface PlaceCategoryCreate {
@@ -530,6 +628,8 @@ export interface PlaceSubcategoryShortOut {
   /** The title of place subcategory in English */
   titleEn?: string;
   icon?: Icon;
+  /** The background color (inherited from place category) */
+  backgroundColor?: string;
 }
 
 export interface PlaceSubcategoryPatch {
@@ -756,6 +856,75 @@ export interface VideoOut {
   url?: string;
 }
 
+export interface EventPatch {
+  /**
+   * The title in Russian
+   * @minLength 1
+   * @maxLength 127
+   */
+  title?: string;
+  /**
+   * The title in English
+   * @minLength 1
+   * @maxLength 127
+   */
+  titleEn?: string;
+  /** The status of event */
+  status?: string;
+  /**
+   * The start date of event
+   * @format date
+   */
+  startDate?: string;
+  /**
+   * The end date of event
+   * @format date
+   */
+  endDate?: string;
+  /** @example "22:40" */
+  startTime?: string;
+  /** @example "22:40" */
+  endTime?: string;
+  /**
+   * The phone of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  phone?: string;
+  /**
+   * The email of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  email?: string;
+  /**
+   * The website of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  website?: string;
+  /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description?: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  address?: AddressIn;
+  /** The list of frames. Each frame describes coordinates and size for cropping respective image */
+  frames?: Frame[];
+  /**
+   * The ids of photos for removing
+   * @uniqueItems true
+   */
+  photoIdsForRemoving?: number[];
+}
+
 export interface PlaceCategoryPatch {
   /**
    * The title in Russian
@@ -859,6 +1028,50 @@ export interface PlaceShortOut {
   /** The description of place in English */
   descriptionEn?: string;
   subcategory?: PlaceSubcategoryShortOut;
+}
+
+export interface ApiPageEventShortOut {
+  /** The list of requested rows */
+  rows?: EventShortOut[];
+  /**
+   * The total count of rows
+   * @format int64
+   */
+  total?: number;
+}
+
+/** The list of requested rows */
+export interface EventShortOut {
+  /**
+   * The id of event
+   * @format int64
+   */
+  id?: number;
+  /** The title of event in Russian */
+  title?: string;
+  /** The title of event in English */
+  titleEn?: string;
+  /** The status of event */
+  status?: "DRAFT" | "PUBLISHED";
+  cover?: Cover;
+  /**
+   * The start date of event
+   * @format date
+   */
+  startDate?: string;
+  /**
+   * The end date of event
+   * @format date
+   */
+  endDate?: string;
+  /** @example "22:40" */
+  startTime?: string;
+  /** @example "22:40" */
+  endTime?: string;
+  /** The description of event in Russian */
+  description?: string;
+  /** The description of event in English */
+  descriptionEn?: string;
 }
 
 export interface ApiPagePlaceCategoryOut {
