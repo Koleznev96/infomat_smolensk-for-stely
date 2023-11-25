@@ -1,24 +1,31 @@
 import React from "react";
 
+import { useFetch } from "src/hooks/useFetch";
 import { CardView } from "src/components";
+import { useParams } from "react-router-dom";
+import { ApiResponseEventOut } from "src/api/myApi";
 
 const CalendarCard = () => {
+  const params = useParams();
+
+  const { response } = useFetch<ApiResponseEventOut>(`events/${params.id}`);
+
+  if (!response?.data?.id) {
+    return <></>;
+  }
+
   return (
     <div>
       <CardView
-        title="Церковь святых апостолов Петра и Павла (12 век)"
+        title={response.data.title}
+        images={response.data.photos}
         descriptionTitle="Описание"
-        descriptionParagraph="К концу июня 1942 года гитлеровское командование начало наращивать силы вокруг районов Смоленской области, освобожденных партизанским соединением под командованием Никифора Захаровича Коляды (партизанский псевдоним «Батя»), с целью их повторной оккупации. Фашисты жгли деревни, зверски уничтожали мирное население, не щадили стариков и детей. Детям и подросткам угрожала опасность угона в Германию."
+        descriptionParagraph={response.data.description}
         tags={[
-          "Протяженность: 5 км",
-          "Время: 2-2,5 часа",
-          "Тип маршрута: Автомобильный",
+          `Дата: ${response.data.startDate}`,
+          `Время: ${response.data.startTime}`,
         ]}
-        buttons={[
-          "Показать на карте",
-          "Посмотреть маршрут",
-          "«Мой Смоленск» об объекте",
-        ]}
+        buttons={["Показать на карте"]}
       />
     </div>
   );
