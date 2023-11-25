@@ -1,24 +1,32 @@
 import React from "react";
 
 import { CardView } from "src/components";
+import { useParams } from "react-router-dom";
+import { useFetch } from "src/hooks/useFetch";
+import { ApiResponsePlaceOut } from "src/api/myApi";
 
 const SuggestCard = () => {
+  const params = useParams();
+
+  const { response } = useFetch<ApiResponsePlaceOut>(`places/${params.id}`);
+
+  console.log(response);
+
   return (
     <>
       <CardView
-        title="Церковь святых апостолов Петра и Павла (12 век)"
+        title={response?.data?.title}
         descriptionTitle="Описание"
-        descriptionParagraph="К концу июня 1942 года гитлеровское командование начало наращивать силы вокруг районов Смоленской области, освобожденных партизанским соединением под командованием Никифора Захаровича Коляды (партизанский псевдоним «Батя»), с целью их повторной оккупации. Фашисты жгли деревни, зверски уничтожали мирное население, не щадили стариков и детей. Детям и подросткам угрожала опасность угона в Германию."
-        tags={[
-          "Протяженность: 5 км",
-          "Время: 2-2,5 часа",
-          "Тип маршрута: Автомобильный",
-        ]}
-        buttons={[
-          "Показать на карте",
-          "Посмотреть маршрут",
-          "«Мой Смоленск» об объекте",
-        ]}
+        contacts={{
+          phone: response?.data?.phone,
+          website: response?.data?.website,
+          email: response?.data?.email,
+          workTime: response?.data?.workingHours,
+        }}
+        images={response?.data?.photos}
+        descriptionParagraph={response?.data?.description}
+        tags={[`Адрес: ${response?.data?.address?.address}`]}
+        buttons={["Показать на карте"]}
       />
     </>
   );
