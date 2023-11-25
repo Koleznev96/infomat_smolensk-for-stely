@@ -1,103 +1,75 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { useFetch } from "src/hooks/useFetch";
 import { Tag, Title } from "src/components";
-
 import { TOURIST_ROUTES_ID } from "src/conts/routes";
+import { ApiPageRouteShortOut } from "src/api/myApi";
 
 import styles from "./TouristRoutes.module.scss";
 
 const TouristRoutes = () => {
+  const { response } = useFetch<ApiPageRouteShortOut>(
+    "routes?status=PUBLISHED",
+  );
+
+  if (!response?.rows?.length) {
+    return <></>;
+  }
+
   return (
     <div className={styles.touristRoutes}>
-      <Title text="Туристические маршруты" />
-      <Link to={TOURIST_ROUTES_ID(1)}>
-        <div className={styles.route}>
-          <div className={styles.image}>
+      <Title
+        text="Туристические маршруты"
+        svg={
+          <>
             <svg
-              width="30"
-              height="25"
-              viewBox="0 0 30 25"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M20.9372 11.9948H23.8691V14.4869H26.5079V11.9948H29V23.2827H20.9372M20.9372 11.9948V6.57068M20.9372 11.9948V23.2827M20.9372 6.57068L22.4031 5.39791V1H19.7644V3.63874H16.6859V1H13.1675V3.63874H10.089V1H7.30367V5.39791L9.06283 6.57068M20.9372 6.57068H9.06283M9.06283 6.57068V11.9948M9.06283 11.9948H6.13089V14.4869H3.78534V11.9948H1V23.2827H9.06283M9.06283 11.9948V23.2827M9.06283 23.2827H20.9372M13.1675 15.8063H16.6859V12.7278C16.6859 11.7562 15.8983 10.9686 14.9267 10.9686V10.9686C13.9551 10.9686 13.1675 11.7562 13.1675 12.7277V15.8063Z"
-                stroke="#F56314"
-                strokeWidth="1.5"
+                d="M13.375 5.25H13.918C17.7271 5.25 19.6316 5.25 20.3545 5.93411C20.9795 6.52546 21.2564 7.3966 21.0877 8.24026C20.8925 9.21627 19.3376 10.3161 16.2279 12.5157L11.1471 16.1093C8.03738 18.3089 6.48248 19.4087 6.28729 20.3847C6.11857 21.2284 6.39552 22.0995 7.02045 22.6909C7.74342 23.375 9.64795 23.375 13.457 23.375H14.625M9 5.25C9 7.32107 7.32107 9 5.25 9C3.17893 9 1.5 7.32107 1.5 5.25C1.5 3.17893 3.17893 1.5 5.25 1.5C7.32107 1.5 9 3.17893 9 5.25ZM26.5 22.75C26.5 24.8211 24.8211 26.5 22.75 26.5C20.6789 26.5 19 24.8211 19 22.75C19 20.6789 20.6789 19 22.75 19C24.8211 19 26.5 20.6789 26.5 22.75Z"
+                stroke="#C63927"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
-          <div className={styles.info}>
-            <h5>Смоленская крепость: была, есть и будет</h5>
-            <div className={styles.tags}>
-              <Tag text="Протяжоность: 4 км" />
-              <Tag text="Время: 3 часа" />
-              <Tag text="Тип маршрута: Пешеходный" />
-            </div>
-          </div>
-        </div>
-      </Link>
-      <Link to={TOURIST_ROUTES_ID(2)}>
-        <div className={styles.route}>
-          <div className={styles.image}>
-            <svg
-              width="30"
-              height="25"
-              viewBox="0 0 30 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          </>
+        }
+      />
+      {response.rows.map((row) => (
+        <Link to={TOURIST_ROUTES_ID(row.id)} key={row.id}>
+          <div className={styles.route}>
+            <div
+              className={styles.image}
+              style={{ backgroundColor: row.backgroundColor }}
             >
-              <path
-                d="M20.9372 11.9948H23.8691V14.4869H26.5079V11.9948H29V23.2827H20.9372M20.9372 11.9948V6.57068M20.9372 11.9948V23.2827M20.9372 6.57068L22.4031 5.39791V1H19.7644V3.63874H16.6859V1H13.1675V3.63874H10.089V1H7.30367V5.39791L9.06283 6.57068M20.9372 6.57068H9.06283M9.06283 6.57068V11.9948M9.06283 11.9948H6.13089V14.4869H3.78534V11.9948H1V23.2827H9.06283M9.06283 11.9948V23.2827M9.06283 23.2827H20.9372M13.1675 15.8063H16.6859V12.7278C16.6859 11.7562 15.8983 10.9686 14.9267 10.9686V10.9686C13.9551 10.9686 13.1675 11.7562 13.1675 12.7277V15.8063Z"
-                stroke="#F56314"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className={styles.info}>
-            <h5>Смоленская крепость: была, есть и будет</h5>
-            <div className={styles.tags}>
-              <Tag text="Протяжоность: 4 км" />
-              <Tag text="Время: 3 часа" />
-              <Tag text="Тип маршрута: Пешеходный" />
+              <img src={row.icon?.url} alt="" />
+            </div>
+            <div className={styles.info}>
+              <h5>{row.title}</h5>
+              <div className={styles.tags}>
+                <Tag
+                  text={row.length}
+                  color={{ bg: row.backgroundColor, text: row.routeColor }}
+                />
+                <Tag
+                  text={row.duration}
+                  color={{ bg: row.backgroundColor, text: row.routeColor }}
+                />
+                <Tag
+                  text={row.type}
+                  color={{ bg: row.backgroundColor, text: row.routeColor }}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
-      <Link to={TOURIST_ROUTES_ID(3)}>
-        <div className={styles.route}>
-          <div className={styles.image}>
-            <svg
-              width="30"
-              height="25"
-              viewBox="0 0 30 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20.9372 11.9948H23.8691V14.4869H26.5079V11.9948H29V23.2827H20.9372M20.9372 11.9948V6.57068M20.9372 11.9948V23.2827M20.9372 6.57068L22.4031 5.39791V1H19.7644V3.63874H16.6859V1H13.1675V3.63874H10.089V1H7.30367V5.39791L9.06283 6.57068M20.9372 6.57068H9.06283M9.06283 6.57068V11.9948M9.06283 11.9948H6.13089V14.4869H3.78534V11.9948H1V23.2827H9.06283M9.06283 11.9948V23.2827M9.06283 23.2827H20.9372M13.1675 15.8063H16.6859V12.7278C16.6859 11.7562 15.8983 10.9686 14.9267 10.9686V10.9686C13.9551 10.9686 13.1675 11.7562 13.1675 12.7277V15.8063Z"
-                stroke="#F56314"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <div className={styles.info}>
-            <h5>Смоленская крепость: была, есть и будет</h5>
-            <div className={styles.tags}>
-              <Tag text="Протяжоность: 4 км" />
-              <Tag text="Время: 3 часа" />
-              <Tag text="Тип маршрута: Пешеходный" />
-            </div>
-          </div>
-        </div>
-      </Link>
+        </Link>
+      ))}
     </div>
   );
 };

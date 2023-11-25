@@ -3,13 +3,13 @@ import React from "react";
 import styles from "./Tag.module.scss";
 
 interface TagProps {
-  text: string;
+  text?: string;
   icon?: React.ReactNode;
   padding?: string;
   size?: "small" | "large";
   color?: {
-    bg: string;
-    text: string;
+    bg?: string;
+    text?: string;
   };
 }
 
@@ -19,6 +19,7 @@ const Tag = ({ text, color, icon, padding, size = "small" }: TagProps) => {
       <div
         style={{
           padding: padding,
+          backgroundColor: color?.bg,
         }}
       >
         <svg
@@ -43,7 +44,12 @@ const Tag = ({ text, color, icon, padding, size = "small" }: TagProps) => {
             strokeLinejoin="round"
           />
         </svg>
-        <span style={{ fontSize: size === "small" ? "16px" : "20px" }}>
+        <span
+          style={{
+            fontSize: size === "small" ? "16px" : "20px",
+            color: color?.text,
+          }}
+        >
           {text}
         </span>
       </div>
