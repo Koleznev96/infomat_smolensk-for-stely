@@ -26,7 +26,7 @@ const Header = () => {
 
   const { language } = useAppSelector((state) => state.main);
 
-  const moscowTime = new Date().toLocaleTimeString("ru", {
+  const moscowTime = new Date().toLocaleTimeString(language.replace("_", "-"), {
     timeZone: "Europe/Moscow",
     hour: "numeric",
     minute: "numeric",
@@ -57,7 +57,7 @@ const Header = () => {
     }
   }, [location.pathname]);
 
-  const changeLanguage = (lang: "ru" | "en") => {
+  const changeLanguage = (lang: "ru_RU" | "en_US") => {
     dispatch(updateLanguage(lang));
   };
 
@@ -66,29 +66,33 @@ const Header = () => {
       <div className={styles.headerContent}>
         <div className={styles.date}>
           <span>
-            {date.toLocaleDateString("ru", { weekday: "long" })},
-            <span> {date.toLocaleDateString("ru")}</span>
+            {date.toLocaleDateString(language.replace("_", "-"), {
+              weekday: "long",
+            })}
+            ,<span> {date.toLocaleDateString(language.replace("_", "-"))}</span>
           </span>
           <span>{moscowTime}</span>
         </div>
-        <div className={styles.weather}>
-          <img src={yandex} alt="yandex" />
-          <span className={styles.info}>
-            <span>Cмоленск +4°C</span>
-            <span className={styles.blur}>Днем +6°C</span>
-            <span className={styles.blur}>Вечером +7°C</span>
-          </span>
+        <div className={styles.top}>
+          <div className={styles.weather}>
+            <img src={yandex} alt="yandex" />
+            <span className={styles.info}>
+              <span>Cмоленск +4°C</span>
+              <span className={styles.blur}>Днем +6°C</span>
+              <span className={styles.blur}>Вечером +7°C</span>
+            </span>
+          </div>
           <div className={styles.language}>
             <span
-              onClick={() => changeLanguage("ru")}
-              className={language === "ru" ? styles.active : ""}
+              onClick={() => changeLanguage("ru_RU")}
+              className={language === "ru_RU" ? styles.active : ""}
             >
               <RU />
               РУ
             </span>
             <span
-              onClick={() => changeLanguage("en")}
-              className={language === "en" ? styles.active : ""}
+              onClick={() => changeLanguage("en_US")}
+              className={language === "en_US" ? styles.active : ""}
             >
               <GB />
               EN
@@ -105,6 +109,23 @@ const Header = () => {
         <img className={styles.backgroundImage} src={head_bg} alt="head-bg" />
       </div>
       <div className={styles.headerBottom}>
+        <span>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
+              stroke="#667085"
+              strokeWidth="1.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
         <input type="text" placeholder="Поиск" />
       </div>
     </div>
