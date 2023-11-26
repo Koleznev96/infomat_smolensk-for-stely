@@ -2,13 +2,16 @@ import React from "react";
 
 import { CardView } from "src/components";
 import { useParams } from "react-router-dom";
-import { useFetch } from "src/hooks/useFetch";
-import { ApiResponsePlaceOut } from "src/api/myApi";
+import { useGetPlaceIdQuery } from "src/api/main";
 
 const SuggestCard = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiResponsePlaceOut>(`places/${params.id}`);
+  const { data: response } = useGetPlaceIdQuery(params.id || "");
+
+  if (!response?.data?.id) {
+    return <></>;
+  }
 
   return (
     <>

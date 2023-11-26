@@ -1,16 +1,16 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 
-import { ColorModeProvider } from "src/store/language";
-
+import { index } from "src/store";
 import { ReactRoutes } from "src/routes";
 
 function App() {
   return (
     <BrowserRouter>
-      <ColorModeProvider>
+      <Provider store={index}>
         <ReactRoutes />
-      </ColorModeProvider>
+      </Provider>
     </BrowserRouter>
   );
 }

@@ -2,8 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { Card, Title } from "src/components";
-import { useFetch } from "src/hooks/useFetch";
-import { ApiPagePlaceShortOut } from "src/api/myApi";
+import { useGetPlacesSubcategoryQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY_ID_ENTITY } from "src/conts/routes";
 
 import styles from "./CategoryId.module.scss";
@@ -11,9 +10,7 @@ import styles from "./CategoryId.module.scss";
 const CategoryId = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiPagePlaceShortOut>(
-    `places?status=PUBLISHED&subcategoryId=${params.id}`,
-  );
+  const { data: response } = useGetPlacesSubcategoryQuery(params.id || "");
 
   if (!response?.rows?.length) {
     return <></>;

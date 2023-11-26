@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Title } from "src/components";
-import { useFetch } from "src/hooks/useFetch";
-import { ApiResponsePlaceCategoryOut } from "src/api/myApi";
+import { useGetCategoryIdQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY_ID } from "src/conts/routes";
 
 import styles from "./Category.module.scss";
@@ -11,9 +10,7 @@ import styles from "./Category.module.scss";
 const Category = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiResponsePlaceCategoryOut>(
-    `categories/${params.categoryId}`,
-  );
+  const { data: response } = useGetCategoryIdQuery(params.categoryId || "");
 
   if (!response?.data?.subcategories?.length) {
     return <></>;

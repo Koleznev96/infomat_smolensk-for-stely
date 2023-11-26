@@ -1,17 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { useFetch } from "src/hooks/useFetch";
 import { Tag, Title } from "src/components";
 import { TOURIST_ROUTES_ID } from "src/conts/routes";
-import { ApiPageRouteShortOut } from "src/api/myApi";
+import { useGetRoutesQuery } from "src/api/main";
 
 import styles from "./TouristRoutes.module.scss";
 
 const TouristRoutes = () => {
-  const { response } = useFetch<ApiPageRouteShortOut>(
-    "routes?status=PUBLISHED",
-  );
+  const { data: response } = useGetRoutesQuery(undefined);
 
   if (!response?.rows?.length) {
     return <></>;

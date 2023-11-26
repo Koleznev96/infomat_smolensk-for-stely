@@ -5,24 +5,26 @@ import yandex from "src/icons/header/yandex.png";
 import logo from "src/icons/header/logo.png";
 import head_bg from "src/icons/header/head-bg.png";
 
+import { ReactComponent as RU } from "src/icons/header/ru.svg";
+import { ReactComponent as GB } from "src/icons/header/gb.svg";
+
 import {
   CALENDAR_EVENT,
   SUGGEST_VISIT,
   TOURIST_OBJECTS,
   TOURIST_ROUTES,
 } from "src/conts/routes";
-
-import { useLanguage } from "src/store/language";
-
-import { ReactComponent as RU } from "src/icons/header/ru.svg";
-import { ReactComponent as GB } from "src/icons/header/gb.svg";
+import { updateLanguage } from "src/store/slices";
+import { useAppDispatch, useAppSelector } from "src/hooks";
 
 import styles from "./Header.module.scss";
 
 const Header = () => {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const [date, setDate] = useState(new Date());
-  const { language, update } = useLanguage();
+
+  const { language } = useAppSelector((state) => state.main);
 
   const moscowTime = new Date().toLocaleTimeString("ru", {
     timeZone: "Europe/Moscow",
@@ -56,7 +58,7 @@ const Header = () => {
   }, [location.pathname]);
 
   const changeLanguage = (lang: "ru" | "en") => {
-    update(lang);
+    dispatch(updateLanguage(lang));
   };
 
   return (

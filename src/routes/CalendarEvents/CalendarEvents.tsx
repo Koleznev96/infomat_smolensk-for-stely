@@ -1,14 +1,13 @@
 import React from "react";
 
-import { useFetch } from "src/hooks/useFetch";
 import { Card, Title } from "src/components";
-import { ApiPageEventShortOut } from "src/api/myApi";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
+import { useGetEventsQuery } from "src/api/main";
 
 import styles from "./CalendarEvents.module.scss";
 
 const CalendarEvents = () => {
-  const { response } = useFetch<ApiPageEventShortOut>("events");
+  const { data: response } = useGetEventsQuery(undefined);
 
   if (!response?.rows?.length) {
     return <></>;
@@ -40,6 +39,7 @@ const CalendarEvents = () => {
       />
       {response.rows.map((row) => (
         <Card
+          key={row.id}
           cover={row.cover}
           type="full"
           title={row.title}

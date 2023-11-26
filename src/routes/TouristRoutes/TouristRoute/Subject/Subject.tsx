@@ -1,19 +1,15 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 import { CardView } from "src/components";
-
-import { useParams } from "react-router-dom";
-import { useFetch } from "src/hooks/useFetch";
-import { ApiResponsePlaceOut } from "src/api/myApi";
+import { useGetPlaceIdQuery } from "src/api/main";
 
 import styles from "./Subject.module.scss";
 
 const Subject = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiResponsePlaceOut>(
-    `places/${params.entityId}`,
-  );
+  const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
     return <></>;

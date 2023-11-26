@@ -2,14 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Title } from "src/components";
-import { useFetch } from "src/hooks/useFetch";
-import { ApiPagePlaceCategoryOut } from "src/api/myApi";
+import { useGetCategoriesQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY, TOURIST_OBJECTS_ID } from "src/conts/routes";
 
 import styles from "./TouristObjects.module.scss";
 
 const TouristObjects = () => {
-  const { response } = useFetch<ApiPagePlaceCategoryOut>("categories");
+  const { data: response } = useGetCategoriesQuery(undefined);
 
   if (!response?.rows?.length) {
     return <></>;

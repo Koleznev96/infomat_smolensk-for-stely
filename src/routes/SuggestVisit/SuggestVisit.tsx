@@ -1,16 +1,13 @@
 import React from "react";
 
-import { useFetch } from "src/hooks/useFetch";
 import { Card, Title } from "src/components";
 import { SUGGEST_VISIT_ID } from "src/conts/routes";
-import { ApiPagePlaceShortOut } from "src/api/myApi";
+import { useGetSuggestPlacesQuery } from "src/api/main";
 
 import styles from "./SuggestVisit.module.scss";
 
 const SuggestVisit = () => {
-  const { response } = useFetch<ApiPagePlaceShortOut>(
-    "places?recommendedOnly=true&status=PUBLISHED",
-  );
+  const { data: response } = useGetSuggestPlacesQuery(undefined);
 
   if (!response?.rows?.length) {
     return <></>;

@@ -1,14 +1,13 @@
 import React from "react";
 
-import { useFetch } from "src/hooks/useFetch";
 import { CardView } from "src/components";
 import { useParams } from "react-router-dom";
-import { ApiResponseEventOut } from "src/api/myApi";
+import { useGetEventsIdQuery } from "src/api/main";
 
 const CalendarCard = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiResponseEventOut>(`events/${params.id}`);
+  const { data: response } = useGetEventsIdQuery(params.id || "");
 
   if (!response?.data?.id) {
     return <></>;

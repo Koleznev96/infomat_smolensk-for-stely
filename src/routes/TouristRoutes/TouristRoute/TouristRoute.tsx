@@ -1,10 +1,8 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { useFetch } from "src/hooks/useFetch";
 import { Tag, Title } from "src/components";
-import { ApiResponseRouteOut } from "src/api/myApi";
-
+import { useGetRoutesIdQuery } from "src/api/main";
 import { TOURIST_ROUTES_ID_VIEW } from "src/conts/routes";
 
 import styles from "./TouristRoute.module.scss";
@@ -12,7 +10,7 @@ import styles from "./TouristRoute.module.scss";
 const TouristRoute = () => {
   const params = useParams();
 
-  const { response } = useFetch<ApiResponseRouteOut>(`routes/${params.id}`);
+  const { data: response } = useGetRoutesIdQuery(params.id || "");
 
   if (!response?.data?.id) {
     return <></>;
