@@ -14,10 +14,18 @@
     cursor: pointer;
 
     .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 56px;
       height: 56px;
       padding: 16px;
       border-radius: 50%;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
 
     .info {
