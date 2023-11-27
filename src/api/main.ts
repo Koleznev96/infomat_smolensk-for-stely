@@ -10,10 +10,17 @@ import {
   ApiResponseRouteOut,
 } from "src/api/myApi";
 
+// Получаем текущий URL
+const currentUrl = window.location.href;
+
+// Обрабатываем текущий URL, чтобы получить основной URL
+const parsedUrl = new URL(currentUrl);
+const baseUrl = parsedUrl.origin;
+
 export const mainApi = createApi({
   reducerPath: "mainApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "api",
+    baseUrl: `${baseUrl}/api`,
   }),
   endpoints: (builder) => ({
     getRoutes: builder.query<ApiPageRouteShortOut, undefined>({
