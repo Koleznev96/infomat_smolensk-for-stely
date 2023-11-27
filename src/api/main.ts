@@ -13,7 +13,7 @@ import {
 export const mainApi = createApi({
   reducerPath: "mainApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_URL_API,
+    baseUrl: "api",
   }),
   endpoints: (builder) => ({
     getRoutes: builder.query<ApiPageRouteShortOut, undefined>({
