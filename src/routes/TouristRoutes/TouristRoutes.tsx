@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Tag, Title } from "src/components";
-import { TOURIST_ROUTES_ID } from "src/conts/routes";
+import { useAppDispatch } from "src/hooks";
 import { useGetRoutesQuery } from "src/api/main";
+import { TOURIST_ROUTES_ID } from "src/conts/routes";
+import { updateRoutesAndCenter } from "src/store/slices";
 
 import styles from "./TouristRoutes.module.scss";
 
 const TouristRoutes = () => {
+  const dispatch = useAppDispatch();
+
   const { data: response } = useGetRoutesQuery(undefined);
+  const { data: routes } = useGetRoutesQuery(undefined);
+
+  useEffect(() => {
+    if (!routes?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updateRoutesAndCenter({
+        routes: routes?.rows,
+        center: routes?.rows[0],
+      }),
+    );
+  }, [dispatch, routes]);
 
   if (!response?.rows?.length) {
     return <></>;

@@ -15,6 +15,7 @@ const WithoutCategoryEntity = () => {
 
   return (
     <CardView
+      id={params.entityId || ""}
       title={response.data.title}
       images={response.data.photos}
       descriptionTitle="Описание"

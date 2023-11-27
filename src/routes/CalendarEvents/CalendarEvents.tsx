@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Card, Title } from "src/components";
+import { useAppDispatch } from "src/hooks";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
 import { useGetEventsQuery } from "src/api/main";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
 
 import styles from "./CalendarEvents.module.scss";
 
 const CalendarEvents = () => {
+  const dispatch = useAppDispatch();
   const { data: response } = useGetEventsQuery(undefined);
+
+  useEffect(() => {
+    if (!response?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: response?.rows,
+        center: response?.rows[0],
+      }),
+    );
+  }, [dispatch, response]);
 
   if (!response?.rows?.length) {
     return <></>;

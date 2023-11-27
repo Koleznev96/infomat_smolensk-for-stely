@@ -16,6 +16,7 @@ const SuggestCard = () => {
   return (
     <>
       <CardView
+        id={params.id}
         title={response?.data?.title}
         descriptionTitle="Описание"
         contacts={{

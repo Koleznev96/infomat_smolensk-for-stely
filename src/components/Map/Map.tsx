@@ -1,39 +1,73 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import {
+  Map as MapY,
+  Polyline,
+  ZoomControl,
+  GeolocationControl,
+  Placemark,
+  useYMaps,
+} from "@pbe/react-yandex-maps";
+
+import { useAppSelector } from "src/hooks";
 
 import styles from "./Map.module.scss";
 
-// @ts-ignore
-const ymaps: any = window.ymaps;
-
 const Map = () => {
-  const refMap = useRef<null | HTMLDivElement>(null);
+  const ymaps = useYMaps(["templateLayoutFactory"]);
 
-  useEffect(() => {
-    ymaps.ready(() => {
-      const myMap = new ymaps.Map(refMap.current, {
-        center: [55.751574, 37.573856],
-        zoom: 10,
-        controls: [],
-      });
+  const { map } = useAppSelector((state) => state.main);
 
-      const multiRoute = new ymaps.multiRouter.MultiRoute({
-        referencePoints: [
-          [55.73447, 37.58],
-          [55.734336, 37.51218],
-          [55.724102, 37.19912],
-        ],
-        params: {
-          routingMode: "pedestrian",
-        },
-      });
-
-      myMap.geoObjects.add(multiRoute);
-    });
-  }, []);
+  const content = (url?: string, text?: string, bg?: string) => {
+    return `
+        <span class="person-react-icon-api">
+          <img style="background-color: ${bg}" src="${url}" alt="${text}">
+          <span>${text}</span>
+        </span>
+      `;
+  };
 
   return (
     <div className={styles.mapContainer}>
-      <div ref={refMap} className={styles.map}></div>
+      <MapY
+        style={{ width: "100%", height: "100%", position: "relative" }}
+        defaultState={{
+          center: map.center || [55.751574, 37.573856],
+          zoom: 9,
+        }}
+      >
+        <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
+        <ZoomControl options={{ position: { right: 10, top: 350 } }} />
+        {map.type === "route" ? (
+          <React.Fragment>
+            {map.routes.map((route, index) => (
+              <React.Fragment key={index}>
+                <Polyline
+                  geometry={route.cords}
+                  options={{
+                    strokeColor: route.lineColor,
+                    strokeWidth: 2,
+                  }}
+                />
+                <Placemark geometry={route.cords} />
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {map.placeMarksType.map((cor, index) => (
+              <Placemark
+                key={index}
+                geometry={cor.cords}
+                options={{
+                  iconLayout: ymaps?.templateLayoutFactory?.createClass(
+                    content(cor.url, cor.text, cor.backgroundColor),
+                  ),
+                }}
+              />
+            ))}
+          </React.Fragment>
+        )}
+      </MapY>
     </div>
   );
 };

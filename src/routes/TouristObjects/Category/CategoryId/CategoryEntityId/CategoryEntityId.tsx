@@ -15,6 +15,7 @@ const CategoryEntityId = () => {
   return (
     <div>
       <CardView
+        id={params.id}
         title={response.data.title}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}

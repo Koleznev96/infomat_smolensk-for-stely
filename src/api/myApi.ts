@@ -176,8 +176,6 @@ export interface StopIn {
   /**
    * The sequence number of stop in route
    * @format byte
-   * @minLength 1
-   * @maxLength 127
    */
   sequenceNumber: string;
 }
@@ -380,6 +378,12 @@ export interface PlaceCreate {
    */
   website?: string;
   /**
+   * The link for QR code of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  linkForQrCode?: string;
+  /**
    * The description in Russian
    * @minLength 1
    * @maxLength 65536
@@ -448,6 +452,8 @@ export interface PlaceOut {
   email?: string;
   /** The website of place */
   website?: string;
+  /** The link for QR code of place */
+  linkForQrCode?: string;
   /** The description of place in Russian */
   description?: string;
   /** The description of place in English */
@@ -482,9 +488,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   startTime: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   endTime?: string;
   /**
    * The phone of event
@@ -504,6 +510,12 @@ export interface EventCreate {
    * @maxLength 63
    */
   website?: string;
+  /**
+   * The link for QR code of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  linkForQrCode?: string;
   /**
    * The description in Russian
    * @minLength 1
@@ -553,9 +565,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   startTime?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -563,6 +575,8 @@ export interface EventOut {
   email?: string;
   /** The website of event */
   website?: string;
+  /** The link for QR code of event */
+  linkForQrCode?: string;
   /** The description of event in Russian */
   description?: string;
   /** The description of event in English */
@@ -774,6 +788,12 @@ export interface PlacePatch {
    */
   website?: string;
   /**
+   * The link for QR code of place
+   * @minLength 1
+   * @maxLength 63
+   */
+  linkForQrCode?: string;
+  /**
    * The description in Russian
    * @minLength 1
    * @maxLength 65536
@@ -881,9 +901,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   startTime?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   endTime?: string;
   /**
    * The phone of event
@@ -903,6 +923,12 @@ export interface EventPatch {
    * @maxLength 63
    */
   website?: string;
+  /**
+   * The link for QR code of event
+   * @minLength 1
+   * @maxLength 63
+   */
+  linkForQrCode?: string;
   /**
    * The description in Russian
    * @minLength 1
@@ -997,6 +1023,11 @@ export interface RouteShortOut {
   type?: string;
   /** The type of route in English */
   typeEn?: string;
+  /**
+   * The list of stops of route
+   * The stops are sorted by sequence number
+   */
+  stops?: StopOut[];
 }
 
 export interface ApiPagePlaceShortOut {
@@ -1028,6 +1059,7 @@ export interface PlaceShortOut {
   /** The description of place in English */
   descriptionEn?: string;
   subcategory?: PlaceSubcategoryShortOut;
+  address?: AddressOut;
 }
 
 export interface ApiPageEventShortOut {
@@ -1064,14 +1096,15 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   startTime?: string;
-  /** @example "22:40" */
+  /** @example "19:53" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;
   /** The description of event in English */
   descriptionEn?: string;
+  address?: AddressOut;
 }
 
 export interface ApiPagePlaceCategoryOut {

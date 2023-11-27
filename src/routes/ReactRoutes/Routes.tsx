@@ -1,5 +1,12 @@
-import React from "react";
-import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { YMaps } from "@pbe/react-yandex-maps";
+import {
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import {
   CalendarCard,
@@ -18,6 +25,9 @@ import {
   CategoryEntityId,
 } from "src/routes";
 
+import { resetMap } from "src/store/slices";
+import { useAppDispatch, useAppSelector } from "src/hooks";
+
 import {
   CALENDAR_EVENT,
   SUGGEST_VISIT,
@@ -29,6 +39,9 @@ import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const language = useAppSelector((state) => state.main.language);
 
   const HeaderLayout = (
     <div className="wrapper">
@@ -58,36 +71,47 @@ const ReactRoutes = () => {
     </>
   );
 
+  useEffect(() => {
+    dispatch(resetMap());
+  }, [dispatch, location.pathname]);
+
   return (
-    <Routes>
-      <Route path="/" element={HeaderLayout}>
-        <Route path="/" element={<MainContent />} />
-        <Route path={TOURIST_OBJECTS} element={ContentLayout}>
-          <Route path={TOURIST_OBJECTS} element={<TouristObjects />} />
-          <Route path=":id" element={<WithoutCategory />} />
-          <Route path=":id/:entityId" element={<WithoutCategoryEntity />} />
-          <Route path=":categoryId-category" element={<Category />} />
-          <Route path=":categoryId-category/:id" element={<CategoryId />} />
-          <Route
-            path=":categoryId-category/:id/:entityId"
-            element={<CategoryEntityId />}
-          />
+    <YMaps
+      query={{
+        apikey: "f89a7ec4-649c-4e9e-b286-86fd506b69bb",
+        lang: language,
+      }}
+    >
+      <Routes>
+        <Route path="/" element={HeaderLayout}>
+          <Route path="/" element={<MainContent />} />
+          <Route path={TOURIST_OBJECTS} element={ContentLayout}>
+            <Route path={TOURIST_OBJECTS} element={<TouristObjects />} />
+            <Route path=":id" element={<WithoutCategory />} />
+            <Route path=":id/:entityId" element={<WithoutCategoryEntity />} />
+            <Route path=":categoryId-category" element={<Category />} />
+            <Route path=":categoryId-category/:id" element={<CategoryId />} />
+            <Route
+              path=":categoryId-category/:id/:entityId"
+              element={<CategoryEntityId />}
+            />
+          </Route>
+          <Route path={TOURIST_ROUTES} element={ContentLayout}>
+            <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />
+            <Route path=":id" element={<TouristRoute />} />
+            <Route path=":id/:entityId" element={<Subject />} />
+          </Route>
+          <Route path={SUGGEST_VISIT} element={ContentLayout}>
+            <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />
+            <Route path=":id" element={<SuggestCard />} />
+          </Route>
+          <Route path={CALENDAR_EVENT} element={ContentLayout}>
+            <Route path={CALENDAR_EVENT} element={<CalendarEvents />} />
+            <Route path=":id" element={<CalendarCard />} />
+          </Route>
         </Route>
-        <Route path={TOURIST_ROUTES} element={ContentLayout}>
-          <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />
-          <Route path=":id" element={<TouristRoute />} />
-          <Route path=":id/:entityId" element={<Subject />} />
-        </Route>
-        <Route path={SUGGEST_VISIT} element={ContentLayout}>
-          <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />
-          <Route path=":id" element={<SuggestCard />} />
-        </Route>
-        <Route path={CALENDAR_EVENT} element={ContentLayout}>
-          <Route path={CALENDAR_EVENT} element={<CalendarEvents />} />
-          <Route path=":id" element={<CalendarCard />} />
-        </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </YMaps>
   );
 };
 

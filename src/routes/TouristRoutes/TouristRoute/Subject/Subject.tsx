@@ -18,6 +18,7 @@ const Subject = () => {
   return (
     <div className={styles.subject}>
       <CardView
+        id={params?.entityId}
         images={response.data.photos}
         title={response.data.title}
         descriptionTitle="Описание"

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { Card, Title } from "src/components";
+import { useAppDispatch } from "src/hooks";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { useGetPlacesSubcategoryQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY_ID_ENTITY } from "src/conts/routes";
 
@@ -9,8 +11,23 @@ import styles from "./CategoryId.module.scss";
 
 const CategoryId = () => {
   const params = useParams();
+  const dispatch = useAppDispatch();
 
   const { data: response } = useGetPlacesSubcategoryQuery(params.id || "");
+  const { data: places } = useGetPlacesSubcategoryQuery(params.id || "");
+
+  useEffect(() => {
+    if (!places?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: places.rows,
+        center: places.rows[0],
+      }),
+    );
+  }, [dispatch, places]);
 
   if (!response?.rows?.length) {
     return <></>;

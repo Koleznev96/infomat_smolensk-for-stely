@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Card, Title } from "src/components";
+import { useAppDispatch } from "src/hooks";
 import { SUGGEST_VISIT_ID } from "src/conts/routes";
 import { useGetSuggestPlacesQuery } from "src/api/main";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
 
 import styles from "./SuggestVisit.module.scss";
 
 const SuggestVisit = () => {
+  const dispatch = useAppDispatch();
   const { data: response } = useGetSuggestPlacesQuery(undefined);
+
+  useEffect(() => {
+    if (!response?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: response?.rows,
+        center: response?.rows[0],
+      }),
+    );
+  }, [dispatch, response]);
 
   if (!response?.rows?.length) {
     return <></>;

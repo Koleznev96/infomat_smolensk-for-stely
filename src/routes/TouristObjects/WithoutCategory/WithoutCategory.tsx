@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { Card, Title } from "src/components";
+import { useAppDispatch } from "src/hooks";
 import { TOURIST_OBJECTS_ID_ENTITY } from "src/conts/routes";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { useGetPlacesSubcategoryQuery } from "src/api/main";
 
 import styles from "./WithoutCategory.module.scss";
 
 const WithoutCategory = () => {
   const params = useParams();
+  const dispatch = useAppDispatch();
 
   const { data: response } = useGetPlacesSubcategoryQuery(params.id || "");
+
+  useEffect(() => {
+    if (!response?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: response.rows,
+        center: response.rows[0],
+      }),
+    );
+  }, [dispatch, response]);
 
   if (!response?.rows?.length) {
     return <></>;

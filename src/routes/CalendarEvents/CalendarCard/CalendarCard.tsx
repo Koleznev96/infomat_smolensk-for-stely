@@ -16,6 +16,7 @@ const CalendarCard = () => {
   return (
     <div>
       <CardView
+        id={params.id || ""}
         title={response.data.title}
         images={response.data.photos}
         descriptionTitle="Описание"

@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Title } from "src/components";
-import { useGetCategoriesQuery } from "src/api/main";
+import { useAppDispatch } from "src/hooks";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
+import { useGetCategoriesQuery, useGetPlacesQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY, TOURIST_OBJECTS_ID } from "src/conts/routes";
 
 import styles from "./TouristObjects.module.scss";
 
 const TouristObjects = () => {
+  const dispatch = useAppDispatch();
+
   const { data: response } = useGetCategoriesQuery(undefined);
+  const { data: places } = useGetPlacesQuery(undefined);
+
+  useEffect(() => {
+    if (!places?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: places?.rows,
+        center: places?.rows[0],
+      }),
+    );
+  }, [dispatch, places]);
 
   if (!response?.rows?.length) {
     return <></>;
