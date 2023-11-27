@@ -151,7 +151,7 @@ export interface RouteCreate {
    * @minLength 1
    * @maxLength 65536
    */
-  description: string;
+  description?: string;
   /**
    * The description of route in English
    * @minLength 1
@@ -186,8 +186,10 @@ export interface AddressOut {
    * @format int64
    */
   id?: number;
-  /** The text address */
+  /** The text address in Russian */
   address?: string;
+  /** The text address in English */
+  addressEn?: string;
   /**
    * The latitude of address
    * @format double
@@ -293,8 +295,10 @@ export interface StopPlace {
 
 /** The address of place */
 export interface AddressIn {
-  /** The text address */
+  /** The text address in Russian */
   address: string;
+  /** The text address in English */
+  addressEn?: string;
   /**
    * The latitude of address
    * @format double
@@ -388,7 +392,7 @@ export interface PlaceCreate {
    * @minLength 1
    * @maxLength 65536
    */
-  description: string;
+  description?: string;
   /**
    * The description in English
    * @minLength 1
@@ -397,11 +401,17 @@ export interface PlaceCreate {
   descriptionEn?: string;
   address: AddressIn;
   /**
-   * The working hours of place
+   * The working hours of place in Russian
    * @minLength 1
    * @maxLength 63
    */
   workingHours?: string;
+  /**
+   * The working hours of place in English
+   * @minLength 1
+   * @maxLength 63
+   */
+  workingHoursEn?: string;
   /** The list of frames. Each frame describes coordinates and size for cropping respective image */
   frames?: Frame[];
 }
@@ -459,8 +469,10 @@ export interface PlaceOut {
   /** The description of place in English */
   descriptionEn?: string;
   address?: AddressOut;
-  /** The working hours of place */
+  /** The working hours of place in Russian */
   workingHours?: string;
+  /** The working hours of place in English */
+  workingHoursEn?: string;
 }
 
 export interface EventCreate {
@@ -488,9 +500,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   startTime: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   endTime?: string;
   /**
    * The phone of event
@@ -521,7 +533,7 @@ export interface EventCreate {
    * @minLength 1
    * @maxLength 65536
    */
-  description: string;
+  description?: string;
   /**
    * The description in English
    * @minLength 1
@@ -565,9 +577,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   startTime?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -598,6 +610,18 @@ export interface PlaceCategoryCreate {
    */
   titleEn?: string;
   /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description?: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
+  /**
    * The background color of place category
    * @minLength 7
    * @maxLength 7
@@ -623,6 +647,10 @@ export interface PlaceCategoryOut {
   title?: string;
   /** The title of place category in English */
   titleEn?: string;
+  /** The description of place category in Russian */
+  description?: string;
+  /** The description of place category in English */
+  descriptionEn?: string;
   /** The background color of place category */
   backgroundColor?: string;
   icon?: Icon;
@@ -807,11 +835,17 @@ export interface PlacePatch {
   descriptionEn?: string;
   address?: AddressIn;
   /**
-   * The working hours of place
+   * The working hours of place in Russian
    * @minLength 1
    * @maxLength 63
    */
   workingHours?: string;
+  /**
+   * The working hours of place in English
+   * @minLength 1
+   * @maxLength 63
+   */
+  workingHoursEn?: string;
   /** The list of frames. Each frame describes coordinates and size for cropping respective image */
   frames?: Frame[];
   /**
@@ -901,9 +935,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   startTime?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   endTime?: string;
   /**
    * The phone of event
@@ -964,6 +998,18 @@ export interface PlaceCategoryPatch {
    * @maxLength 127
    */
   titleEn?: string;
+  /**
+   * The description in Russian
+   * @minLength 1
+   * @maxLength 65536
+   */
+  description?: string;
+  /**
+   * The description in English
+   * @minLength 1
+   * @maxLength 65536
+   */
+  descriptionEn?: string;
   /**
    * The background color of place category
    * @minLength 7
@@ -1096,9 +1142,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   startTime?: string;
-  /** @example "19:53" */
+  /** @example "21:08" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;

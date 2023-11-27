@@ -5,9 +5,11 @@ import {
   ApiPagePlaceShortOut,
   ApiPageRouteShortOut,
   ApiResponseEventOut,
+  ApiResponseGeneralOut,
   ApiResponsePlaceCategoryOut,
   ApiResponsePlaceOut,
   ApiResponseRouteOut,
+  GeneralOut,
 } from "src/api/myApi";
 
 // Получаем текущий URL
@@ -17,10 +19,13 @@ const currentUrl = window.location.href;
 const parsedUrl = new URL(currentUrl);
 const baseUrl = parsedUrl.origin;
 
+const isDev =
+  baseUrl === "http://localhost:3000" ? "http://smolenskis.site/api" : baseUrl;
+
 export const mainApi = createApi({
   reducerPath: "mainApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api`,
+    baseUrl: isDev,
   }),
   endpoints: (builder) => ({
     getRoutes: builder.query<ApiPageRouteShortOut, undefined>({
@@ -29,8 +34,14 @@ export const mainApi = createApi({
     getRoutesId: builder.query<ApiResponseRouteOut, string>({
       query: (id: string) => `routes/${id}`,
     }),
-    getPlaces: builder.query<ApiPagePlaceShortOut, undefined>({
-      query: () => "places?status=PUBLISHED",
+    getPlaces: builder.query<
+      ApiPagePlaceShortOut,
+      undefined | { search: string }
+    >({
+      query: (query: { search: string }) =>
+        query?.search
+          ? `places?status=PUBLISHED&search=${query.search}`
+          : "places?status=PUBLISHED",
     }),
     getPlaceId: builder.query<ApiResponsePlaceOut, string>({
       query: (id: string) => `places/${id}`,
@@ -42,8 +53,14 @@ export const mainApi = createApi({
     getSuggestPlaces: builder.query<ApiPagePlaceShortOut, undefined>({
       query: () => "places?status=PUBLISHED&recommendedOnly=true",
     }),
-    getEvents: builder.query<ApiPageEventShortOut, undefined>({
-      query: () => "events",
+    getEvents: builder.query<
+      ApiPageEventShortOut,
+      undefined | { search: string }
+    >({
+      query: (query: { search: string }) =>
+        query?.search
+          ? `events?status=PUBLISHED&search=${query.search}`
+          : "events?status=PUBLISHED",
     }),
     getEventsId: builder.query<ApiResponseEventOut, string>({
       query: (id: string) => `events/${id}`,
@@ -54,22 +71,28 @@ export const mainApi = createApi({
     getCategoryId: builder.query<ApiResponsePlaceCategoryOut, string>({
       query: (id: string) => `categories/${id}`,
     }),
-    getGeneral: builder.query<ApiPagePlaceShortOut, undefined>({
+    getGeneral: builder.query<ApiResponseGeneralOut, undefined>({
       query: () => "general",
+    }),
+    getWeather: builder.query<any, undefined>({
+      query: () => "weather",
     }),
   }),
 });
 
 export const {
   useGetPlacesQuery,
+  useLazyGetPlacesQuery,
   useGetPlaceIdQuery,
   useGetCategoriesQuery,
   useGetCategoryIdQuery,
   useGetEventsIdQuery,
   useGetEventsQuery,
+  useLazyGetEventsQuery,
   useGetGeneralQuery,
   useGetPlacesSubcategoryQuery,
   useGetSuggestPlacesQuery,
   useGetRoutesQuery,
   useGetRoutesIdQuery,
+  useGetWeatherQuery,
 } = mainApi;
