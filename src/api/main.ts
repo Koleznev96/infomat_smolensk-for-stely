@@ -13,7 +13,7 @@ import {
 export const mainApi = createApi({
   reducerPath: "mainApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://5f8104486938.vps.myjino.ru/api/",
+    baseUrl: process.env.REACT_APP_URL_API,
   }),
   endpoints: (builder) => ({
     getRoutes: builder.query<ApiPageRouteShortOut, undefined>({
