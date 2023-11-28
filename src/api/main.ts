@@ -19,7 +19,9 @@ const parsedUrl = new URL(currentUrl);
 const baseUrl = parsedUrl.origin;
 
 const isDev =
-  baseUrl === "http://localhost:3000" ? "http://smolenskis.site/api" : baseUrl;
+  baseUrl === "http://localhost:3000"
+    ? "http://smolenskis.site/api"
+    : `${baseUrl}/api`;
 
 export const mainApi = createApi({
   reducerPath: "mainApi",
