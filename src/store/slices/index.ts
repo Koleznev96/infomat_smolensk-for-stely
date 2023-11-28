@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { PlaceShortOut, RouteShortOut } from "src/api/myApi";
+import { PlaceOut, PlaceShortOut, RouteShortOut } from "src/api/myApi";
 
 type MapType = "route" | "place-mark";
 
@@ -37,6 +37,8 @@ const initialState: MainState = {
   },
 };
 
+type Place = PlaceShortOut & PlaceOut;
+
 export const mainSlice = createSlice({
   name: "main",
   initialState,
@@ -46,7 +48,7 @@ export const mainSlice = createSlice({
     },
     updatePlaceMarksAndCenter: (
       state,
-      action: PayloadAction<{ marks: PlaceShortOut[]; center: PlaceShortOut }>,
+      action: PayloadAction<{ marks: Place[]; center: PlaceShortOut }>,
     ) => {
       state.map.type = "place-mark";
 
@@ -55,7 +57,10 @@ export const mainSlice = createSlice({
         text: row?.title || "",
         url: row?.subcategory?.icon?.url || "",
         colorText: "",
-        backgroundColor: row.subcategory?.backgroundColor || "",
+        backgroundColor:
+          row.subcategory?.backgroundColor ||
+          row?.subcategory?.category?.backgroundColor ||
+          "",
       }));
 
       state.map.center = [
