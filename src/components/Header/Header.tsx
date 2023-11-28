@@ -63,6 +63,23 @@ const Header = () => {
     [language],
   );
 
+  const title = useMemo(() => {
+    const path = location.pathname;
+
+    switch (true) {
+      case path.includes(TOURIST_OBJECTS):
+        return "Туристские объекты на карте города";
+      case path.includes(SUGGEST_VISIT):
+        return "Рекомендуем";
+      case path.includes(CALENDAR_EVENT):
+        return "Календарь мероприятий";
+      case path.includes(TOURIST_ROUTES):
+        return "Туристские маршруты";
+      default:
+        return "Интерактивный туристский гид";
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDate(new Date());
@@ -102,23 +119,6 @@ const Header = () => {
       setSearchObjects([]);
     }
   }, [debounceValue, events, eventsData?.rows, places, placesData?.rows]);
-
-  const title = useMemo(() => {
-    const path = location.pathname;
-
-    switch (true) {
-      case path.includes(TOURIST_OBJECTS):
-        return "Туристские объекты на карте города";
-      case path.includes(SUGGEST_VISIT):
-        return "Рекомендуем";
-      case path.includes(CALENDAR_EVENT):
-        return "Календарь мероприятий";
-      case path.includes(TOURIST_ROUTES):
-        return "Туристские маршруты";
-      default:
-        return "Интерактивный туристский гид";
-    }
-  }, [location.pathname]);
 
   const changeLanguage = (lang: "ru_RU" | "en_US") => {
     dispatch(updateLanguage(lang));
