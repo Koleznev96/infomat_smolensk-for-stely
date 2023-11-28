@@ -9,7 +9,6 @@ import {
   ApiResponsePlaceCategoryOut,
   ApiResponsePlaceOut,
   ApiResponseRouteOut,
-  GeneralOut,
 } from "src/api/myApi";
 
 // Получаем текущий URL

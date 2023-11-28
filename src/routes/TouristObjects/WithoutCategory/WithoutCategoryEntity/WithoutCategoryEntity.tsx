@@ -15,16 +15,11 @@ const WithoutCategoryEntity = () => {
 
   return (
     <CardView
-      id={params.entityId || ""}
+      placeId={params.entityId || ""}
       title={response.data.title}
       images={response.data.photos}
       descriptionTitle="Описание"
       descriptionParagraph={response.data.title}
-      tags={[
-        "Протяженность: 5 км",
-        "Время: 2-2,5 часа",
-        "Тип маршрута: Автомобильный",
-      ]}
     />
   );
 };

@@ -16,15 +16,11 @@ const CalendarCard = () => {
   return (
     <div>
       <CardView
-        id={params.id || ""}
+        placeId={params.id || ""}
         title={response.data.title}
         images={response.data.photos}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
-        tags={[
-          `Дата: ${response.data.startDate}`,
-          `Время: ${response.data.startTime}`,
-        ]}
       />
     </div>
   );

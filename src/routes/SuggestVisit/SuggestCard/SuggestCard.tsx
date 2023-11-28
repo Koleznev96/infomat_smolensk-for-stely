@@ -14,22 +14,19 @@ const SuggestCard = () => {
   }
 
   return (
-    <>
-      <CardView
-        id={params.id}
-        title={response?.data?.title}
-        descriptionTitle="Описание"
-        contacts={{
-          phone: response?.data?.phone,
-          website: response?.data?.website,
-          email: response?.data?.email,
-          workTime: response?.data?.workingHours,
-        }}
-        images={response?.data?.photos}
-        descriptionParagraph={response?.data?.description}
-        tags={[`Адрес: ${response?.data?.address?.address}`]}
-      />
-    </>
+    <CardView
+      placeId={params.id}
+      title={response?.data?.title}
+      descriptionTitle="Описание"
+      contacts={{
+        phone: response?.data?.phone,
+        website: response?.data?.website,
+        email: response?.data?.email,
+        workTime: response?.data?.workingHours,
+      }}
+      images={response?.data?.photos}
+      descriptionParagraph={response?.data?.description}
+    />
   );
 };
 

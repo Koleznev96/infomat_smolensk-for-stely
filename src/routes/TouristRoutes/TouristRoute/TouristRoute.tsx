@@ -4,7 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import { Tag, Title } from "src/components";
 import { useAppDispatch } from "src/hooks";
 import { useGetRoutesIdQuery } from "src/api/main";
-import { updateRoutesAndCenter } from "src/store/slices";
+import {
+  updateCurrentIndexRoutePlacemark,
+  updateRoutesAndCenter,
+} from "src/store/slices";
 import { TOURIST_ROUTES_ID_VIEW } from "src/conts/routes";
 
 import styles from "./TouristRoute.module.scss";
@@ -14,20 +17,23 @@ const TouristRoute = () => {
   const dispatch = useAppDispatch();
 
   const { data: response } = useGetRoutesIdQuery(params.id || "");
-  const { data: routes } = useGetRoutesIdQuery(params.id || "");
 
   useEffect(() => {
-    if (!routes?.data?.id) {
+    if (!response?.data?.id) {
       return;
     }
 
     dispatch(
       updateRoutesAndCenter({
-        routes: [routes?.data],
-        center: routes?.data,
+        routes: [response?.data],
+        center: response?.data,
       }),
     );
-  }, [dispatch, routes]);
+  }, [dispatch, response]);
+
+  const setIndexStop = (index: number) => {
+    dispatch(updateCurrentIndexRoutePlacemark(index));
+  };
 
   if (!response?.data?.id) {
     return <></>;
@@ -41,21 +47,24 @@ const TouristRoute = () => {
         bgColor={response.data.backgroundColor}
       >
         <Tag
-          text={response.data.length}
+          icon={{ name: "geo", color: response.data.routeColor }}
+          text={`Протяженность: ${response.data.length}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
           }}
         />
         <Tag
-          text={response.data.duration}
+          icon={{ name: "time", color: response.data.routeColor }}
+          text={`Время: ${response.data.duration}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
           }}
         />
         <Tag
-          text={response.data.type}
+          icon={{ name: "route", color: response.data.routeColor }}
+          text={`Тип маршрута: ${response.data.type}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
@@ -70,6 +79,7 @@ const TouristRoute = () => {
         <h5>Объекты на маршруте</h5>
         {response.data.stops?.map((stop, index) => (
           <Link
+            onClick={() => setIndexStop(index)}
             to={TOURIST_ROUTES_ID_VIEW(params.id, stop.place?.id)}
             key={stop.id}
           >

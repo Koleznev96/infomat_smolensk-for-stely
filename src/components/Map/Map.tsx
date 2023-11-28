@@ -17,14 +17,22 @@ const Map = () => {
 
   const { map } = useAppSelector((state) => state.main);
 
-  const content = (url?: string, text?: string, bg?: string) => {
+  const placeMarkContent = (url?: string, text?: string, bg?: string) => {
     return `
-        <span class="person-react-icon-api">
+        <span class="place-mark-content-react-smolensk">
             <div style="background-color: ${bg}">
               <img src="${url}" alt="${text}">
             </div>
             <p>${text}</p>
         </span>
+      `;
+  };
+
+  const routeContent = (number: number, color: string, bg?: string) => {
+    return `
+        <p style="color: ${color}; background-color: ${bg}" class="route-content-react-smolensk">
+            ${number}
+        </p>
       `;
   };
 
@@ -39,7 +47,7 @@ const Map = () => {
       >
         <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
         <ZoomControl options={{ position: { right: 10, top: 350 } }} />
-        {map.type === "route" ? (
+        {map.type === "route" && (
           <React.Fragment>
             {map.routes.map((route, index) => (
               <React.Fragment key={index}>
@@ -50,11 +58,22 @@ const Map = () => {
                     strokeWidth: 2,
                   }}
                 />
-                <Placemark geometry={route.cords} />
+                {route.cords.map((cord, index) => (
+                  <Placemark
+                    key={index}
+                    geometry={cord}
+                    options={{
+                      iconLayout: ymaps?.templateLayoutFactory?.createClass(
+                        routeContent(index + 1, route.lineColor),
+                      ),
+                    }}
+                  />
+                ))}
               </React.Fragment>
             ))}
           </React.Fragment>
-        ) : (
+        )}
+        {map.type === "place-mark" && (
           <React.Fragment>
             {map.placeMarksType.map((cor, index) => (
               <Placemark
@@ -62,10 +81,38 @@ const Map = () => {
                 geometry={cor.cords}
                 options={{
                   iconLayout: ymaps?.templateLayoutFactory?.createClass(
-                    content(cor.url, cor.text, cor.backgroundColor),
+                    placeMarkContent(cor.url, cor.text, cor.backgroundColor),
                   ),
                 }}
               />
+            ))}
+          </React.Fragment>
+        )}
+        {map.type === "route-placemark" && (
+          <React.Fragment>
+            {map.routeWithPlacemark.map((route, index) => (
+              <React.Fragment key={index}>
+                <Polyline
+                  geometry={route.cords}
+                  options={{
+                    strokeColor: route.lineColor,
+                    strokeWidth: 2,
+                  }}
+                />
+                {route.cords.map((cord, index) => (
+                  <Placemark
+                    key={index}
+                    geometry={cord}
+                    options={{
+                      iconLayout: ymaps?.templateLayoutFactory?.createClass(
+                        map.currentPlacemarkIndex === index
+                          ? routeContent(index + 1, route.lineColor, "#ffff00")
+                          : routeContent(index + 1, route.lineColor),
+                      ),
+                    }}
+                  />
+                ))}
+              </React.Fragment>
             ))}
           </React.Fragment>
         )}

@@ -15,16 +15,11 @@ const CategoryEntityId = () => {
   return (
     <div>
       <CardView
-        id={params.entityId}
+        placeId={params.entityId}
         title={response.data.title}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
         images={response.data.photos}
-        tags={[
-          "Протяженность: 5 км",
-          "Время: 2-2,5 часа",
-          "Тип маршрута: Автомобильный",
-        ]}
         buttons={{ showOnMapLink: "#", showRouteLink: "#", QRCodeLink: "#" }}
       />
     </div>

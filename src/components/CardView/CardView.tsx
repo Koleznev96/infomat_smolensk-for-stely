@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 
 import { Image } from "src/api/myApi";
 import { useAppDispatch } from "src/hooks";
-import { useGetPlaceIdQuery } from "src/api/main";
 import { Button, ImageSlider, Tag } from "src/components";
-import { updatePlaceMarksAndCenter } from "src/store/slices";
+import { useGetPlaceIdQuery, useGetRoutesIdQuery } from "src/api/main";
+import {
+  updatePlaceMarksAndCenter,
+  updateRoutesWithPlaceAndCenter,
+} from "src/store/slices";
 
 import styles from "./CardView.module.scss";
 
@@ -15,10 +18,17 @@ interface Contacts {
   workTime?: string;
 }
 
+interface Tags {
+  name?: "geo" | "time" | "route";
+  text?: string;
+  color?: string;
+}
+
 interface CardViewProps {
-  id?: string;
+  routeId?: string;
+  placeId?: string;
   title?: string;
-  tags?: string[];
+  tags?: Tags[];
   descriptionTitle?: string;
   descriptionParagraph?: string;
   images?: Image[];
@@ -31,7 +41,8 @@ interface CardViewProps {
 }
 
 const CardView = ({
-  id,
+  routeId,
+  placeId,
   title = "",
   tags = [],
   descriptionTitle = "",
@@ -41,20 +52,31 @@ const CardView = ({
   contacts,
 }: CardViewProps) => {
   const dispatch = useAppDispatch();
-  const { data: places } = useGetPlaceIdQuery(id || "");
+
+  const { data: places } = useGetPlaceIdQuery(placeId || "", {
+    skip: !placeId,
+  });
+  const { data: routes } = useGetRoutesIdQuery(routeId || "");
 
   useEffect(() => {
-    if (!places?.data?.id) {
-      return;
+    if (routes?.data?.id && routeId) {
+      dispatch(
+        updateRoutesWithPlaceAndCenter({
+          routes: [routes?.data],
+          center: routes?.data,
+        }),
+      );
     }
 
-    dispatch(
-      updatePlaceMarksAndCenter({
-        marks: [places.data],
-        center: places.data,
-      }),
-    );
-  }, [dispatch, places]);
+    if (places?.data?.id && placeId) {
+      dispatch(
+        updatePlaceMarksAndCenter({
+          marks: [places?.data],
+          center: places?.data,
+        }),
+      );
+    }
+  }, [dispatch, places, routes, placeId, routeId]);
 
   const handleClickShowOnMap = () => {
     console.log("show");
@@ -69,13 +91,17 @@ const CardView = ({
   };
 
   return (
-    <>
+    <div className={styles.cardView}>
       <ImageSlider images={images} />
-      <div className={styles.cardView}>
+      <div>
         <h4>{title}</h4>
         <div className={styles.tags}>
-          {tags.map((tag) => (
-            <Tag key={tag} text={tag} />
+          {tags.map((tag, index) => (
+            <Tag
+              key={index}
+              text={tag.text}
+              icon={{ name: tag.name, color: tag.color }}
+            />
           ))}
         </div>
         <div className={styles.description}>
@@ -206,7 +232,7 @@ const CardView = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

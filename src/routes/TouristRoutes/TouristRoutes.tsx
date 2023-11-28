@@ -69,15 +69,18 @@ const TouristRoutes = () => {
               <h5>{row.title}</h5>
               <div className={styles.tags}>
                 <Tag
-                  text={row.length}
+                  icon={{ name: "geo", color: row.routeColor }}
+                  text={`Протяженность: ${row.length}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
                 <Tag
-                  text={row.duration}
+                  icon={{ name: "time", color: row.routeColor }}
+                  text={`Время: ${row.duration}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
                 <Tag
-                  text={row.type}
+                  icon={{ name: "route", color: row.routeColor }}
+                  text={`Тип маршрута: ${row.type}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
               </div>

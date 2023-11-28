@@ -9,6 +9,9 @@
     border-radius: 15px;
     padding: 3px 6px;
     background-color: #ffead5;
+    box-shadow:
+      0 2px 4px -2px rgba(16, 24, 40, 0.06),
+      0 4px 8px -2px rgba(16, 24, 40, 0.1);
 
     span {
       font-style: normal;

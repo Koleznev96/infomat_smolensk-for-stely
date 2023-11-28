@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { PlaceOut, PlaceShortOut, RouteShortOut } from "src/api/myApi";
 
-type MapType = "route" | "place-mark";
+type MapType = "route" | "place-mark" | "route-placemark";
 
 interface Places {
   cords: number[];
@@ -24,6 +24,8 @@ interface MainState {
     type: MapType;
     placeMarksType: Places[];
     routes: Routes[];
+    routeWithPlacemark: Routes[];
+    currentPlacemarkIndex?: number;
   };
 }
 
@@ -33,6 +35,8 @@ const initialState: MainState = {
     center: [54.782635, 32.045287],
     type: "place-mark",
     placeMarksType: [],
+    routeWithPlacemark: [],
+    currentPlacemarkIndex: undefined,
     routes: [],
   },
 };
@@ -88,8 +92,36 @@ export const mainSlice = createSlice({
         action?.payload?.center?.address?.longitude || 0,
       ];
     },
+    updateRoutesWithPlaceAndCenter: (
+      state,
+      action: PayloadAction<{ routes: RouteShortOut[]; center: PlaceShortOut }>,
+    ) => {
+      state.map.type = "route-placemark";
+
+      state.map.routeWithPlacemark = action.payload.routes?.map((route) => ({
+        cords:
+          route?.stops?.map((stop) => [
+            stop.place?.address?.latitude || 0,
+            stop.place?.address?.longitude || 0,
+          ]) || [],
+        lineColor: route.routeColor || "",
+      }));
+
+      state.map.center = [
+        action?.payload?.center?.address?.latitude || 0,
+        action?.payload?.center?.address?.longitude || 0,
+      ];
+    },
+    updateCurrentIndexRoutePlacemark: (
+      state,
+      action: PayloadAction<number>,
+    ) => {
+      state.map.currentPlacemarkIndex = action.payload;
+    },
     resetMap: (state) => {
-      state.map = initialState.map;
+      state.map.routes = initialState.map.routes;
+      state.map.routeWithPlacemark = initialState.map.routeWithPlacemark;
+      state.map.placeMarksType = initialState.map.placeMarksType;
     },
   },
 });
@@ -97,6 +129,8 @@ export const mainSlice = createSlice({
 export const {
   updateLanguage,
   updatePlaceMarksAndCenter,
+  updateRoutesWithPlaceAndCenter,
+  updateCurrentIndexRoutePlacemark,
   updateRoutesAndCenter,
   resetMap,
 } = mainSlice.actions;
