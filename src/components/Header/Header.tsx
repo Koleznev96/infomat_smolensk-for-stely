@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import yandex from "src/icons/header/yandex.png";
 import logo from "src/icons/header/logo.png";
@@ -38,6 +38,7 @@ interface SearchObjects {
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [date, setDate] = useState(new Date());
@@ -66,45 +67,41 @@ const Header = () => {
     const intervalId = setInterval(() => {
       setDate(new Date());
     }, 1000);
-
     return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
-    if (!debounceValue.trim()) {
+    if (debounceValue) {
+      const getData = async () => {
+        await events({ search: debounceValue });
+        await places({ search: debounceValue });
+      };
+
+      void getData();
+
+      const dataEvents =
+        eventsData?.rows?.map((event) => ({
+          type: "events" as const,
+          image: event.cover?.url || "",
+          title: event.title,
+          description: event.description,
+          link: CALENDAR_EVENT_ID(event.id),
+        })) || [];
+
+      const dataPlaces =
+        placesData?.rows?.map((place) => ({
+          type: "places" as const,
+          image: place.cover?.url || "",
+          title: place.title,
+          description: place.description,
+          link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
+        })) || [];
+
+      setSearchObjects([...dataEvents, ...dataPlaces]);
+    } else {
       setSearchObjects([]);
-      return;
     }
-
-    const getData = async () => {
-      await events({ search: debounceValue });
-      await places({ search: debounceValue });
-    };
-
-    void getData();
-  }, [debounceValue]);
-
-  useEffect(() => {
-    const dataEvents =
-      eventsData?.rows?.map((event) => ({
-        type: "events" as const,
-        image: event.cover?.url || "",
-        title: event.title,
-        description: event.description,
-        link: CALENDAR_EVENT_ID(event.id),
-      })) || [];
-
-    const dataPlaces =
-      placesData?.rows?.map((place) => ({
-        type: "places" as const,
-        image: place.cover?.url || "",
-        title: place.title,
-        description: place.description,
-        link: `${TOURIST_OBJECTS}/${place.id}`,
-      })) || [];
-
-    setSearchObjects([...dataEvents, ...dataPlaces]);
-  }, [eventsData?.rows, placesData?.rows]);
+  }, [debounceValue, events, eventsData?.rows, places, placesData?.rows]);
 
   const title = useMemo(() => {
     const path = location.pathname;
@@ -125,6 +122,12 @@ const Header = () => {
 
   const changeLanguage = (lang: "ru_RU" | "en_US") => {
     dispatch(updateLanguage(lang));
+  };
+
+  const goToObject = (link: string) => {
+    navigate(link);
+    setInputValue("");
+    setSearchObjects([]);
   };
 
   return (
@@ -214,13 +217,17 @@ const Header = () => {
           {searchObjects?.length >= 1 ? (
             <div className={styles.resultSection}>
               {searchObjects.map((object, index) => (
-                <Link to="#" className={styles.card} key={index}>
+                <div
+                  onClick={() => goToObject(object.link || "#")}
+                  className={styles.card}
+                  key={index}
+                >
                   <img src={object.image} alt={object.image} />
                   <div className={styles.text}>
                     <h4>{object.title}</h4>
                     <p>{object.description}</p>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
