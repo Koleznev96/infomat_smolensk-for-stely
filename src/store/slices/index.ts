@@ -30,7 +30,7 @@ interface MainState {
 const initialState: MainState = {
   language: "ru_RU",
   map: {
-    center: [55.751574, 37.573856],
+    center: [54.782635, 32.045287],
     type: "place-mark",
     placeMarksType: [],
     routes: [],

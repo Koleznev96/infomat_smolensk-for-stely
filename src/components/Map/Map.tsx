@@ -33,7 +33,7 @@ const Map = () => {
       <MapY
         style={{ width: "100%", height: "100%", position: "relative" }}
         defaultState={{
-          center: map.center || [55.751574, 37.573856],
+          center: map.center || [54.782635, 32.045287],
           zoom: 9,
         }}
       >
