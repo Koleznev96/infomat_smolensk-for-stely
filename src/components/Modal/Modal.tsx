@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { Button } from "src/components";
 
@@ -19,6 +19,8 @@ const Modal = ({
   setCurrentImages,
   imageLength,
 }: ModalProps) => {
+  const outsideRef = useRef<null | HTMLDivElement>(null);
+
   const nextSlide = () => {
     setCurrentImages((prev) => {
       if (prev + 1 !== imageLength) {
@@ -39,17 +41,30 @@ const Modal = ({
     });
   };
 
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (
+      outsideRef.current &&
+      !outsideRef.current.contains(event.target as Node)
+    ) {
+      onClose();
+    }
+  };
+
   return (
     <>
       {visible && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
+        <div className={styles.modal} onClick={handleClick}>
+          <div className={styles.modalContent} ref={outsideRef}>
             {children}
             <Button className={styles.close} onClick={onClose}>
               Закрыть
             </Button>
             <div className={styles.buttons}>
-              <Button onClick={prevSlide} className={styles.left}>
+              <Button
+                onClick={prevSlide}
+                noPadding={true}
+                classNameButtonContent={styles.button}
+              >
                 <svg
                   width="9"
                   height="14"
@@ -66,7 +81,11 @@ const Modal = ({
                   />
                 </svg>
               </Button>
-              <Button onClick={nextSlide} className={styles.right}>
+              <Button
+                onClick={nextSlide}
+                noPadding={true}
+                classNameButtonContent={styles.button}
+              >
                 <svg
                   width="9"
                   height="14"

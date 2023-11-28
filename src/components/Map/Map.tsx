@@ -20,8 +20,10 @@ const Map = () => {
   const content = (url?: string, text?: string, bg?: string) => {
     return `
         <span class="person-react-icon-api">
-          <img style="background-color: ${bg}" src="${url}" alt="${text}">
-          <span>${text}</span>
+            <div style="background-color: ${bg}">
+              <img src="${url}" alt="${text}">
+            </div>
+            <p>${text}</p>
         </span>
       `;
   };

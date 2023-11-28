@@ -33,7 +33,7 @@ const TouristObjects = () => {
   }
 
   return (
-    <div className={styles.touristsList}>
+    <div className={styles.touristsContent}>
       <Title
         text="Туристские объекты на карте города"
         svg={
@@ -56,50 +56,52 @@ const TouristObjects = () => {
           </>
         }
       />
-      {response?.rows?.map((row) => {
-        const isSubCategory = row.subcategories?.length !== 1;
+      <div className={styles.touristElems}>
+        {response?.rows?.map((row) => {
+          const isSubCategory = row.subcategories?.length !== 1;
 
-        return (
-          <React.Fragment key={row.id}>
-            {isSubCategory ? (
-              <Link to={TOURIST_OBJECTS_CATEGORY(row.id)}>
-                <div className={styles.touristElem}>
-                  <div
-                    className={styles.image}
-                    style={{ backgroundColor: row.backgroundColor }}
-                  >
-                    <img src={row.icon?.url} alt="icon" />
+          return (
+            <React.Fragment key={row.id}>
+              {isSubCategory ? (
+                <Link to={TOURIST_OBJECTS_CATEGORY(row.id)}>
+                  <div className={styles.touristElem}>
+                    <div
+                      className={styles.image}
+                      style={{ backgroundColor: row.backgroundColor }}
+                    >
+                      <img src={row.icon?.url} alt="icon" />
+                    </div>
+                    <div className={styles.info}>
+                      <h5>{row.title}</h5>
+                      <p>
+                        {row.subcategories?.map((sub) => sub.title).join(", ")}
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.info}>
-                    <h5>{row.title}</h5>
-                    <p>
-                      {row.subcategories?.map((sub) => sub.title).join(", ")}
-                    </p>
+                </Link>
+              ) : (
+                <Link to={TOURIST_OBJECTS_ID(row.subcategories?.[0].id)}>
+                  <div className={styles.touristElem}>
+                    <div
+                      className={styles.image}
+                      style={{ backgroundColor: row.backgroundColor }}
+                    >
+                      <img src={row.icon?.url} alt="icon" />
+                    </div>
+                    <div className={styles.info}>
+                      <h5>{row.title}</h5>
+                      <p>
+                        {row.subcategories?.length !== 1 &&
+                          row.subcategories?.map((sub) => sub.title).join(", ")}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ) : (
-              <Link to={TOURIST_OBJECTS_ID(row.subcategories?.[0].id)}>
-                <div className={styles.touristElem}>
-                  <div
-                    className={styles.image}
-                    style={{ backgroundColor: row.backgroundColor }}
-                  >
-                    <img src={row.icon?.url} alt="icon" />
-                  </div>
-                  <div className={styles.info}>
-                    <h5>{row.title}</h5>
-                    <p>
-                      {row.subcategories?.length !== 1 &&
-                        row.subcategories?.map((sub) => sub.title).join(", ")}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            )}
-          </React.Fragment>
-        );
-      })}
+                </Link>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
           <img
             key={image.id}
             onClick={() => handleOpenModal(index)}
-            src={image.url3x2Original}
+            src={image.url3x2}
             alt="object"
           />
         ))}

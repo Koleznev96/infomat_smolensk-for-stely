@@ -28,7 +28,6 @@ const SuggestCard = () => {
         images={response?.data?.photos}
         descriptionParagraph={response?.data?.description}
         tags={[`Адрес: ${response?.data?.address?.address}`]}
-        buttons={["Показать на карте"]}
       />
     </>
   );

@@ -53,7 +53,7 @@ export const mainSlice = createSlice({
       state.map.placeMarksType = action.payload.marks?.map((row) => ({
         cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
         text: row?.title || "",
-        url: row?.cover?.url || "",
+        url: row?.subcategory?.icon?.url || "",
         colorText: "",
         backgroundColor: row.subcategory?.backgroundColor || "",
       }));

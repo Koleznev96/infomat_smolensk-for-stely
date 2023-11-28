@@ -14,13 +14,13 @@
 .cardFlex {
   @include box-shadow;
   width: 100%;
-  min-width: 300px;
+  max-width: 300px;
   background-color: var(--background-card);
   border-radius: 10px;
   cursor: pointer;
 
   img {
-    width: 300px;
+    width: 100%;
     height: 200px;
     border-radius: 10px 10px 0 0;
   }

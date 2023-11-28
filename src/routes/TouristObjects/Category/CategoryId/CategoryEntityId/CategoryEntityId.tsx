@@ -6,7 +6,7 @@ import { useGetPlaceIdQuery } from "src/api/main";
 
 const CategoryEntityId = () => {
   const params = useParams();
-  const { data: response } = useGetPlaceIdQuery(params.id || "");
+  const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
     return <></>;
@@ -15,7 +15,7 @@ const CategoryEntityId = () => {
   return (
     <div>
       <CardView
-        id={params.id}
+        id={params.entityId}
         title={response.data.title}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
@@ -25,11 +25,7 @@ const CategoryEntityId = () => {
           "Время: 2-2,5 часа",
           "Тип маршрута: Автомобильный",
         ]}
-        buttons={[
-          "Показать на карте",
-          "Посмотреть маршрут",
-          "«Мой Смоленск» об объекте",
-        ]}
+        buttons={{ showOnMapLink: "#", showRouteLink: "#", QRCodeLink: "#" }}
       />
     </div>
   );

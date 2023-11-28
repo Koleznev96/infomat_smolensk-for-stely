@@ -7,13 +7,26 @@ interface ButtonProps {
   image?: React.ReactNode;
   onClick?: () => void;
   className?: string;
+  classNameButtonContent?: string;
+  noPadding?: boolean;
 }
 
-const Button = ({ children, image, onClick, className }: ButtonProps) => {
+const Button = ({
+  children,
+  image,
+  onClick,
+  className,
+  noPadding,
+  classNameButtonContent,
+}: ButtonProps) => {
   return (
-    <div className={`${styles.button} ${className}`} onClick={onClick}>
+    <div
+      style={{ padding: noPadding ? 0 : "12px 20px" }}
+      className={`${styles.button} ${className}`}
+      onClick={onClick}
+    >
       {image}
-      <div>{children}</div>
+      <div className={classNameButtonContent}>{children}</div>
     </div>
   );
 };

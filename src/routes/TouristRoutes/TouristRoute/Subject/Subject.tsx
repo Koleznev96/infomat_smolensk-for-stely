@@ -27,11 +27,6 @@ const Subject = () => {
           String(response.data.address?.address),
           String(response.data.workingHours),
         ]}
-        buttons={[
-          "Показать на карте",
-          "Посмотреть маршрут",
-          "«Мой Смоленск» об объекте",
-        ]}
       />
     </div>
   );

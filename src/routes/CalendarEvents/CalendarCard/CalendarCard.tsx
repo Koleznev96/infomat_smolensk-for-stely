@@ -25,7 +25,6 @@ const CalendarCard = () => {
           `Дата: ${response.data.startDate}`,
           `Время: ${response.data.startTime}`,
         ]}
-        buttons={["Показать на карте"]}
       />
     </div>
   );
