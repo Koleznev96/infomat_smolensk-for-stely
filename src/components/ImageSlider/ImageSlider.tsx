@@ -52,7 +52,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
 
     if (
       contentRef.current.scrollWidth - contentRef.current.clientWidth ===
-      contentRef.current?.scrollLeft
+      Math.ceil(contentRef.current?.scrollLeft)
     ) {
       setIsShowArrows({
         left: true,
