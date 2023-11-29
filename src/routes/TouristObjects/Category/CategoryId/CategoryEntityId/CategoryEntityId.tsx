@@ -20,7 +20,10 @@ const CategoryEntityId = () => {
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
         images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
-        buttons={{ showOnMapLink: "#", showRouteLink: "#", QRCodeLink: "#" }}
+        buttons={{
+          showOnMapLink: true,
+          QRCodeLink: response?.data?.linkForQrCode,
+        }}
       />
     </div>
   );

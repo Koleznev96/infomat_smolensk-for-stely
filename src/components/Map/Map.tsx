@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Map as MapY,
   Polyline,
   ZoomControl,
   GeolocationControl,
   Placemark,
-  useYMaps,
 } from "@pbe/react-yandex-maps";
 
 import { useAppSelector } from "src/hooks";
@@ -13,16 +12,16 @@ import { useAppSelector } from "src/hooks";
 import styles from "./Map.module.scss";
 
 const Map = () => {
-  const ymaps = useYMaps(["templateLayoutFactory"]);
+  const ymaps = useRef<any>(null);
+  const mapRef = useRef<ymaps.Map | undefined>(undefined);
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   const { map } = useAppSelector((state) => state.main);
 
   useEffect(() => {
-    ymaps?.ready(() => {
-      setIsLoaded(true);
-    });
-  }, [ymaps]);
+    mapRef.current?.panTo(map.center);
+  }, [map.center, map.type]);
 
   const placeMarkContent = (url?: string, text?: string, bg?: string) => {
     return `
@@ -62,106 +61,123 @@ const Map = () => {
       `;
   };
 
-  if (!isLoaded) return <></>;
-
   return (
     <div id="map" className={styles.mapContainer}>
       <MapY
         style={{ width: "100%", height: "100%", position: "relative" }}
+        modules={["templateLayoutFactory"]}
         defaultState={{
           center: map.center || [54.782635, 32.045287],
           zoom: 9,
         }}
         options={{ minZoom: 15 }}
-        instanceRef={(mapObj) =>
-          mapObj?.panTo(map.center || [54.782635, 32.045287])
-        }
+        instanceRef={mapRef}
+        onLoad={(inst) => {
+          ymaps.current = inst;
+          setIsLoaded(true);
+        }}
       >
         <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
         <ZoomControl options={{ position: { right: 10, top: 350 } }} />
-        {map.type === "place-mark" && (
-          <React.Fragment>
-            {map.placeMarksType.map((cor, index) => (
-              <Placemark
-                key={index}
-                geometry={cor.cords}
-                options={{
-                  iconLayout: ymaps?.templateLayoutFactory?.createClass(
-                    placeMarkContent(cor.url, cor.text, cor.backgroundColor),
-                  ),
-                }}
-              />
-            ))}
-          </React.Fragment>
-        )}
-        {map.type === "placemark-event" && (
-          <React.Fragment>
-            {map.placeMarksEvent.map((cor, index) => (
-              <Placemark
-                key={index}
-                geometry={cor.cords}
-                options={{
-                  iconLayout: ymaps?.templateLayoutFactory?.createClass(
-                    placeMarkEventContent(cor.text),
-                  ),
-                }}
-              />
-            ))}
-          </React.Fragment>
-        )}
-        {map.type === "route" && (
-          <React.Fragment>
-            {map.routes.map((route, index) => (
-              <React.Fragment key={index}>
-                <Polyline
-                  geometry={route.cords}
-                  options={{
-                    strokeColor: route.lineColor,
-                    strokeWidth: 2,
-                  }}
-                />
-                {route.cords.map((cord, index) => (
+        {isLoaded && (
+          <>
+            {map.type === "place-mark" && (
+              <React.Fragment>
+                {map.placeMarksType.map((cor, index) => (
                   <Placemark
                     key={index}
-                    geometry={cord}
+                    geometry={cor.cords}
                     options={{
-                      iconLayout: ymaps?.templateLayoutFactory?.createClass(
-                        routeContent(index + 1, route.lineColor),
-                      ),
+                      iconLayout:
+                        ymaps.current?.templateLayoutFactory?.createClass(
+                          placeMarkContent(
+                            cor.url,
+                            cor.text,
+                            cor.backgroundColor,
+                          ),
+                        ),
                     }}
                   />
                 ))}
               </React.Fragment>
-            ))}
-          </React.Fragment>
-        )}
-        {map.type === "route-placemark" && (
-          <React.Fragment>
-            {map.routeWithPlacemark.map((route, index) => (
-              <React.Fragment key={index}>
-                <Polyline
-                  geometry={route.cords}
-                  options={{
-                    strokeColor: route.lineColor,
-                    strokeWidth: 2,
-                  }}
-                />
-                {route.cords.map((cord, index) => (
+            )}
+            {map.type === "placemark-event" && (
+              <React.Fragment>
+                {map.placeMarksEvent.map((cor, index) => (
                   <Placemark
                     key={index}
-                    geometry={cord}
+                    geometry={cor.cords}
                     options={{
-                      iconLayout: ymaps?.templateLayoutFactory?.createClass(
-                        map.currentPlacemarkIndex === index
-                          ? routeContent(index + 1, route.lineColor, "#ffff00")
-                          : routeContent(index + 1, route.lineColor),
-                      ),
+                      iconLayout:
+                        ymaps.current?.templateLayoutFactory?.createClass(
+                          placeMarkEventContent(cor.text),
+                        ),
                     }}
                   />
                 ))}
               </React.Fragment>
-            ))}
-          </React.Fragment>
+            )}
+            {map.type === "route" && (
+              <React.Fragment>
+                {map.routes.map((route, index) => (
+                  <React.Fragment key={index}>
+                    <Polyline
+                      geometry={route.cords}
+                      options={{
+                        strokeColor: route.lineColor,
+                        strokeWidth: 2,
+                      }}
+                    />
+                    {route.cords.map((cord, index) => (
+                      <Placemark
+                        key={index}
+                        geometry={cord}
+                        options={{
+                          iconLayout:
+                            ymaps.current?.templateLayoutFactory?.createClass(
+                              routeContent(index + 1, route.lineColor),
+                            ),
+                        }}
+                      />
+                    ))}
+                  </React.Fragment>
+                ))}
+              </React.Fragment>
+            )}
+            {map.type === "route-placemark" && (
+              <React.Fragment>
+                {map.routeWithPlacemark.map((route, index) => (
+                  <React.Fragment key={index}>
+                    <Polyline
+                      geometry={route.cords}
+                      options={{
+                        strokeColor: route.lineColor,
+                        strokeWidth: 2,
+                      }}
+                    />
+                    {route.cords.map((cord, index) => (
+                      <Placemark
+                        key={index}
+                        geometry={cord}
+                        options={{
+                          iconLayout:
+                            ymaps.current?.templateLayoutFactory?.createClass(
+                              map.currentPlacemarkIndex === index
+                                ? routeContent(
+                                    index + 1,
+                                    route.lineColor,
+                                    "#ffff00",
+                                  )
+                                : routeContent(index + 1, route.lineColor),
+                            ),
+                        }}
+                      />
+                    ))}
+                  </React.Fragment>
+                ))}
+              </React.Fragment>
+            )}
+          </>
         )}
       </MapY>
     </div>

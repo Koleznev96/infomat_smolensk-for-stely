@@ -1,12 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { YMaps } from "@pbe/react-yandex-maps";
-import {
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 
 import {
   CalendarCard,
@@ -25,8 +19,7 @@ import {
   CategoryEntityId,
 } from "src/routes";
 
-import { resetMap } from "src/store/slices";
-import { useAppDispatch, useAppSelector } from "src/hooks";
+import { useAppSelector } from "src/hooks";
 
 import {
   CALENDAR_EVENT,
@@ -39,8 +32,6 @@ import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
   const language = useAppSelector((state) => state.main.language);
 
   const HeaderLayout = (
@@ -70,10 +61,6 @@ const ReactRoutes = () => {
       </div>
     </>
   );
-
-  useEffect(() => {
-    dispatch(resetMap());
-  }, [dispatch, location.pathname]);
 
   return (
     <YMaps

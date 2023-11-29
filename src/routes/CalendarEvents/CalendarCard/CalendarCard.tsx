@@ -21,6 +21,9 @@ const CalendarCard = () => {
         images={response.data.photos}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
+        buttons={{
+          showOnMapLink: true,
+        }}
       />
     </div>
   );

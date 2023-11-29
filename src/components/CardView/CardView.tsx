@@ -34,8 +34,8 @@ interface CardViewProps {
   descriptionParagraph?: string;
   images?: Images[];
   buttons?: {
-    showOnMapLink?: string;
-    showRouteLink?: string;
+    showOnMapLink?: boolean;
+    showRoute?: boolean;
     QRCodeLink?: string;
   };
   contacts?: Contacts;
@@ -74,6 +74,7 @@ const CardView = ({
           center: route?.data,
         }),
       );
+      return;
     }
 
     if (place?.data?.id && placeId) {
@@ -83,6 +84,7 @@ const CardView = ({
           center: place?.data,
         }),
       );
+      return;
     }
 
     if (event?.data?.id && eventId) {
@@ -92,6 +94,7 @@ const CardView = ({
           center: event?.data,
         }),
       );
+      return;
     }
   }, [dispatch, place, route, event, placeId, routeId, eventId]);
 
@@ -293,7 +296,7 @@ const CardView = ({
           {buttons?.showOnMapLink && (
             <Button onClick={handleClickShowOnMap}>Показать на карте</Button>
           )}
-          {buttons?.showRouteLink && (
+          {buttons?.showRoute && (
             <Button onClick={handleClickShowRoute}>Посмотреть маршрут</Button>
           )}
           {buttons?.QRCodeLink && (

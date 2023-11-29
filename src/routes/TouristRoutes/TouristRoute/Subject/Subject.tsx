@@ -21,7 +21,7 @@ const Subject = () => {
       title={response.data.title}
       descriptionTitle="Описание"
       descriptionParagraph={response.data.description}
-      buttons={{ showOnMapLink: "#", showRouteLink: "#", QRCodeLink: "#" }}
+      buttons={{ showOnMapLink: true, showRoute: true, QRCodeLink: "#" }}
     />
   );
 };

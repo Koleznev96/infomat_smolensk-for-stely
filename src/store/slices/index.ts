@@ -161,19 +161,13 @@ export const mainSlice = createSlice({
     ) => {
       state.map.currentPlacemarkIndex = action.payload;
     },
-    resetMap: (state) => {
-      state.map.routes = initialState.map.routes;
-      state.map.routeWithPlacemark = initialState.map.routeWithPlacemark;
-      state.map.placeMarksType = initialState.map.placeMarksType;
-    },
   },
 });
 
 export const {
-  resetMap,
   updateLanguage,
-  updatePlaceMarksEvent,
   updateRoutesAndCenter,
+  updatePlaceMarksEvent,
   updatePlaceMarksAndCenter,
   updateRoutesWithPlaceAndCenter,
   updateCurrentIndexRoutePlacemark,
