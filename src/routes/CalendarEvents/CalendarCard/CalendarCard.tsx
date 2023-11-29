@@ -7,7 +7,7 @@ import { useGetEventsIdQuery } from "src/api/main";
 const CalendarCard = () => {
   const params = useParams();
 
-  const { data: response } = useGetEventsIdQuery(params.id || "");
+  const { data: response } = useGetEventsIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
     return <></>;

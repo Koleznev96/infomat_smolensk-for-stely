@@ -6,8 +6,14 @@ import {
   RouteOut,
   RouteShortOut,
 } from "src/api/myApi";
+import { ReactNode } from "react";
 
 type MapType = "route" | "place-mark" | "route-placemark";
+
+type Breadcrumbs = {
+  title: string | ReactNode;
+  url: string;
+};
 
 interface Places {
   cords: number[];
@@ -149,12 +155,12 @@ export const mainSlice = createSlice({
 });
 
 export const {
+  resetMap,
   updateLanguage,
+  updateRoutesAndCenter,
   updatePlaceMarksAndCenter,
   updateRoutesWithPlaceAndCenter,
   updateCurrentIndexRoutePlacemark,
-  updateRoutesAndCenter,
-  resetMap,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

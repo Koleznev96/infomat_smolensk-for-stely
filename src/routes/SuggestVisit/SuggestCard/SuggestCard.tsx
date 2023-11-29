@@ -7,7 +7,7 @@ import { useGetPlaceIdQuery } from "src/api/main";
 const SuggestCard = () => {
   const params = useParams();
 
-  const { data: response } = useGetPlaceIdQuery(params.id || "");
+  const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
     return <></>;

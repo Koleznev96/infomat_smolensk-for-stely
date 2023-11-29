@@ -103,11 +103,11 @@ const ReactRoutes = () => {
           </Route>
           <Route path={SUGGEST_VISIT} element={ContentLayout}>
             <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />
-            <Route path=":id" element={<SuggestCard />} />
+            <Route path=":entityId" element={<SuggestCard />} />
           </Route>
           <Route path={CALENDAR_EVENT} element={ContentLayout}>
             <Route path={CALENDAR_EVENT} element={<CalendarEvents />} />
-            <Route path=":id" element={<CalendarCard />} />
+            <Route path=":entityId" element={<CalendarCard />} />
           </Route>
         </Route>
       </Routes>
