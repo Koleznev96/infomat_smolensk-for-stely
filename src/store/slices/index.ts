@@ -1,19 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
+  EventOut,
   PlaceOut,
   PlaceShortOut,
   RouteOut,
   RouteShortOut,
 } from "src/api/myApi";
-import { ReactNode } from "react";
 
-type MapType = "route" | "place-mark" | "route-placemark";
+type MapType = "route" | "place-mark" | "route-placemark" | "placemark-event";
 
-type Breadcrumbs = {
-  title: string | ReactNode;
-  url: string;
-};
+type PlaceMarkEvent = Omit<Places, "url" | "colorText" | "backgroundColor">;
 
 interface Places {
   cords: number[];
@@ -34,6 +31,7 @@ interface MainState {
     center: number[];
     type: MapType;
     placeMarksType: Places[];
+    placeMarksEvent: PlaceMarkEvent[];
     routes: Routes[];
     routeWithPlacemark: Routes[];
     currentPlacemarkIndex?: number;
@@ -46,6 +44,7 @@ const initialState: MainState = {
     center: [54.782635, 32.045287],
     type: "place-mark",
     placeMarksType: [],
+    placeMarksEvent: [],
     routeWithPlacemark: [],
     currentPlacemarkIndex: undefined,
     routes: [],
@@ -76,6 +75,22 @@ export const mainSlice = createSlice({
           row.subcategory?.backgroundColor ||
           row?.subcategory?.category?.backgroundColor ||
           "",
+      }));
+
+      state.map.center = [
+        action?.payload?.center?.address?.latitude || 0,
+        action?.payload?.center?.address?.longitude || 0,
+      ];
+    },
+    updatePlaceMarksEvent: (
+      state,
+      action: PayloadAction<{ marks: EventOut[]; center: PlaceShortOut }>,
+    ) => {
+      state.map.type = "placemark-event";
+
+      state.map.placeMarksEvent = action.payload.marks?.map((row) => ({
+        cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
+        text: row?.title || "",
       }));
 
       state.map.center = [
@@ -157,6 +172,7 @@ export const mainSlice = createSlice({
 export const {
   resetMap,
   updateLanguage,
+  updatePlaceMarksEvent,
   updateRoutesAndCenter,
   updatePlaceMarksAndCenter,
   updateRoutesWithPlaceAndCenter,

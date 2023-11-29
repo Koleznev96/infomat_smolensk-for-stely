@@ -4,7 +4,7 @@ import { Card, Title } from "src/components";
 import { useAppDispatch } from "src/hooks";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
 import { useGetEventsQuery } from "src/api/main";
-import { updatePlaceMarksAndCenter } from "src/store/slices";
+import { updatePlaceMarksEvent } from "src/store/slices";
 
 import styles from "./CalendarEvents.module.scss";
 
@@ -18,7 +18,7 @@ const CalendarEvents = () => {
     }
 
     dispatch(
-      updatePlaceMarksAndCenter({
+      updatePlaceMarksEvent({
         marks: response?.rows,
         center: response?.rows[0],
       }),

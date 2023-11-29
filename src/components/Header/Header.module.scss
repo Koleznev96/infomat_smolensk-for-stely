@@ -141,7 +141,7 @@
         width: 100%;
         padding: 10px 20px;
         text-indent: 20px;
-        border-radius: 8px 8px 0 0;
+        border-radius: 8px;
         border: none;
         outline: none;
       }
@@ -149,7 +149,7 @@
       .resultSection {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 24px;
         background-color: white;
         max-height: 476px;
         height: 100%;
@@ -163,12 +163,15 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          gap: 10px;
+          gap: 20px;
           cursor: pointer;
 
           img {
+            min-width: 176px;
             width: 176px;
+            height: 117px;
             border-radius: 8px;
+            object-fit: cover;
           }
 
           .text {

@@ -14,7 +14,7 @@ const SuggestCard = () => {
   }
   return (
     <CardView
-      placeId={params.id}
+      placeId={params.entityId}
       title={response?.data?.title}
       descriptionTitle="Описание"
       images={[response.data.cover || {}, ...(response?.data?.photos || [])]}

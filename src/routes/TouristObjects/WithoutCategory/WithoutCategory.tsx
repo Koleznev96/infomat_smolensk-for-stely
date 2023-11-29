@@ -37,6 +37,7 @@ const WithoutCategory = () => {
       <Title
         text={response.rows?.[0].subcategory?.title}
         image={response.rows?.[0].subcategory?.icon?.url}
+        bgColor={response.rows?.[0].subcategory?.backgroundColor}
       />
       <div className={styles.withoutCategoryList}>
         {response.rows.map((row) => (

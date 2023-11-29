@@ -67,6 +67,8 @@ export interface PlaceCategoryShortOut {
   titleEn?: string;
   /** The background color of place category */
   backgroundColor?: string;
+  /** The main color of place category */
+  color?: string;
   icon?: Icon;
 }
 
@@ -315,7 +317,7 @@ export interface AddressIn {
   longitude: number;
 }
 
-/** The list of frames. Each frame describes coordinates and size for cropping respective image */
+/** The frame which describes coordinates and size for cropping cover */
 export interface Frame {
   /** The name of part where image is located */
   partName: string;
@@ -414,6 +416,7 @@ export interface PlaceCreate {
   workingHoursEn?: string;
   /** The list of frames. Each frame describes coordinates and size for cropping respective image */
   frames?: Frame[];
+  coverFrame: Frame;
 }
 
 export interface ApiResponsePlaceOut {
@@ -500,9 +503,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   startTime: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   endTime?: string;
   /**
    * The phone of event
@@ -543,6 +546,7 @@ export interface EventCreate {
   address: AddressIn;
   /** The list of frames. Each frame describes coordinates and size for cropping respective image */
   frames?: Frame[];
+  coverFrame: Frame;
 }
 
 export interface ApiResponseEventOut {
@@ -577,9 +581,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   startTime?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -628,6 +632,13 @@ export interface PlaceCategoryCreate {
    * @pattern #[0-9a-fA-F]{6}
    */
   backgroundColor: string;
+  /**
+   * The main color of place category
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  color: string;
 }
 
 export interface ApiResponsePlaceCategoryOut {
@@ -653,6 +664,8 @@ export interface PlaceCategoryOut {
   descriptionEn?: string;
   /** The background color of place category */
   backgroundColor?: string;
+  /** The main color of place category */
+  color?: string;
   icon?: Icon;
   /** The subcategories of the category */
   subcategories?: PlaceSubcategoryShortOut[];
@@ -672,6 +685,8 @@ export interface PlaceSubcategoryShortOut {
   icon?: Icon;
   /** The background color (inherited from place category) */
   backgroundColor?: string;
+  /** The main color (inherited from place category) */
+  color?: string;
 }
 
 export interface PlaceSubcategoryPatch {
@@ -853,6 +868,7 @@ export interface PlacePatch {
    * @uniqueItems true
    */
   photoIdsForRemoving?: number[];
+  coverFrame?: Frame;
 }
 
 export interface GeneralIn {
@@ -935,9 +951,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   startTime?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   endTime?: string;
   /**
    * The phone of event
@@ -983,6 +999,7 @@ export interface EventPatch {
    * @uniqueItems true
    */
   photoIdsForRemoving?: number[];
+  coverFrame?: Frame;
 }
 
 export interface PlaceCategoryPatch {
@@ -1017,6 +1034,13 @@ export interface PlaceCategoryPatch {
    * @pattern #[0-9a-fA-F]{6}
    */
   backgroundColor?: string;
+  /**
+   * The main color of place category
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  color?: string;
 }
 
 export interface ApiPagePlaceSubcategoryOut {
@@ -1142,9 +1166,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   startTime?: string;
-  /** @example "21:08" */
+  /** @example "15:41" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;

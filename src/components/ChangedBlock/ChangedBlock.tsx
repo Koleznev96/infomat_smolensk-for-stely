@@ -77,7 +77,9 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
   return (
     <div className="container">
       <div ref={ref} className="resizeable">
-        <div ref={refTop} className="resizer" />
+        <div className="resizer-container">
+          <div className="resizer" ref={refTop}></div>
+        </div>
         {children}
       </div>
     </div>

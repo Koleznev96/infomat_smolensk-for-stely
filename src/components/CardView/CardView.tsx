@@ -3,9 +3,14 @@ import React, { useEffect } from "react";
 import { Cover, Image } from "src/api/myApi";
 import { useAppDispatch } from "src/hooks";
 import { Button, ImageSlider, Tag } from "src/components";
-import { useGetPlaceIdQuery, useGetRoutesIdQuery } from "src/api/main";
+import {
+  useGetEventsIdQuery,
+  useGetPlaceIdQuery,
+  useGetRoutesIdQuery,
+} from "src/api/main";
 import {
   updatePlaceMarksAndCenter,
+  updatePlaceMarksEvent,
   updateRoutesWithPlaceAndCenter,
 } from "src/store/slices";
 
@@ -18,19 +23,13 @@ interface Contacts {
   workTime?: string;
 }
 
-interface Tags {
-  name?: "geo" | "time" | "route";
-  text?: string;
-  color?: string;
-}
-
 type Images = Image & Cover;
 
 interface CardViewProps {
   routeId?: string;
   placeId?: string;
+  eventId?: string;
   title?: string;
-  tags?: Tags[];
   descriptionTitle?: string;
   descriptionParagraph?: string;
   images?: Images[];
@@ -45,8 +44,8 @@ interface CardViewProps {
 const CardView = ({
   routeId,
   placeId,
+  eventId,
   title = "",
-  tags = [],
   descriptionTitle = "",
   descriptionParagraph = "",
   images = [],
@@ -56,8 +55,13 @@ const CardView = ({
   const dispatch = useAppDispatch();
 
   const { data: place } = useGetPlaceIdQuery(placeId || "", {
-    skip: !placeId,
+    skip: !!eventId,
   });
+
+  const { data: event } = useGetEventsIdQuery(eventId || "", {
+    skip: !eventId,
+  });
+
   const { data: route } = useGetRoutesIdQuery(routeId || "", {
     skip: !routeId,
   });
@@ -80,7 +84,16 @@ const CardView = ({
         }),
       );
     }
-  }, [dispatch, place, route, placeId, routeId]);
+
+    if (event?.data?.id && eventId) {
+      dispatch(
+        updatePlaceMarksEvent({
+          marks: [event?.data],
+          center: event?.data,
+        }),
+      );
+    }
+  }, [dispatch, place, route, event, placeId, routeId, eventId]);
 
   const handleClickShowOnMap = () => {
     console.log("show");
@@ -100,13 +113,84 @@ const CardView = ({
       <div>
         <h4>{title}</h4>
         <div className={styles.tags}>
-          {tags.map((tag, index) => (
+          {place?.data?.address?.address && (
             <Tag
-              key={index}
-              text={tag.text}
-              icon={{ name: tag.name, color: tag.color }}
+              text={`Адрес: ${place?.data?.address?.address}`}
+              icon={{
+                name: "geo",
+                color: place?.data?.subcategory?.category?.color,
+              }}
+              color={{
+                bg: place?.data?.subcategory?.category?.backgroundColor,
+                text: place?.data?.subcategory?.category?.color,
+              }}
             />
-          ))}
+          )}
+          {place?.data?.workingHours && (
+            <Tag
+              text={`Режим работы: ${place?.data?.workingHours}`}
+              icon={{
+                name: "time",
+                color: place?.data?.subcategory?.category?.color,
+              }}
+              color={{
+                bg: place?.data?.subcategory?.category?.backgroundColor,
+                text: place?.data?.subcategory?.category?.color,
+              }}
+            />
+          )}
+          {routeId && (
+            <>
+              <Tag
+                text={`Маршрут: ${route?.data?.title}`}
+                icon={{
+                  name: "time",
+                  color: route?.data?.routeColor,
+                }}
+                color={{
+                  bg: route?.data?.backgroundColor,
+                  text: route?.data?.routeColor,
+                }}
+              />
+            </>
+          )}
+          {eventId && (
+            <>
+              <Tag
+                text={`Дата: ${event?.data?.startDate}`}
+                icon={{
+                  name: "geo",
+                  color: "#5624D3",
+                }}
+                color={{
+                  bg: "#EDE9F9",
+                  text: "#5624D3",
+                }}
+              />
+              <Tag
+                text={`Время: ${event?.data?.startTime}`}
+                icon={{
+                  name: "geo",
+                  color: "#5624D3",
+                }}
+                color={{
+                  bg: "#EDE9F9",
+                  text: "#5624D3",
+                }}
+              />
+              <Tag
+                text={`Адрес: ${event?.data?.address?.address}`}
+                icon={{
+                  name: "geo",
+                  color: "#5624D3",
+                }}
+                color={{
+                  bg: "#EDE9F9",
+                  text: "#5624D3",
+                }}
+              />
+            </>
+          )}
         </div>
         <div className={styles.description}>
           <h5>{descriptionTitle}</h5>
