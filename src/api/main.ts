@@ -30,7 +30,7 @@ export const mainApi = createApi({
   }),
   endpoints: (builder) => ({
     getRoutes: builder.query<ApiPageRouteShortOut, undefined>({
-      query: () => "routes",
+      query: () => "routes?status=PUBLISHED&size=50",
     }),
     getRoutesId: builder.query<ApiResponseRouteOut, string>({
       query: (id: string) => `routes/${id}`,
@@ -49,10 +49,10 @@ export const mainApi = createApi({
     }),
     getPlacesSubcategory: builder.query<ApiPagePlaceShortOut, string>({
       query: (subId: string) =>
-        `places?status=PUBLISHED&subcategoryId=${subId}`,
+        `places?status=PUBLISHED&size=50&subcategoryId=${subId}`,
     }),
     getSuggestPlaces: builder.query<ApiPagePlaceShortOut, undefined>({
-      query: () => "places?status=PUBLISHED&recommendedOnly=true",
+      query: () => "places?status=PUBLISHED&size=50&recommendedOnly=true",
     }),
     getEvents: builder.query<
       ApiPageEventShortOut,
@@ -60,8 +60,8 @@ export const mainApi = createApi({
     >({
       query: (query: { search: string }) =>
         query?.search
-          ? `events?status=PUBLISHED&search=${query.search}`
-          : "events?status=PUBLISHED",
+          ? `events?status=PUBLISHED&size=50&search=${query.search}`
+          : "events?status=PUBLISHED&size=50",
     }),
     getEventsId: builder.query<ApiResponseEventOut, string>({
       query: (id: string) => `events/${id}`,
