@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Image } from "src/api/myApi";
+import { Cover, Image } from "src/api/myApi";
 import { useAppDispatch } from "src/hooks";
 import { Button, ImageSlider, Tag } from "src/components";
 import { useGetPlaceIdQuery, useGetRoutesIdQuery } from "src/api/main";
@@ -24,6 +24,8 @@ interface Tags {
   color?: string;
 }
 
+type Images = Image & Cover;
+
 interface CardViewProps {
   routeId?: string;
   placeId?: string;
@@ -31,7 +33,7 @@ interface CardViewProps {
   tags?: Tags[];
   descriptionTitle?: string;
   descriptionParagraph?: string;
-  images?: Image[];
+  images?: Images[];
   buttons?: {
     showOnMapLink?: string;
     showRouteLink?: string;
@@ -53,30 +55,32 @@ const CardView = ({
 }: CardViewProps) => {
   const dispatch = useAppDispatch();
 
-  const { data: places } = useGetPlaceIdQuery(placeId || "", {
+  const { data: place } = useGetPlaceIdQuery(placeId || "", {
     skip: !placeId,
   });
-  const { data: routes } = useGetRoutesIdQuery(routeId || "");
+  const { data: route } = useGetRoutesIdQuery(routeId || "", {
+    skip: !routeId,
+  });
 
   useEffect(() => {
-    if (routes?.data?.id && routeId) {
+    if (route?.data?.id && routeId) {
       dispatch(
         updateRoutesWithPlaceAndCenter({
-          routes: [routes?.data],
-          center: routes?.data,
+          routes: [route?.data],
+          center: route?.data,
         }),
       );
     }
 
-    if (places?.data?.id && placeId) {
+    if (place?.data?.id && placeId) {
       dispatch(
         updatePlaceMarksAndCenter({
-          marks: [places?.data],
-          center: places?.data,
+          marks: [place?.data],
+          center: place?.data,
         }),
       );
     }
-  }, [dispatch, places, routes, placeId, routeId]);
+  }, [dispatch, place, route, placeId, routeId]);
 
   const handleClickShowOnMap = () => {
     console.log("show");

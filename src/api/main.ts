@@ -41,8 +41,8 @@ export const mainApi = createApi({
     >({
       query: (query: { search: string }) =>
         query?.search
-          ? `places?status=PUBLISHED&search=${query.search}`
-          : "places?status=PUBLISHED",
+          ? `places?status=PUBLISHED&size=50&search=${query.search}`
+          : "places?status=PUBLISHED&size=50",
     }),
     getPlaceId: builder.query<ApiResponsePlaceOut, string>({
       query: (id: string) => `places/${id}`,

@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { PlaceOut, PlaceShortOut, RouteShortOut } from "src/api/myApi";
+import {
+  PlaceOut,
+  PlaceShortOut,
+  RouteOut,
+  RouteShortOut,
+} from "src/api/myApi";
 
 type MapType = "route" | "place-mark" | "route-placemark";
 
@@ -74,7 +79,10 @@ export const mainSlice = createSlice({
     },
     updateRoutesAndCenter: (
       state,
-      action: PayloadAction<{ routes: RouteShortOut[]; center: PlaceShortOut }>,
+      action: PayloadAction<{
+        routes: RouteShortOut[];
+        center: PlaceShortOut & RouteOut;
+      }>,
     ) => {
       state.map.type = "route";
 
@@ -87,14 +95,22 @@ export const mainSlice = createSlice({
         lineColor: route.routeColor || "",
       }));
 
-      state.map.center = [
-        action?.payload?.center?.address?.latitude || 0,
-        action?.payload?.center?.address?.longitude || 0,
-      ];
+      const locationLatitude =
+        action?.payload?.center?.stops?.[0]?.place?.address?.latitude ??
+        action.payload.center.address?.latitude;
+
+      const locationLongitude =
+        action?.payload?.center?.stops?.[0]?.place?.address?.longitude ??
+        action.payload.center.address?.longitude;
+
+      state.map.center = [locationLatitude || 0, locationLongitude || 0];
     },
     updateRoutesWithPlaceAndCenter: (
       state,
-      action: PayloadAction<{ routes: RouteShortOut[]; center: PlaceShortOut }>,
+      action: PayloadAction<{
+        routes: RouteShortOut[];
+        center: RouteOut & PlaceShortOut;
+      }>,
     ) => {
       state.map.type = "route-placemark";
 
@@ -107,10 +123,16 @@ export const mainSlice = createSlice({
         lineColor: route.routeColor || "",
       }));
 
-      state.map.center = [
-        action?.payload?.center?.address?.latitude || 0,
-        action?.payload?.center?.address?.longitude || 0,
-      ];
+      const locationLatitude =
+        action?.payload?.center?.stops?.[state.map.currentPlacemarkIndex || 0]
+          ?.place?.address?.latitude ?? action.payload.center.address?.latitude;
+
+      const locationLongitude =
+        action?.payload?.center?.stops?.[state.map.currentPlacemarkIndex || 0]
+          ?.place?.address?.longitude ??
+        action.payload.center.address?.longitude;
+
+      state.map.center = [locationLatitude || 0, locationLongitude || 0];
     },
     updateCurrentIndexRoutePlacemark: (
       state,

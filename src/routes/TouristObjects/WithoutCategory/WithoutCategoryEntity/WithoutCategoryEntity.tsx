@@ -17,9 +17,9 @@ const WithoutCategoryEntity = () => {
     <CardView
       placeId={params.entityId || ""}
       title={response.data.title}
-      images={response.data.photos}
+      images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
       descriptionTitle="Описание"
-      descriptionParagraph={response.data.title}
+      descriptionParagraph={response.data.description}
     />
   );
 };

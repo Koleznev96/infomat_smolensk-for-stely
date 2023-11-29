@@ -37,13 +37,17 @@ const Map = () => {
   };
 
   return (
-    <div className={styles.mapContainer}>
+    <div id="map" className={styles.mapContainer}>
       <MapY
         style={{ width: "100%", height: "100%", position: "relative" }}
         defaultState={{
           center: map.center || [54.782635, 32.045287],
           zoom: 9,
         }}
+        options={{ minZoom: 15 }}
+        instanceRef={(mapObj) =>
+          mapObj?.panTo(map.center || [54.782635, 32.045287])
+        }
       >
         <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
         <ZoomControl options={{ position: { right: 10, top: 350 } }} />

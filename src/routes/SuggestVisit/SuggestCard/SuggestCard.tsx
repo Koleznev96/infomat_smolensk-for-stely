@@ -12,20 +12,14 @@ const SuggestCard = () => {
   if (!response?.data?.id) {
     return <></>;
   }
-
   return (
     <CardView
       placeId={params.id}
       title={response?.data?.title}
       descriptionTitle="Описание"
-      contacts={{
-        phone: response?.data?.phone,
-        website: response?.data?.website,
-        email: response?.data?.email,
-        workTime: response?.data?.workingHours,
-      }}
-      images={response?.data?.photos}
+      images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
       descriptionParagraph={response?.data?.description}
+      buttons={{ showOnMapLink: "#", QRCodeLink: "#" }}
     />
   );
 };

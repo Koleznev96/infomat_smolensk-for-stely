@@ -19,7 +19,7 @@ const CategoryEntityId = () => {
         title={response.data.title}
         descriptionTitle="Описание"
         descriptionParagraph={response.data.description}
-        images={response.data.photos}
+        images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
         buttons={{ showOnMapLink: "#", showRouteLink: "#", QRCodeLink: "#" }}
       />
     </div>

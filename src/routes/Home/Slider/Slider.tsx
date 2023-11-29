@@ -25,7 +25,7 @@ const Slider = () => {
     setCurrentSlide(current);
   };
 
-  if (!response?.data?.videos?.length) return;
+  if (!response?.data?.videos?.length) return <></>;
 
   return (
     <div className={styles.slider}>

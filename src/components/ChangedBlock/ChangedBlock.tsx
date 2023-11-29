@@ -24,23 +24,39 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     resizeableEle.style.left = "0";
 
     const onMouseMoveTopResize = (event: any) => {
-      const dy = event.clientY - y;
+      const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+
+      const dy = clientY - y;
       height = height - dy;
-      y = event.clientY;
+      y = clientY;
+
+      if (height < 450) {
+        height = 450;
+      }
+
+      if (height > 1110) {
+        height = 1110;
+      }
+
       resizeableEle.style.height = `${height}px`;
     };
 
     const onMouseUpTopResize = () => {
       document.removeEventListener("mousemove", onMouseMoveTopResize);
+      document.removeEventListener("touchmove", onMouseMoveTopResize);
     };
 
     const onMouseDownTopResize = (event: any) => {
-      y = event.clientY;
+      y = event.touches ? event.touches[0].clientY : event.clientY;
+
       const styles = window.getComputedStyle(resizeableEle);
       resizeableEle.style.bottom = styles.bottom;
       resizeableEle.style.top = "";
+
       document.addEventListener("mousemove", onMouseMoveTopResize);
+      document.addEventListener("touchmove", onMouseMoveTopResize);
       document.addEventListener("mouseup", onMouseUpTopResize);
+      document.addEventListener("touchend", onMouseUpTopResize);
     };
 
     if (!refTop.current) {
@@ -48,17 +64,20 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     }
 
     const resizerTop = refTop.current;
+
     resizerTop.addEventListener("mousedown", onMouseDownTopResize);
+    resizerTop.addEventListener("touchstart", onMouseDownTopResize);
 
     return () => {
       resizerTop.removeEventListener("mousedown", onMouseDownTopResize);
+      resizerTop.removeEventListener("touchstart", onMouseDownTopResize);
     };
   }, []);
 
   return (
     <div className="container">
       <div ref={ref} className="resizeable">
-        <div ref={refTop} className="resizer resizer-t" />
+        <div ref={refTop} className="resizer" />
         {children}
       </div>
     </div>

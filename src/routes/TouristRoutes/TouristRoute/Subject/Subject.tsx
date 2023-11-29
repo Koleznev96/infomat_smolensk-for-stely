@@ -17,7 +17,7 @@ const Subject = () => {
   return (
     <CardView
       routeId={params.id}
-      images={response.data.photos}
+      images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
       title={response.data.title}
       descriptionTitle="Описание"
       descriptionParagraph={response.data.description}
