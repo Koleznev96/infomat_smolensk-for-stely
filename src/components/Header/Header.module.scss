@@ -45,6 +45,12 @@
         display: flex;
         gap: 14px;
 
+        span {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
         .blur {
           color: var(--blur-color);
         }

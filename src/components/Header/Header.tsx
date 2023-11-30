@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import yandex from "src/icons/header/yandex.png";
+import yandexRU from "src/icons/header/yandexRU.svg";
+import yandexEN from "src/icons/header/yandexEN.svg";
 import logo from "src/icons/header/logo.png";
-import head_bg from "src/icons/header/head-bg.png";
+import headBG from "src/icons/header/head-bg.png";
 
 import { ReactComponent as RU } from "src/icons/header/ru.svg";
 import { ReactComponent as GB } from "src/icons/header/gb.svg";
+
+import { Part } from "src/api/weather";
 
 import {
   CALENDAR_EVENT,
@@ -15,13 +18,18 @@ import {
   TOURIST_OBJECTS,
   TOURIST_ROUTES,
 } from "src/conts/routes";
+
+import { SVGIcon } from "src/components";
+
 import { updateLanguage } from "src/store/slices";
+
 import {
   useGetGeneralQuery,
   useGetWeatherQuery,
   useLazyGetEventsQuery,
   useLazyGetPlacesQuery,
 } from "src/api/main";
+
 import {
   useAppDispatch,
   useAppSelector,
@@ -145,6 +153,29 @@ const Header = () => {
     setSearchObjects([]);
   };
 
+  const currentTimeOfDay = (currentTime?: Part) => {
+    switch (currentTime?.part_name) {
+      case "morning":
+        return (
+          <>
+            {languageControl("Утром", "Morning")} {currentTime?.temp_max || 0}
+          </>
+        );
+      case "day":
+        return (
+          <>
+            {languageControl("Днем", "Day")} {currentTime?.temp_max || 0}
+          </>
+        );
+      case "evening":
+        return (
+          <>
+            {languageControl("Вечером", "Evening")} {currentTime?.temp_max || 0}
+          </>
+        );
+    }
+  };
+
   return (
     <div className={styles.header}>
       <div className={styles.headerContent}>
@@ -159,19 +190,23 @@ const Header = () => {
         </div>
         <div className={styles.top}>
           <div className={styles.weather}>
-            <img src={yandex} alt="yandex" />
+            <img
+              src={language === "ru_RU" ? yandexRU : yandexEN}
+              width={127}
+              height={34}
+              alt="yandex-weather"
+            />
             <span className={styles.info}>
               <span>
-                {languageControl("Смоленск", "Smolensk")}{" "}
+                {languageControl("Смоленск", "Smolensk")}
+                {weather?.fact?.icon && <SVGIcon path={weather?.fact?.icon} />}
                 {weather?.fact?.temp || 0}
               </span>
               <span className={styles.blur}>
-                {languageControl("Днем", "Day")}{" "}
-                {weather?.forecast?.parts[0].temp_max || 0}°C
+                {currentTimeOfDay(weather?.forecast?.parts[0])}°C
               </span>
               <span className={styles.blur}>
-                {languageControl("Вечером", "Evening")}{" "}
-                {weather?.forecast?.parts[1].temp_max || 0}°C
+                {currentTimeOfDay(weather?.forecast?.parts[1])}°C
               </span>
             </span>
           </div>
@@ -201,7 +236,7 @@ const Header = () => {
           </h3>
           <p>{title}</p>
         </div>
-        <img className={styles.backgroundImage} src={head_bg} alt="head-bg" />
+        <img className={styles.backgroundImage} src={headBG} alt="head-bg" />
       </div>
       <div className={styles.headerBottom}>
         <div

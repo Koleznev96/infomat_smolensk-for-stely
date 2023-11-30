@@ -10,6 +10,7 @@ import {
   ApiResponsePlaceOut,
   ApiResponseRouteOut,
 } from "src/api/myApi";
+import { YandexWeather } from "src/api/weather";
 
 // Получаем текущий URL
 const currentUrl = window.location.href;
@@ -75,7 +76,7 @@ export const mainApi = createApi({
     getGeneral: builder.query<ApiResponseGeneralOut, undefined>({
       query: () => "general",
     }),
-    getWeather: builder.query<any, undefined>({
+    getWeather: builder.query<YandexWeather, undefined>({
       query: () => "weather",
     }),
   }),
