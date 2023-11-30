@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 
 import { Button } from "src/components";
+import { useLanguageControl } from "src/hooks";
 
 import styles from "./Modal.module.scss";
 
@@ -19,6 +20,7 @@ const Modal = ({
   setCurrentImages,
   imageLength,
 }: ModalProps) => {
+  const languageControl = useLanguageControl();
   const outsideRef = useRef<null | HTMLDivElement>(null);
 
   const nextSlide = () => {
@@ -57,7 +59,7 @@ const Modal = ({
           <div className={styles.modalContent} ref={outsideRef}>
             {children}
             <Button className={styles.close} onClick={onClose}>
-              Закрыть
+              {languageControl("Закрыть", "Close")}
             </Button>
             <div className={styles.buttons}>
               <Button

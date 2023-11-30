@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Card, Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { SUGGEST_VISIT_ID } from "src/conts/routes";
 import { useGetSuggestPlacesQuery } from "src/api/main";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
@@ -10,6 +10,8 @@ import styles from "./SuggestVisit.module.scss";
 
 const SuggestVisit = () => {
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
+
   const { data: response } = useGetSuggestPlacesQuery(undefined);
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const SuggestVisit = () => {
   return (
     <>
       <Title
-        text="Рекомендуем"
+        text={languageControl("Рекомендуем", "Recommended")}
         svg={
           <>
             <svg
@@ -59,9 +61,9 @@ const SuggestVisit = () => {
         {response?.rows?.map((row) => (
           <Card
             key={row.id}
-            title={row.title}
+            title={languageControl(row.title, row.titleEn)}
             cover={row.cover}
-            paragraph={row.description}
+            paragraph={languageControl(row.description, row.descriptionEn)}
             href={SUGGEST_VISIT_ID(row.id)}
           />
         ))}

@@ -37,7 +37,9 @@ interface SearchObjects {
   type?: Type;
   image?: string;
   title?: string;
+  titleEn?: string;
   description?: string;
+  descriptionEn?: string;
   link?: string;
 }
 
@@ -87,7 +89,7 @@ const Header = () => {
       default:
         return languageControl("Интерактивный туристский гид", "Tourist guide");
     }
-  }, [location.pathname, language]);
+  }, [location.pathname, languageControl]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -110,7 +112,9 @@ const Header = () => {
           type: "events" as const,
           image: event.cover?.url3x2Original || "",
           title: event.title,
+          titleEn: event.titleEn,
           description: event.description,
+          descriptionEn: event.descriptionEn,
           link: CALENDAR_EVENT_ID(event.id),
         })) || [];
 
@@ -119,7 +123,9 @@ const Header = () => {
           type: "places" as const,
           image: place.cover?.url3x2Original || "",
           title: place.title,
+          titleEn: place.titleEn,
           description: place.description,
+          descriptionEn: place.descriptionEn,
           link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
         })) || [];
 
@@ -164,7 +170,7 @@ const Header = () => {
                 {weather?.forecast?.parts[0].temp_max || 0}°C
               </span>
               <span className={styles.blur}>
-                {languageControl("Вечер", "Evening")}{" "}
+                {languageControl("Вечером", "Evening")}{" "}
                 {weather?.forecast?.parts[1].temp_max || 0}°C
               </span>
             </span>
@@ -226,7 +232,7 @@ const Header = () => {
           </span>
           <input
             type="text"
-            placeholder="Поиск"
+            placeholder={languageControl("Поиск", "Search")}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
@@ -240,8 +246,13 @@ const Header = () => {
                 >
                   <img src={object.image} alt={object.image} />
                   <div className={styles.text}>
-                    <h4>{object.title}</h4>
-                    <p>{object.description}</p>
+                    <h4>{languageControl(object.title, object.titleEn)}</h4>
+                    <p>
+                      {languageControl(
+                        object.description,
+                        object.descriptionEn,
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}

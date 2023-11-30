@@ -35,7 +35,7 @@ const TouristRoutes = () => {
   return (
     <div className={styles.touristRoutes}>
       <Title
-        text="Туристические маршруты"
+        text="Туристскиеческие маршруты"
         svg={
           <>
             <svg

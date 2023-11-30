@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Card, Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
 import { useGetEventsQuery } from "src/api/main";
 import { updatePlaceMarksEvent } from "src/store/slices";
@@ -10,6 +10,7 @@ import styles from "./CalendarEvents.module.scss";
 
 const CalendarEvents = () => {
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
   const { data: response } = useGetEventsQuery(undefined);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const CalendarEvents = () => {
   return (
     <div className={styles.calendarEvents}>
       <Title
-        text="Календарь мероприятий"
+        text={languageControl("Календарь событий", "Calendar events")}
         svg={
           <>
             <svg
@@ -58,9 +59,12 @@ const CalendarEvents = () => {
           key={row.id}
           cover={row.cover}
           type="full"
-          title={row.title}
-          paragraph={row.description}
-          tags={[row.startDate || "", `${row.startTime}-${row.endTime}`]}
+          tags={{
+            date: row.startDate || "",
+            time: `${row.startTime || ""}-${row.endTime || ""}`,
+          }}
+          title={languageControl(row.title, row.titleEn)}
+          paragraph={languageControl(row.description, row.descriptionEn)}
           href={CALENDAR_EVENT_ID(row.id)}
         />
       ))}

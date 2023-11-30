@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Tag, Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { useGetRoutesIdQuery } from "src/api/main";
 import {
   updateCurrentIndexRoutePlacemark,
@@ -15,6 +15,7 @@ import styles from "./TouristRoute.module.scss";
 const TouristRoute = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetRoutesIdQuery(params.id || "");
 
@@ -42,13 +43,16 @@ const TouristRoute = () => {
   return (
     <div className={styles.touristRoute}>
       <Title
-        text={response.data.title}
+        text={languageControl(response.data.title, response.data.titleEn)}
         image={response.data.icon?.url}
         bgColor={response.data.backgroundColor}
       >
         <Tag
           icon={{ name: "geo", color: response.data.routeColor }}
-          text={`Протяженность: ${response.data.length}`}
+          text={`${languageControl(
+            "Протяжённость",
+            "Length",
+          )}: ${languageControl(response.data.length, response.data.lengthEn)}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
@@ -56,7 +60,10 @@ const TouristRoute = () => {
         />
         <Tag
           icon={{ name: "time", color: response.data.routeColor }}
-          text={`Время: ${response.data.duration}`}
+          text={`${languageControl("Время", "Duration")}: ${languageControl(
+            response.data.duration,
+            response.data.durationEn,
+          )}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
@@ -64,7 +71,10 @@ const TouristRoute = () => {
         />
         <Tag
           icon={{ name: "route", color: response.data.routeColor }}
-          text={`Тип маршрута: ${response.data.type}`}
+          text={`${languageControl(
+            "Тип маршрута",
+            "Route type",
+          )}: ${languageControl(response.data.type, response.data.typeEn)}`}
           color={{
             bg: response.data.backgroundColor,
             text: response.data.routeColor,
@@ -72,11 +82,18 @@ const TouristRoute = () => {
         />
       </Title>
       <div className={styles.description}>
-        <h5>Описание</h5>
-        <p>{response.data.description}</p>
+        <h5>{languageControl("Описание", "Description")}</h5>
+        <p>
+          {languageControl(
+            response.data.description,
+            response.data.descriptionEn,
+          )}
+        </p>
       </div>
       <div className={styles.touristObjects}>
-        <h5>Объекты на маршруте</h5>
+        <h5>
+          {languageControl("Объекты на маршруте", "Tourist objects on route")}
+        </h5>
         {response.data.stops?.map((stop, index) => (
           <Link
             onClick={() => setIndexStop(index)}
@@ -85,12 +102,19 @@ const TouristRoute = () => {
           >
             <div className={styles.object}>
               <div className={styles.image}>
-                <img src={stop.place?.cover?.url} alt="" />
+                <img src={stop.place?.cover?.url3x2Original} alt="" />
                 <div className={styles.number}>{index + 1}</div>
               </div>
               <div className={styles.info}>
-                <h6>{stop.place?.title}</h6>
-                <p>{stop.place?.address?.address}</p>
+                <h6>
+                  {languageControl(stop?.place?.title, stop?.place?.titleEn)}
+                </h6>
+                <p>
+                  {languageControl(
+                    stop?.place?.address?.address,
+                    stop?.place?.address?.addressEn,
+                  )}
+                </p>
               </div>
             </div>
           </Link>

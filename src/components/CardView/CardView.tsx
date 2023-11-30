@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Image } from "src/api/myApi";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { Button, ImageSlider, Tag } from "src/components";
 import {
   useGetEventsIdQuery,
@@ -44,13 +44,13 @@ const CardView = ({
   placeId,
   eventId,
   title = "",
-  descriptionTitle = "Описание",
   descriptionParagraph = "",
   images = [],
   buttons = {},
   contacts,
 }: CardViewProps) => {
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const { data: place } = useGetPlaceIdQuery(placeId || "", {
     skip: !!eventId,
@@ -116,7 +116,10 @@ const CardView = ({
         <div className={styles.tags}>
           {place?.data?.address?.address && (
             <Tag
-              text={`Адрес: ${place?.data?.address?.address}`}
+              text={`${languageControl("Адрес", "Address")}:${languageControl(
+                place?.data?.address?.address,
+                place?.data?.address?.addressEn,
+              )}`}
               icon={{
                 name: "geo",
                 color: place?.data?.subcategory?.category?.color,
@@ -129,7 +132,13 @@ const CardView = ({
           )}
           {place?.data?.workingHours && (
             <Tag
-              text={`Режим работы: ${place?.data?.workingHours}`}
+              text={`${languageControl(
+                "Режим работы",
+                "Working hours",
+              )}: ${languageControl(
+                place?.data?.workingHours,
+                place?.data?.workingHoursEn,
+              )}`}
               icon={{
                 name: "time",
                 color: place?.data?.subcategory?.category?.color,
@@ -143,7 +152,13 @@ const CardView = ({
           {routeId && (
             <>
               <Tag
-                text={`Маршрут: ${route?.data?.title}`}
+                text={`${languageControl(
+                  "Маршрут",
+                  "Route",
+                )}: ${languageControl(
+                  route?.data?.title,
+                  route?.data?.titleEn,
+                )}`}
                 icon={{
                   name: "time",
                   color: route?.data?.routeColor,
@@ -158,7 +173,8 @@ const CardView = ({
           {eventId && (
             <>
               <Tag
-                text={`Дата: ${event?.data?.startDate}`}
+                text={`${languageControl("Дата", "Date")}: ${event?.data
+                  ?.startDate}`}
                 icon={{
                   name: "geo",
                   color: "#5624D3",
@@ -169,7 +185,8 @@ const CardView = ({
                 }}
               />
               <Tag
-                text={`Время: ${event?.data?.startTime}`}
+                text={`${languageControl("Время", "Time")}: ${event?.data
+                  ?.startTime}`}
                 icon={{
                   name: "geo",
                   color: "#5624D3",
@@ -180,7 +197,8 @@ const CardView = ({
                 }}
               />
               <Tag
-                text={`Адрес: ${event?.data?.address?.address}`}
+                text={`${languageControl("Адрес", "Address")}: ${event?.data
+                  ?.address?.address}`}
                 icon={{
                   name: "geo",
                   color: "#5624D3",
@@ -194,15 +212,15 @@ const CardView = ({
           )}
         </div>
         <div className={styles.description}>
-          <h5>{descriptionTitle}</h5>
+          <h5>{languageControl("Описание", "Description")}</h5>
           <p>{descriptionParagraph}</p>
         </div>
         {contacts ? (
           <div className={styles.contacts}>
-            <h3>Контакты</h3>
+            <h3>{languageControl("Контакты", "Contacts")}</h3>
             <div className={styles.contactsList}>
               <div>
-                <h6>Телефон</h6>
+                <h6>{languageControl("Телефон", "Phone")}</h6>
                 <span>
                   <svg
                     width="20"
@@ -223,7 +241,7 @@ const CardView = ({
                 </span>
               </div>
               <div>
-                <h6>Сайт</h6>
+                <h6>{languageControl("Сайт", "Website")}</h6>
                 <span>
                   <svg
                     width="20"
@@ -244,7 +262,7 @@ const CardView = ({
                 </span>
               </div>
               <div>
-                <h6>Почта</h6>
+                <h6>{languageControl("Почта", "Email")}</h6>
                 <span>
                   <svg
                     width="20"
@@ -265,7 +283,7 @@ const CardView = ({
                 </span>
               </div>
               <div>
-                <h6>Режим работы</h6>
+                <h6>{languageControl("Режим работы", "Work hours")}</h6>
                 <span>
                   <svg
                     width="20"
@@ -292,10 +310,14 @@ const CardView = ({
         )}
         <div className={styles.buttons}>
           {buttons?.showOnMapLink && (
-            <Button onClick={handleClickShowOnMap}>Показать на карте</Button>
+            <Button onClick={handleClickShowOnMap}>
+              {languageControl("Показать на карте", "Show on map")}
+            </Button>
           )}
           {buttons?.showRoute && (
-            <Button onClick={handleClickShowRoute}>Посмотреть маршрут</Button>
+            <Button onClick={handleClickShowRoute}>
+              {languageControl("Посмотреть маршрут", "Show route")}
+            </Button>
           )}
           {buttons?.QRCodeLink && (
             <Button onClick={handleClickShowQRCode}>
@@ -316,7 +338,10 @@ const CardView = ({
                   />
                 </svg>
               </>
-              «Мой Смоленск» об объекте
+              {languageControl(
+                "«Мой Смоленск» об объекте",
+                "«My Smolensk» about object",
+              )}
             </Button>
           )}
         </div>

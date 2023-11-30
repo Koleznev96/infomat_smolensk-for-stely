@@ -10,11 +10,22 @@ interface CardProps {
   title?: string;
   paragraph?: string;
   href?: string;
+  tags?: {
+    date?: string;
+    time?: string;
+  };
   type?: "full" | "flex";
   cover?: Image;
 }
 
-const Card = ({ title, paragraph, href, type = "flex", cover }: CardProps) => {
+const Card = ({
+  title,
+  paragraph,
+  href,
+  type = "flex",
+  cover,
+  tags,
+}: CardProps) => {
   return (
     <>
       {type === "flex" ? (
@@ -37,8 +48,32 @@ const Card = ({ title, paragraph, href, type = "flex", cover }: CardProps) => {
           </div>
           <div className={styles.info}>
             <div className={styles.date}>
-              <Tag text="10.10.2023" padding="2px 8px 2px 4px" size="large" />
-              <Tag text="09:30-11:30" padding="2px 8px 2px 4px" size="large" />
+              <Tag
+                icon={{
+                  name: "cal",
+                  color: "#C63927",
+                }}
+                text={tags?.date}
+                color={{
+                  text: "#C63927",
+                  bg: "#FFEDEC",
+                }}
+                padding="7px"
+                size="large"
+              />
+              <Tag
+                icon={{
+                  name: "time",
+                  color: "#C63927",
+                }}
+                text={tags?.time}
+                color={{
+                  text: "#C63927",
+                  bg: "#FFEDEC",
+                }}
+                padding="7px"
+                size="large"
+              />
             </div>
             <h4>{title}</h4>
             <p>{paragraph}</p>

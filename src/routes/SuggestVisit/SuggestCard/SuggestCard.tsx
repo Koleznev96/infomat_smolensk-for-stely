@@ -2,10 +2,12 @@ import React from "react";
 
 import { CardView } from "src/components";
 import { useParams } from "react-router-dom";
+import { useLanguageControl } from "src/hooks";
 import { useGetPlaceIdQuery } from "src/api/main";
 
 const SuggestCard = () => {
   const params = useParams();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
@@ -15,11 +17,13 @@ const SuggestCard = () => {
   return (
     <CardView
       placeId={params.entityId}
-      title={response?.data?.title}
-      descriptionTitle="Описание"
+      title={languageControl(response?.data?.title, response?.data?.titleEn)}
       images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
-      descriptionParagraph={response?.data?.description}
-      buttons={{ showOnMapLink: "#", QRCodeLink: "#" }}
+      descriptionParagraph={languageControl(
+        response?.data?.title,
+        response?.data?.titleEn,
+      )}
+      buttons={{ showOnMapLink: true, QRCodeLink: "#" }}
     />
   );
 };

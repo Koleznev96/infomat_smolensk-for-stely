@@ -19,7 +19,7 @@ import {
   CategoryEntityId,
 } from "src/routes";
 
-import { useAppSelector } from "src/hooks";
+import { useAppSelector, useLanguageControl } from "src/hooks";
 
 import {
   CALENDAR_EVENT,
@@ -32,6 +32,7 @@ import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
+  const languageControl = useLanguageControl();
   const language = useAppSelector((state) => state.main.language);
 
   const HeaderLayout = (
@@ -56,8 +57,12 @@ const ReactRoutes = () => {
           marginTop: "375px",
         }}
       >
-        <Button onClick={() => navigate("/")}>Вернуться на главную</Button>
-        <Button onClick={() => navigate(-1)}>Назад</Button>
+        <Button onClick={() => navigate("/")}>
+          {languageControl("Вернуться на главную", "Home")}
+        </Button>
+        <Button onClick={() => navigate(-1)}>
+          {languageControl("Назад", "Back")}
+        </Button>
       </div>
     </>
   );

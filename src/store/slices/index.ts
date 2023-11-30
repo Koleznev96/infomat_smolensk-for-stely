@@ -68,7 +68,10 @@ export const mainSlice = createSlice({
 
       state.map.placeMarksType = action.payload.marks?.map((row) => ({
         cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
-        text: row?.title || "",
+        text:
+          state.language === "ru_RU"
+            ? row?.title || ""
+            : row?.titleEn || row?.title || "",
         url: row?.subcategory?.icon?.url || "",
         colorText: "",
         backgroundColor:
@@ -90,7 +93,10 @@ export const mainSlice = createSlice({
 
       state.map.placeMarksEvent = action.payload.marks?.map((row) => ({
         cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
-        text: row?.title || "",
+        text:
+          state.language === "ru_RU"
+            ? row?.title || ""
+            : row?.titleEn || row?.title || "",
       }));
 
       state.map.center = [
