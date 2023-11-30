@@ -62,6 +62,7 @@ const CalendarEvents = () => {
           tags={{
             date: row.startDate || "",
             time: `${row.startTime || ""}-${row.endTime || ""}`,
+            size: "large",
           }}
           title={languageControl(row.title, row.titleEn)}
           paragraph={languageControl(row.description, row.descriptionEn)}

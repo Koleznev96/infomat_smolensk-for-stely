@@ -3,13 +3,15 @@
   align-items: center;
   margin-bottom: 20px;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
 
   .breadcrumb {
     display: flex;
     align-items: center;
 
     a {
+      display: flex;
+      align-items: center;
       color: var(--breadcrumb-color);
     }
 
@@ -19,7 +21,7 @@
       font-size: 14px;
       line-height: 20px;
       color: var(--breadcrumb-arraw-color);
-      margin: 0 10px;
+      margin-left: 12px;
     }
   }
 }

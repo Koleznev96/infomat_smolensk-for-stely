@@ -176,8 +176,9 @@ const CardView = ({
                 text={`${languageControl("Дата", "Date")}: ${event?.data
                   ?.startDate}`}
                 icon={{
-                  name: "geo",
+                  name: "cal",
                   color: "#5624D3",
+                  size: "small",
                 }}
                 color={{
                   bg: "#EDE9F9",
@@ -188,8 +189,9 @@ const CardView = ({
                 text={`${languageControl("Время", "Time")}: ${event?.data
                   ?.startTime}`}
                 icon={{
-                  name: "geo",
+                  name: "time",
                   color: "#5624D3",
+                  size: "small",
                 }}
                 color={{
                   bg: "#EDE9F9",

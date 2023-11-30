@@ -13,6 +13,7 @@ interface CardProps {
   tags?: {
     date?: string;
     time?: string;
+    size?: "small" | "large";
   };
   type?: "full" | "flex";
   cover?: Image;
@@ -52,6 +53,7 @@ const Card = ({
                 icon={{
                   name: "cal",
                   color: "#C63927",
+                  size: tags?.size,
                 }}
                 text={tags?.date}
                 color={{
@@ -65,6 +67,7 @@ const Card = ({
                 icon={{
                   name: "time",
                   color: "#C63927",
+                  size: tags?.size,
                 }}
                 text={tags?.time}
                 color={{
