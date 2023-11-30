@@ -211,14 +211,18 @@ export interface ApiResponseRouteOut {
 }
 
 /** The cover of place */
-export interface Cover {
+export interface Image {
   /**
    * The id of image
    * @format int64
    */
   id?: number;
-  /** The URL for getting cover */
-  url?: string;
+  /** The URL for getting original image */
+  urlOriginal?: string;
+  /** The URL for getting original 3x2 cropped image */
+  url3x2Original?: string;
+  /** The URL for getting 3x2 cropped and resized image */
+  url3x2?: string;
 }
 
 /** The requested data */
@@ -291,7 +295,7 @@ export interface StopPlace {
   title?: string;
   /** The title of place in English */
   titleEn?: string;
-  cover?: Cover;
+  cover?: Image;
   address?: AddressOut;
 }
 
@@ -425,21 +429,6 @@ export interface ApiResponsePlaceOut {
   errors?: ErrorRecord[];
 }
 
-/** The photos of place */
-export interface Image {
-  /**
-   * The id of image
-   * @format int64
-   */
-  id?: number;
-  /** The URL for getting original image */
-  urlOriginal?: string;
-  /** The URL for getting original 3x2 cropped image */
-  url3x2Original?: string;
-  /** The URL for getting 3x2 cropped and resized image */
-  url3x2?: string;
-}
-
 /** The requested data */
 export interface PlaceOut {
   /**
@@ -455,7 +444,7 @@ export interface PlaceOut {
   status?: "DRAFT" | "PUBLISHED";
   /** The recommended flag of place */
   recommended?: boolean;
-  cover?: Cover;
+  cover?: Image;
   /** The photos of place */
   photos?: Image[];
   subcategory?: PlaceSubcategoryOut;
@@ -503,9 +492,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   startTime: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   endTime?: string;
   /**
    * The phone of event
@@ -568,7 +557,7 @@ export interface EventOut {
   titleEn?: string;
   /** The status of event */
   status?: "DRAFT" | "PUBLISHED";
-  cover?: Cover;
+  cover?: Image;
   /** The photos of event */
   photos?: Image[];
   /**
@@ -581,9 +570,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   startTime?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -951,9 +940,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   startTime?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   endTime?: string;
   /**
    * The phone of event
@@ -1123,7 +1112,7 @@ export interface PlaceShortOut {
   titleEn?: string;
   /** The status of place */
   status?: "DRAFT" | "PUBLISHED";
-  cover?: Cover;
+  cover?: Image;
   /** The description of place in Russian */
   description?: string;
   /** The description of place in English */
@@ -1155,7 +1144,7 @@ export interface EventShortOut {
   titleEn?: string;
   /** The status of event */
   status?: "DRAFT" | "PUBLISHED";
-  cover?: Cover;
+  cover?: Image;
   /**
    * The start date of event
    * @format date
@@ -1166,9 +1155,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   startTime?: string;
-  /** @example "15:41" */
+  /** @example "02:26" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Title } from "src/components";
+import { useLanguageControl } from "src/hooks";
 import { useGetCategoryIdQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY_ID } from "src/conts/routes";
 
@@ -9,6 +10,7 @@ import styles from "./Category.module.scss";
 
 const Category = () => {
   const params = useParams();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetCategoryIdQuery(params.categoryId || "");
 
@@ -19,7 +21,7 @@ const Category = () => {
   return (
     <>
       <Title
-        text={response?.data?.title}
+        text={languageControl(response?.data?.title, response?.data?.titleEn)}
         image={response?.data?.icon?.url}
         bgColor={response?.data.backgroundColor}
       />
@@ -31,7 +33,7 @@ const Category = () => {
             to={TOURIST_OBJECTS_CATEGORY_ID(params.categoryId, subCat.id)}
           >
             <img src={subCat?.icon?.url} alt="" />
-            <span>{subCat.title}</span>
+            <span>{languageControl(subCat.title, subCat.titleEn)}</span>
           </Link>
         ))}
       </div>

@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
 
-import { Cover, Image } from "src/api/myApi";
+import { Image } from "src/api/myApi";
 import { Modal } from "src/components";
 
 import styles from "./ImageSlider.module.scss";
 
-type Images = Image & Cover;
-
 interface ImageSliderProps {
-  images?: Images[];
+  images?: Image[];
 }
 
 const ImageSlider = ({ images }: ImageSliderProps) => {
@@ -78,19 +76,14 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
         setCurrentImages={setCurrentImages}
         imageLength={images?.length || 0}
       >
-        <img
-          src={
-            images?.[currentImages]?.urlOriginal ?? images?.[currentImages]?.url
-          }
-          alt=""
-        />
+        <img src={images?.[currentImages]?.urlOriginal} alt="" />
       </Modal>
       <div className={styles.slider} ref={contentRef} onScroll={scrollCheck}>
         {images?.map((image, index) => (
           <img
             key={image.id}
             onClick={() => handleOpenModal(index)}
-            src={image.url3x2 ?? image.url}
+            src={image.url3x2Original}
             alt="object"
           />
         ))}

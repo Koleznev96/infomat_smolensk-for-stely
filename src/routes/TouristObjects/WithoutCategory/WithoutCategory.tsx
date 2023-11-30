@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { Card, Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { TOURIST_OBJECTS_ID_ENTITY } from "src/conts/routes";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { useGetPlacesSubcategoryQuery } from "src/api/main";
@@ -12,6 +12,7 @@ import styles from "./WithoutCategory.module.scss";
 const WithoutCategory = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetPlacesSubcategoryQuery(params.id || "");
 
@@ -35,7 +36,10 @@ const WithoutCategory = () => {
   return (
     <div>
       <Title
-        text={response.rows?.[0].subcategory?.title}
+        text={languageControl(
+          response.rows?.[0].subcategory?.title,
+          response.rows?.[0].subcategory?.titleEn,
+        )}
         image={response.rows?.[0].subcategory?.icon?.url}
         bgColor={response.rows?.[0].subcategory?.backgroundColor}
       />
@@ -43,8 +47,8 @@ const WithoutCategory = () => {
         {response.rows.map((row) => (
           <Card
             key={row.id}
-            title={row.title}
-            paragraph={row.description}
+            title={languageControl(row.title, row.titleEn)}
+            paragraph={languageControl(row.description, row.descriptionEn)}
             href={TOURIST_OBJECTS_ID_ENTITY(params.id, row.id)}
             cover={row.cover}
           />

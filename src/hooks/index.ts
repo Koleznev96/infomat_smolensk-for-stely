@@ -22,3 +22,10 @@ export const useDebounce = (value: string, delay: number) => {
 
   return debouncedValue;
 };
+
+export const useLanguageControl = () => {
+  const { language } = useAppSelector((state) => state.main);
+
+  return (titleRu?: string, titleEN?: string) =>
+    language === "ru_RU" ? titleRu || "" : titleEN || titleRu || "";
+};

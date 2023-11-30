@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { useGetCategoriesQuery, useGetPlacesQuery } from "src/api/main";
 import { TOURIST_OBJECTS_CATEGORY, TOURIST_OBJECTS_ID } from "src/conts/routes";
@@ -11,6 +11,7 @@ import styles from "./TouristObjects.module.scss";
 
 const TouristObjects = () => {
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetCategoriesQuery(undefined);
   const { data: places } = useGetPlacesQuery(undefined);
@@ -35,7 +36,10 @@ const TouristObjects = () => {
   return (
     <div className={styles.touristsContent}>
       <Title
-        text="Туристские объекты на карте города"
+        text={languageControl(
+          "Туристские объекты на карте города",
+          "Tourist objects on the map of the city",
+        )}
         svg={
           <>
             <svg
@@ -72,9 +76,9 @@ const TouristObjects = () => {
                       <img src={row.icon?.url} alt="icon" />
                     </div>
                     <div className={styles.info}>
-                      <h5>{row.title}</h5>
+                      <h5>{languageControl(row.title, row.titleEn)}</h5>
                       <p>
-                        {row.subcategories?.map((sub) => sub.title).join(", ")}
+                        {languageControl(row.description, row.descriptionEn)}
                       </p>
                     </div>
                   </div>
@@ -89,11 +93,7 @@ const TouristObjects = () => {
                       <img src={row.icon?.url} alt="icon" />
                     </div>
                     <div className={styles.info}>
-                      <h5>{row.title}</h5>
-                      <p>
-                        {row.subcategories?.length !== 1 &&
-                          row.subcategories?.map((sub) => sub.title).join(", ")}
-                      </p>
+                      <h5>{languageControl(row.title, row.titleEn)}</h5>
                     </div>
                   </div>
                 </Link>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Cover, Image } from "src/api/myApi";
+import { Image } from "src/api/myApi";
 import { useAppDispatch } from "src/hooks";
 import { Button, ImageSlider, Tag } from "src/components";
 import {
@@ -23,8 +23,6 @@ interface Contacts {
   workTime?: string;
 }
 
-type Images = Image & Cover;
-
 interface CardViewProps {
   routeId?: string;
   placeId?: string;
@@ -32,7 +30,7 @@ interface CardViewProps {
   title?: string;
   descriptionTitle?: string;
   descriptionParagraph?: string;
-  images?: Images[];
+  images?: Image[];
   buttons?: {
     showOnMapLink?: boolean;
     showRoute?: boolean;
@@ -46,7 +44,7 @@ const CardView = ({
   placeId,
   eventId,
   title = "",
-  descriptionTitle = "",
+  descriptionTitle = "Описание",
   descriptionParagraph = "",
   images = [],
   buttons = {},

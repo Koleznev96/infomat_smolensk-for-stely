@@ -22,7 +22,12 @@ import {
   useLazyGetEventsQuery,
   useLazyGetPlacesQuery,
 } from "src/api/main";
-import { useAppDispatch, useAppSelector, useDebounce } from "src/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useDebounce,
+  useLanguageControl,
+} from "src/hooks";
 
 import styles from "./Header.module.scss";
 
@@ -40,6 +45,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const [date, setDate] = useState(new Date());
   const [inputValue, setInputValue] = useState("");
@@ -68,17 +74,20 @@ const Header = () => {
 
     switch (true) {
       case path.includes(TOURIST_OBJECTS):
-        return "Туристские объекты на карте города";
+        return languageControl(
+          "Туристские объекты на карте города",
+          "Tourist objects on the map of the city",
+        );
       case path.includes(SUGGEST_VISIT):
-        return "Рекомендуем";
+        return languageControl("Рекомендуем", "Recommended");
       case path.includes(CALENDAR_EVENT):
-        return "Календарь мероприятий";
+        return languageControl("Календарь мероприятий", "Calendar of events");
       case path.includes(TOURIST_ROUTES):
-        return "Туристские маршруты";
+        return languageControl("Туристские маршруты", "Tourist routes");
       default:
-        return "Интерактивный туристский гид";
+        return languageControl("Интерактивный туристский гид", "Tourist guide");
     }
-  }, [location.pathname]);
+  }, [location.pathname, language]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -99,7 +108,7 @@ const Header = () => {
       const dataEvents =
         eventsData?.rows?.map((event) => ({
           type: "events" as const,
-          image: event.cover?.url || "",
+          image: event.cover?.url3x2Original || "",
           title: event.title,
           description: event.description,
           link: CALENDAR_EVENT_ID(event.id),
@@ -108,7 +117,7 @@ const Header = () => {
       const dataPlaces =
         placesData?.rows?.map((place) => ({
           type: "places" as const,
-          image: place.cover?.url || "",
+          image: place.cover?.url3x2Original || "",
           title: place.title,
           description: place.description,
           link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
@@ -146,12 +155,17 @@ const Header = () => {
           <div className={styles.weather}>
             <img src={yandex} alt="yandex" />
             <span className={styles.info}>
-              <span>Cмоленск {weather?.fact?.temp || 0}</span>
-              <span className={styles.blur}>
-                Днем {weather?.forecast?.parts[0].temp_max || 0}°C
+              <span>
+                {languageControl("Смоленск", "Smolensk")}{" "}
+                {weather?.fact?.temp || 0}
               </span>
               <span className={styles.blur}>
-                Вечером {weather?.forecast?.parts[1].temp_max || 0}°C
+                {languageControl("Днем", "Day")}{" "}
+                {weather?.forecast?.parts[0].temp_max || 0}°C
+              </span>
+              <span className={styles.blur}>
+                {languageControl("Вечер", "Evening")}{" "}
+                {weather?.forecast?.parts[1].temp_max || 0}°C
               </span>
             </span>
           </div>
@@ -176,7 +190,9 @@ const Header = () => {
       <div className={styles.headerMiddle}>
         <img src={logo} alt="logo" />
         <div className={styles.info}>
-          <h3>{response?.data?.title}</h3>
+          <h3>
+            {languageControl(response?.data?.title, response?.data?.titleEn)}
+          </h3>
           <p>{title}</p>
         </div>
         <img className={styles.backgroundImage} src={head_bg} alt="head-bg" />

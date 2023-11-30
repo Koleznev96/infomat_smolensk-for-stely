@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 
 import { CardView } from "src/components";
 import { useGetPlaceIdQuery } from "src/api/main";
+import { useLanguageControl } from "src/hooks";
 
 const WithoutCategoryEntity = () => {
   const params = useParams();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
@@ -16,10 +18,12 @@ const WithoutCategoryEntity = () => {
   return (
     <CardView
       placeId={params.entityId || ""}
-      title={response.data.title}
+      title={languageControl(response?.data?.title, response?.data?.titleEn)}
       images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
-      descriptionTitle="Описание"
-      descriptionParagraph={response.data.description}
+      descriptionParagraph={languageControl(
+        response?.data?.description,
+        response?.data?.descriptionEn,
+      )}
     />
   );
 };
