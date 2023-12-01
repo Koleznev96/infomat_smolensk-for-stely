@@ -200,7 +200,7 @@ const Header = () => {
               <span>
                 {languageControl("Смоленск", "Smolensk")}
                 {weather?.fact?.icon && <SVGIcon path={weather?.fact?.icon} />}
-                {weather?.fact?.temp || 0}
+                {weather?.fact?.temp || 0}°C
               </span>
               <span className={styles.blur}>
                 {currentTimeOfDay(weather?.forecast?.parts[0])}°C
