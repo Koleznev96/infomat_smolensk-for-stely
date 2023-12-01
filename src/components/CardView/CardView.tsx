@@ -11,6 +11,7 @@ import {
   useGetRoutesIdQuery,
 } from "src/api/main";
 import {
+  panTo,
   updatePlaceMarksAndCenter,
   updatePlaceMarksEvent,
   updateRoutesWithPlaceAndCenter,
@@ -101,7 +102,17 @@ const CardView = ({
   }, [dispatch, place, route, event, placeId, routeId, eventId]);
 
   const handleClickShowOnMap = () => {
-    console.log("show");
+    if (route?.data?.id && routeId) {
+      dispatch(panTo(route?.data));
+    }
+
+    if (place?.data?.id && placeId) {
+      dispatch(panTo(place?.data));
+    }
+
+    if (event?.data?.id && eventId) {
+      dispatch(panTo(event?.data));
+    }
   };
 
   const handleClickShowRoute = () => {

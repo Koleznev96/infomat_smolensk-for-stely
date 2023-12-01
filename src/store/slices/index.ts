@@ -167,10 +167,22 @@ export const mainSlice = createSlice({
     ) => {
       state.map.currentPlacemarkIndex = action.payload;
     },
+    panTo: (state, action: PayloadAction<RouteOut & PlaceShortOut>) => {
+      const locationLatitude =
+        action?.payload?.stops?.[state.map.currentPlacemarkIndex || 0]?.place
+          ?.address?.latitude ?? action.payload?.address?.latitude;
+
+      const locationLongitude =
+        action?.payload?.stops?.[state.map.currentPlacemarkIndex || 0]?.place
+          ?.address?.longitude ?? action.payload?.address?.longitude;
+
+      state.map.center = [locationLatitude || 0, locationLongitude || 0];
+    },
   },
 });
 
 export const {
+  panTo,
   updateLanguage,
   updateRoutesAndCenter,
   updatePlaceMarksEvent,
