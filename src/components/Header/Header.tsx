@@ -164,7 +164,7 @@ const Header = () => {
       case "day":
         return (
           <>
-            {languageControl("Днем", "Day")} {currentTime?.temp_max || 0}
+            {languageControl("Днем", "Afternoon")} {currentTime?.temp_max || 0}
           </>
         );
       case "evening":
