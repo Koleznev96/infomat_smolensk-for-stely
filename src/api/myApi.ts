@@ -43,7 +43,7 @@ export interface ErrorRecord {
   field?: string;
 }
 
-/** The info about icon */
+/** The icon of place subcategory */
 export interface Icon {
   /**
    * The id of image
@@ -84,6 +84,85 @@ export interface PlaceSubcategoryOut {
   /** The title of place subcategory in English */
   titleEn?: string;
   category?: PlaceCategoryShortOut;
+  icon?: Icon;
+}
+
+/** The address of special place */
+export interface AddressIn {
+  /** The text address in Russian */
+  address: string;
+  /** The text address in English */
+  addressEn?: string;
+  /**
+   * The latitude of address
+   * @format double
+   * @min -90
+   * @max 90
+   */
+  latitude: number;
+  /**
+   * The longitude of address
+   * @format double
+   * @min -180
+   * @max 180
+   */
+  longitude: number;
+}
+
+export interface SpecialPlaceCreate {
+  /** The type of place */
+  type: string;
+  /**
+   * The background color of special place
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor: string;
+  address: AddressIn;
+}
+
+/** The address of special place */
+export interface AddressOut {
+  /**
+   * The id of address
+   * @format int64
+   */
+  id?: number;
+  /** The text address in Russian */
+  address?: string;
+  /** The text address in English */
+  addressEn?: string;
+  /**
+   * The latitude of address
+   * @format double
+   */
+  latitude?: number;
+  /**
+   * The longitude of address
+   * @format double
+   */
+  longitude?: number;
+}
+
+export interface ApiResponseSpecialPlaceOut {
+  data?: SpecialPlaceOut;
+  /** The list of an errors */
+  errors?: ErrorRecord[];
+}
+
+/** The requested data */
+export interface SpecialPlaceOut {
+  /**
+   * The id of special place
+   * @format int64
+   */
+  id?: number;
+  /** The type of special place */
+  type?: "WC" | "PHOTO_ZONE";
+  address?: AddressOut;
+  /** The background color of special place */
+  backgroundColor?: string;
   icon?: Icon;
 }
 
@@ -182,28 +261,6 @@ export interface StopIn {
   sequenceNumber: string;
 }
 
-export interface AddressOut {
-  /**
-   * The id of address
-   * @format int64
-   */
-  id?: number;
-  /** The text address in Russian */
-  address?: string;
-  /** The text address in English */
-  addressEn?: string;
-  /**
-   * The latitude of address
-   * @format double
-   */
-  latitude?: number;
-  /**
-   * The longitude of address
-   * @format double
-   */
-  longitude?: number;
-}
-
 export interface ApiResponseRouteOut {
   data?: RouteOut;
   /** The list of an errors */
@@ -297,28 +354,6 @@ export interface StopPlace {
   titleEn?: string;
   cover?: Image;
   address?: AddressOut;
-}
-
-/** The address of place */
-export interface AddressIn {
-  /** The text address in Russian */
-  address: string;
-  /** The text address in English */
-  addressEn?: string;
-  /**
-   * The latitude of address
-   * @format double
-   * @min -90
-   * @max 90
-   */
-  latitude: number;
-  /**
-   * The longitude of address
-   * @format double
-   * @min -180
-   * @max 180
-   */
-  longitude: number;
 }
 
 /** The frame which describes coordinates and size for cropping cover */
@@ -492,9 +527,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   startTime: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   endTime?: string;
   /**
    * The phone of event
@@ -570,9 +605,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   startTime?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -696,6 +731,19 @@ export interface PlaceSubcategoryPatch {
    * @format int64
    */
   categoryId?: number;
+}
+
+export interface SpecialPlacePatch {
+  /** The type of place */
+  type?: string;
+  /**
+   * The background color of special place
+   * @minLength 7
+   * @maxLength 7
+   * @pattern #[0-9a-fA-F]{6}
+   */
+  backgroundColor?: string;
+  address?: AddressIn;
 }
 
 export interface RoutePatch {
@@ -940,9 +988,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   startTime?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   endTime?: string;
   /**
    * The phone of event
@@ -1035,6 +1083,16 @@ export interface PlaceCategoryPatch {
 export interface ApiPagePlaceSubcategoryOut {
   /** The list of requested rows */
   rows?: PlaceSubcategoryOut[];
+  /**
+   * The total count of rows
+   * @format int64
+   */
+  total?: number;
+}
+
+export interface ApiPageSpecialPlaceOut {
+  /** The list of requested rows */
+  rows?: SpecialPlaceOut[];
   /**
    * The total count of rows
    * @format int64
@@ -1155,9 +1213,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   startTime?: string;
-  /** @example "02:26" */
+  /** @example "21:31" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;
