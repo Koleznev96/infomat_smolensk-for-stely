@@ -9,7 +9,8 @@
   border-radius: 10px;
   cursor: pointer;
 
-  div {
+  button {
+    all: unset;
     display: flex;
     align-items: center;
     justify-content: center;

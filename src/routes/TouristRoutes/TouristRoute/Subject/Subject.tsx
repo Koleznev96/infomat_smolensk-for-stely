@@ -25,7 +25,11 @@ const Subject = () => {
         response.data.description,
         response.data.descriptionEn,
       )}
-      buttons={{ showOnMapLink: true, showRoute: true, QRCodeLink: "#" }}
+      buttons={{
+        showOnMapLink: true,
+        showRoute: true,
+        QRCodeLink: response.data.linkForQrCode,
+      }}
     />
   );
 };

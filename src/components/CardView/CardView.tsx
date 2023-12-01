@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
+import { useNavigate } from "react-router-dom";
 
 import { Image } from "src/api/myApi";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
-import { Button, ImageSlider, Tag } from "src/components";
+import { Button, ImageSlider, Modal, Tag } from "src/components";
 import {
   useGetEventsIdQuery,
   useGetPlaceIdQuery,
@@ -49,8 +51,10 @@ const CardView = ({
   buttons = {},
   contacts,
 }: CardViewProps) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
+  const [showQRCode, setShowQRCode] = useState(false);
 
   const { data: place } = useGetPlaceIdQuery(placeId || "", {
     skip: !!eventId,
@@ -101,16 +105,27 @@ const CardView = ({
   };
 
   const handleClickShowRoute = () => {
-    console.log("route");
+    navigate(-1);
   };
 
   const handleClickShowQRCode = () => {
-    console.log("qr");
+    setShowQRCode(true);
   };
 
   return (
     <div className={styles.cardView}>
       <ImageSlider images={images} />
+      <Modal
+        type="qrcode"
+        visible={showQRCode}
+        onClose={() => setShowQRCode(false)}
+      >
+        <QRCode
+          level="Q"
+          size={338}
+          value={buttons?.QRCodeLink || "Not Found"}
+        />
+      </Modal>
       <div>
         <h4>{title}</h4>
         <div className={styles.tags}>

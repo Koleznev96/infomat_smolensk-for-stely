@@ -23,7 +23,7 @@ const SuggestCard = () => {
         response?.data?.title,
         response?.data?.titleEn,
       )}
-      buttons={{ showOnMapLink: true, QRCodeLink: "#" }}
+      buttons={{ showOnMapLink: true, QRCodeLink: response.data.linkForQrCode }}
     />
   );
 };

@@ -24,6 +24,10 @@ const WithoutCategoryEntity = () => {
         response?.data?.description,
         response?.data?.descriptionEn,
       )}
+      buttons={{
+        showOnMapLink: true,
+        QRCodeLink: response.data.linkForQrCode,
+      }}
     />
   );
 };

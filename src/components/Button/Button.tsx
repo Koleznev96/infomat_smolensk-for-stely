@@ -22,11 +22,11 @@ const Button = ({
   return (
     <div
       style={{ padding: noPadding ? 0 : "12px 20px" }}
-      className={`${styles.button} ${className}`}
+      className={`${styles.button} ${className ?? ""}`}
       onClick={onClick}
     >
       {image}
-      <div className={classNameButtonContent}>{children}</div>
+      <button className={classNameButtonContent}>{children}</button>
     </div>
   );
 };
