@@ -24,6 +24,12 @@ const WithoutCategoryEntity = () => {
         response?.data?.description,
         response?.data?.descriptionEn,
       )}
+      contacts={{
+        phone: response.data.phone,
+        website: response.data.website,
+        email: response.data.email,
+        workTime: response.data.workingHours,
+      }}
       buttons={{
         showOnMapLink: true,
         QRCodeLink: response.data.linkForQrCode,

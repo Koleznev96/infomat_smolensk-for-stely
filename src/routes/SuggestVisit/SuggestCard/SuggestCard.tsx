@@ -23,6 +23,12 @@ const SuggestCard = () => {
         response?.data?.title,
         response?.data?.titleEn,
       )}
+      contacts={{
+        phone: response?.data?.phone,
+        email: response?.data?.email,
+        website: response?.data?.website,
+        workTime: response?.data?.workingHours,
+      }}
       buttons={{ showOnMapLink: true, QRCodeLink: response.data.linkForQrCode }}
     />
   );

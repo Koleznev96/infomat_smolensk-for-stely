@@ -16,20 +16,18 @@ const CalendarCard = () => {
   }
 
   return (
-    <div>
-      <CardView
-        eventId={params.entityId || ""}
-        title={languageControl(response.data.title, response.data.titleEn)}
-        images={response.data.photos}
-        descriptionParagraph={languageControl(
-          response.data.description,
-          response.data.descriptionEn,
-        )}
-        buttons={{
-          showOnMapLink: true,
-        }}
-      />
-    </div>
+    <CardView
+      eventId={params.entityId || ""}
+      title={languageControl(response.data.title, response.data.titleEn)}
+      images={response.data.photos}
+      descriptionParagraph={languageControl(
+        response.data.description,
+        response.data.descriptionEn,
+      )}
+      buttons={{
+        showOnMapLink: true,
+      }}
+    />
   );
 };
 
