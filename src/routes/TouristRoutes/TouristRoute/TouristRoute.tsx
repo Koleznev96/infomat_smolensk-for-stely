@@ -59,7 +59,11 @@ const TouristRoute = () => {
           }}
         />
         <Tag
-          icon={{ name: "time", color: response.data.routeColor }}
+          icon={{
+            name: "time",
+            color: response.data.routeColor,
+            size: "small",
+          }}
           text={`${languageControl("Время", "Duration")}: ${languageControl(
             response.data.duration,
             response.data.durationEn,

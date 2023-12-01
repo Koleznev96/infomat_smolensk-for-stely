@@ -74,7 +74,7 @@ const TouristRoutes = () => {
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
                 <Tag
-                  icon={{ name: "time", color: row.routeColor }}
+                  icon={{ name: "time", color: row.routeColor, size: "small" }}
                   text={`Время: ${row.duration}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />

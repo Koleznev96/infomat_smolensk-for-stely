@@ -142,6 +142,7 @@ const CardView = ({
               icon={{
                 name: "time",
                 color: place?.data?.subcategory?.category?.color,
+                size: "small",
               }}
               color={{
                 bg: place?.data?.subcategory?.category?.backgroundColor,
@@ -160,7 +161,7 @@ const CardView = ({
                   route?.data?.titleEn,
                 )}`}
                 icon={{
-                  name: "time",
+                  name: "route",
                   color: route?.data?.routeColor,
                 }}
                 color={{
