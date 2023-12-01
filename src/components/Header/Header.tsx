@@ -173,6 +173,12 @@ const Header = () => {
             {languageControl("Вечером", "Evening")} {currentTime?.temp_max || 0}
           </>
         );
+      case "night":
+        return (
+          <>
+            {languageControl("Ночью", "Night")} {currentTime?.temp_max || 0}
+          </>
+        );
     }
   };
 
