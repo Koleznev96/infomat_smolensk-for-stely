@@ -52,6 +52,10 @@ export const mainApi = createApi({
       query: (subId: string) =>
         `places?status=PUBLISHED&size=50&subcategoryId=${subId}`,
     }),
+    getPlacesCategory: builder.query<ApiPagePlaceShortOut, string>({
+      query: (subId: string) =>
+        `places?status=PUBLISHED&size=50&categoryId=${subId}`,
+    }),
     getSuggestPlaces: builder.query<ApiPagePlaceShortOut, undefined>({
       query: () => "places?status=PUBLISHED&size=50&recommendedOnly=true",
     }),
@@ -86,6 +90,7 @@ export const {
   useGetPlacesQuery,
   useLazyGetPlacesQuery,
   useGetPlaceIdQuery,
+  useGetPlacesCategoryQuery,
   useGetCategoriesQuery,
   useGetCategoryIdQuery,
   useGetEventsIdQuery,

@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Title } from "src/components";
-import { useLanguageControl } from "src/hooks";
-import { useGetCategoryIdQuery } from "src/api/main";
+import { useGetCategoryIdQuery, useGetPlacesCategoryQuery } from "src/api/main";
+import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { TOURIST_OBJECTS_CATEGORY_ID } from "src/conts/routes";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 
 import styles from "./Category.module.scss";
 
 const Category = () => {
   const params = useParams();
+  const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
 
   const { data: response } = useGetCategoryIdQuery(params.categoryId || "");
+  const { data: places } = useGetPlacesCategoryQuery(params.categoryId || "");
+
+  useEffect(() => {
+    if (!places?.rows?.length) {
+      return;
+    }
+
+    dispatch(
+      updatePlaceMarksAndCenter({
+        marks: places.rows,
+        center: places.rows[0],
+      }),
+    );
+  }, [dispatch, places]);
 
   if (!response?.data?.subcategories?.length) {
     return <></>;
