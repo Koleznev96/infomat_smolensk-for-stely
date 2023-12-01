@@ -41,6 +41,7 @@ const CategoryId = () => {
           response?.rows?.[0]?.subcategory?.title,
           response?.rows?.[0]?.subcategory?.titleEn,
         )}
+        bgColor={response.rows?.[0].subcategory?.backgroundColor}
         image={response.rows?.[0].subcategory?.icon?.url}
       />
       <div className={styles.categoryIdList}>
