@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { CardView } from "src/components";
+import { CardView, Loader } from "src/components";
 import { useLanguageControl } from "src/hooks";
 import { useGetPlaceIdQuery } from "src/api/main";
 
@@ -11,7 +11,7 @@ const CategoryEntityId = () => {
   const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

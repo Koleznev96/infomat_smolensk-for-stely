@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Card, Title } from "src/components";
+import { Card, Loader, Title } from "src/components";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
 import { useGetEventsQuery } from "src/api/main";
@@ -27,7 +27,7 @@ const CalendarEvents = () => {
   }, [dispatch, response]);
 
   if (!response?.rows?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

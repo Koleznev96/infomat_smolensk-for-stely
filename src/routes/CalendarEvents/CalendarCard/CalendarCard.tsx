@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardView } from "src/components";
+import { CardView, Loader } from "src/components";
 import { useParams } from "react-router-dom";
 import { useLanguageControl } from "src/hooks";
 import { useGetEventsIdQuery } from "src/api/main";
@@ -12,7 +12,7 @@ const CalendarCard = () => {
   const { data: response } = useGetEventsIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

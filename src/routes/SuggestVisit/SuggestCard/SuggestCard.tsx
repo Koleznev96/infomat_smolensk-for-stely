@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CardView } from "src/components";
+import { CardView, Loader } from "src/components";
 import { useParams } from "react-router-dom";
 import { useLanguageControl } from "src/hooks";
 import { useGetPlaceIdQuery } from "src/api/main";
@@ -12,8 +12,9 @@ const SuggestCard = () => {
   const { data: response } = useGetPlaceIdQuery(params.entityId || "");
 
   if (!response?.data?.id) {
-    return <></>;
+    return <Loader />;
   }
+
   return (
     <CardView
       placeId={params.entityId}

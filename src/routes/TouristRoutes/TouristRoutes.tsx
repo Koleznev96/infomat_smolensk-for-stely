@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Tag, Title } from "src/components";
+import { Loader, Tag, Title } from "src/components";
 import { useAppDispatch } from "src/hooks";
 import { useGetRoutesQuery } from "src/api/main";
 import { TOURIST_ROUTES_ID } from "src/conts/routes";
@@ -29,7 +29,7 @@ const TouristRoutes = () => {
   }, [dispatch, routes]);
 
   if (!response?.rows?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

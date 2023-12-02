@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Card, Title } from "src/components";
+import { Card, Loader, Title } from "src/components";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { SUGGEST_VISIT_ID } from "src/conts/routes";
 import { useGetSuggestPlacesQuery } from "src/api/main";
@@ -28,7 +28,7 @@ const SuggestVisit = () => {
   }, [dispatch, response]);
 
   if (!response?.rows?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

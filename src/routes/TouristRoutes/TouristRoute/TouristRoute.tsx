@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { Tag, Title } from "src/components";
+import { Loader, Tag, Title } from "src/components";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { useGetRoutesIdQuery } from "src/api/main";
 import {
@@ -37,7 +37,7 @@ const TouristRoute = () => {
   };
 
   if (!response?.data?.id) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

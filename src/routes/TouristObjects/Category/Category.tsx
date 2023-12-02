@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { Title } from "src/components";
+import { Loader, Title } from "src/components";
 import { useGetCategoryIdQuery, useGetPlacesCategoryQuery } from "src/api/main";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { TOURIST_OBJECTS_CATEGORY_ID } from "src/conts/routes";
@@ -31,7 +31,7 @@ const Category = () => {
   }, [dispatch, places]);
 
   if (!response?.data?.subcategories?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { Card, Title } from "src/components";
+import { Card, Loader, Title } from "src/components";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { TOURIST_OBJECTS_ID_ENTITY } from "src/conts/routes";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
@@ -30,7 +30,7 @@ const WithoutCategory = () => {
   }, [dispatch, response]);
 
   if (!response?.rows?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (

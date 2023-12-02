@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Title } from "src/components";
+import { Loader, Title } from "src/components";
 import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
 import { useGetCategoriesQuery, useGetPlacesQuery } from "src/api/main";
@@ -30,7 +30,7 @@ const TouristObjects = () => {
   }, [dispatch, places]);
 
   if (!response?.rows?.length) {
-    return <></>;
+    return <Loader />;
   }
 
   return (
