@@ -23,10 +23,15 @@ const Map = () => {
     mapRef.current?.panTo(map.center);
   }, [map.center, map.type]);
 
-  const placeMarkContent = (url?: string, text?: string, bg?: string) => {
+  const placeMarkContent = (
+    url?: string,
+    text?: string,
+    bg?: string,
+    isActive?: boolean,
+  ) => {
     return `
         <span class="place-mark-content-react-smolensk">
-            <div style="background-color: ${bg}">
+            <div style="background-color: ${isActive ? "#CC3333" : bg}">
               <img src="${url}" alt="${text}">
             </div>
             <p>${text}</p>
@@ -94,6 +99,7 @@ const Map = () => {
                             cor.url,
                             cor.text,
                             cor.backgroundColor,
+                            map.placeMarksType?.length === 1,
                           ),
                         ),
                     }}
