@@ -25,8 +25,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
 
-  div {
+  [class*="place-mark-content-react-smolensk-content"] {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,9 +36,22 @@
     background-color: white;
     z-index: 1;
     border: 3px solid #fff;
+    position: relative;
+    top: -30px;
+  }
+
+  [class*="place-mark-content-react-smolensk-icon"] {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    mask: var(--url) no-repeat center / contain;
+    -webkit-mask: var(--url) no-repeat center / contain;
   }
 
   p {
+    position: relative;
+    top: -30px;
     @include paragraph;
   }
 }
@@ -56,11 +70,6 @@
     background-color: #ede9f9;
     z-index: 1;
     border: 3px solid #fff;
-
-    img {
-      max-width: 20px;
-      max-height: 20px;
-    }
   }
 
   p {

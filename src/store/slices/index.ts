@@ -25,6 +25,11 @@ interface Routes {
   lineColor: string;
 }
 
+interface RoutesWithPlacemark extends Routes {
+  text: string;
+  url: string;
+}
+
 interface MainState {
   language: "ru_RU" | "en_US";
   map: {
@@ -33,7 +38,7 @@ interface MainState {
     placeMarksType: Places[];
     placeMarksEvent: PlaceMarkEvent[];
     routes: Routes[];
-    routeWithPlacemark: Routes[];
+    routeWithPlacemark: RoutesWithPlacemark[];
     currentPlacemarkIndex?: number;
   };
 }
@@ -147,6 +152,10 @@ export const mainSlice = createSlice({
             stop.place?.address?.latitude || 0,
             stop.place?.address?.longitude || 0,
           ]) || [],
+        text:
+          route.stops?.[state.map.currentPlacemarkIndex || 0]?.place?.title ||
+          "",
+        url: route.icon?.url || "",
         lineColor: route.routeColor || "",
       }));
 
