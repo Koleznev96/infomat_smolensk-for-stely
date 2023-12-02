@@ -188,9 +188,15 @@ const Header = () => {
         <div className={styles.date}>
           <span>
             {date.toLocaleDateString(language.replace("_", "-"), {
+              timeZone: "Europe/Moscow",
               weekday: "long",
             })}
-            ,<span> {date.toLocaleDateString(language.replace("_", "-"))}</span>
+            ,{" "}
+            <span>
+              {date.toLocaleDateString(language.replace("_", "-"), {
+                timeZone: "Europe/Moscow",
+              })}
+            </span>
           </span>
           <span>{moscowTime}</span>
         </div>
