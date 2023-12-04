@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Map as MapY,
   Polyline,
@@ -7,11 +8,22 @@ import {
   Placemark,
 } from "@pbe/react-yandex-maps";
 
-import { useAppSelector } from "src/hooks";
+import { useAppDispatch, useAppSelector } from "src/hooks";
+import { updateCurrentIndexRoutePlacemark } from "src/store/slices";
+import {
+  CALENDAR_EVENT_ID,
+  TOURIST_OBJECTS_CATEGORY_ID_ENTITY,
+  TOURIST_OBJECTS_ID_ENTITY,
+  TOURIST_ROUTES_ID_VIEW,
+} from "src/conts/routes";
 
 import styles from "./Map.module.scss";
 
 const Map = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const ymaps = useRef<any>(null);
   const mapRef = useRef<ymaps.Map | undefined>(undefined);
 
@@ -80,6 +92,34 @@ const Map = () => {
       `;
   };
 
+  const handleClickOnPlacemark = (id: number, subCatId: number) => {
+    if (!params.entityId && params.categoryId) {
+      navigate(
+        TOURIST_OBJECTS_CATEGORY_ID_ENTITY(params.categoryId, subCatId, id),
+      );
+    } else if (params.id) {
+      navigate(TOURIST_OBJECTS_ID_ENTITY(params.id, id));
+    }
+  };
+
+  const handleClickOnRouteNumber = (
+    id: number,
+    routeId: number,
+    index: number,
+  ) => {
+    dispatch(updateCurrentIndexRoutePlacemark(index));
+
+    if (params.entityId !== id.toString()) {
+      navigate(TOURIST_ROUTES_ID_VIEW(routeId, id));
+    }
+  };
+
+  const handleClickOnEvent = (id: number) => {
+    if (params.id !== id.toString()) {
+      navigate(CALENDAR_EVENT_ID(id));
+    }
+  };
+
   return (
     <div id="map" className={styles.mapContainer}>
       <MapY
@@ -106,7 +146,9 @@ const Map = () => {
                   <Placemark
                     key={index}
                     geometry={cor.cords}
+                    onClick={() => handleClickOnPlacemark(cor.id, cor.subCatId)}
                     options={{
+                      pane: "overlaps",
                       iconLayout:
                         ymaps.current?.templateLayoutFactory?.createClass(
                           placeMarkContent(
@@ -127,7 +169,9 @@ const Map = () => {
                   <Placemark
                     key={index}
                     geometry={cor.cords}
+                    onClick={() => handleClickOnEvent(cor.id)}
                     options={{
+                      pane: "overlaps",
                       iconLayout:
                         ymaps.current?.templateLayoutFactory?.createClass(
                           placeMarkEventContent(
@@ -145,7 +189,7 @@ const Map = () => {
                 {map.routes.map((route, index) => (
                   <React.Fragment key={index}>
                     <Polyline
-                      geometry={route.cords}
+                      geometry={route.cords.map((cord) => cord.cord)}
                       options={{
                         strokeColor: route.lineColor,
                         strokeWidth: 2,
@@ -154,8 +198,12 @@ const Map = () => {
                     {route.cords.map((cord, index) => (
                       <Placemark
                         key={index}
-                        geometry={cord}
+                        geometry={cord.cord}
+                        onClick={() =>
+                          handleClickOnRouteNumber(cord.id, route.id, index)
+                        }
                         options={{
+                          pane: "overlaps",
                           iconLayout:
                             ymaps.current?.templateLayoutFactory?.createClass(
                               routeContent(index + 1, route.lineColor),
@@ -172,7 +220,7 @@ const Map = () => {
                 {map.routeWithPlacemark.map((route, index) => (
                   <React.Fragment key={index}>
                     <Polyline
-                      geometry={route.cords}
+                      geometry={route.cords.map((cord) => cord.cord)}
                       options={{
                         strokeColor: route.lineColor,
                         strokeWidth: 2,
@@ -181,8 +229,12 @@ const Map = () => {
                     {route.cords.map((cord, index) => (
                       <Placemark
                         key={index}
-                        geometry={cord}
+                        geometry={cord.cord}
+                        onClick={() =>
+                          handleClickOnRouteNumber(cord.id, route.id, index)
+                        }
                         options={{
+                          pane: "overlaps",
                           iconLayout:
                             ymaps.current?.templateLayoutFactory?.createClass(
                               map.currentPlacemarkIndex === index

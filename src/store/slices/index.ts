@@ -10,18 +10,28 @@ import {
 
 type MapType = "route" | "place-mark" | "route-placemark" | "placemark-event";
 
-type PlaceMarkEvent = Omit<Places, "url" | "colorText" | "backgroundColor">;
+type PlaceMarkEvent = Omit<
+  Places,
+  "url" | "colorText" | "backgroundColor" | "subCatId"
+>;
 
 interface Places {
+  id: number;
+  subCatId: number;
   cords: number[];
   url: string;
   text: string;
   colorText: string;
   backgroundColor: string;
 }
+interface Stops {
+  id: number;
+  cord: Array<number>;
+}
 
 interface Routes {
-  cords: Array<number[]>;
+  id: number;
+  cords: Stops[];
   lineColor: string;
 }
 
@@ -72,6 +82,8 @@ export const mainSlice = createSlice({
       state.map.type = "place-mark";
 
       state.map.placeMarksType = action.payload.marks?.map((row) => ({
+        id: row.id || 0,
+        subCatId: row.subcategory?.id || 0,
         cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
         text:
           state.language === "ru_RU"
@@ -97,6 +109,7 @@ export const mainSlice = createSlice({
       state.map.type = "placemark-event";
 
       state.map.placeMarksEvent = action.payload.marks?.map((row) => ({
+        id: row.id || 0,
         cords: [row?.address?.latitude || 0, row?.address?.longitude || 0],
         text:
           state.language === "ru_RU"
@@ -120,10 +133,14 @@ export const mainSlice = createSlice({
 
       state.map.routes = action.payload.routes?.map((route) => ({
         cords:
-          route?.stops?.map((stop) => [
-            stop.place?.address?.latitude || 0,
-            stop.place?.address?.longitude || 0,
-          ]) || [],
+          route?.stops?.map((stop) => ({
+            id: stop.place?.id || 0,
+            cord: [
+              stop.place?.address?.latitude || 0,
+              stop.place?.address?.longitude || 0,
+            ],
+          })) || [],
+        id: route.id || 0,
         lineColor: route.routeColor || "",
       }));
 
@@ -148,10 +165,14 @@ export const mainSlice = createSlice({
 
       state.map.routeWithPlacemark = action.payload.routes?.map((route) => ({
         cords:
-          route?.stops?.map((stop) => [
-            stop.place?.address?.latitude || 0,
-            stop.place?.address?.longitude || 0,
-          ]) || [],
+          route?.stops?.map((stop) => ({
+            cord: [
+              stop.place?.address?.latitude || 0,
+              stop.place?.address?.longitude || 0,
+            ],
+            id: stop.place?.id || 0,
+          })) || [],
+        id: route.id || 0,
         text:
           route.stops?.[state.map.currentPlacemarkIndex || 0]?.place?.title ||
           "",
