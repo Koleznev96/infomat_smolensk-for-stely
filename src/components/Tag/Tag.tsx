@@ -15,15 +15,26 @@ interface TagProps {
     bg?: string;
     text?: string;
   };
+  boxShadow?: boolean;
 }
 
-const Tag = ({ text, color, icon, padding, size = "small" }: TagProps) => {
+const Tag = ({
+  text,
+  color,
+  icon,
+  padding,
+  size = "small",
+  boxShadow,
+}: TagProps) => {
   return (
     <div className={styles.tag}>
       <div
         style={{
           padding: padding,
           backgroundColor: color?.bg,
+          boxShadow: boxShadow
+            ? "0 2px 4px -2px rgba(16, 24, 40, 0.06), 0 4px 8px -2px rgba(16, 24, 40, 0.1)"
+            : "none",
         }}
       >
         <>

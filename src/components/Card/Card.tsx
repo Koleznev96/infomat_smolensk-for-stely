@@ -62,6 +62,7 @@ const Card = ({
                 }}
                 padding="7px"
                 size="large"
+                boxShadow={true}
               />
               <Tag
                 icon={{
@@ -76,6 +77,7 @@ const Card = ({
                 }}
                 padding="7px"
                 size="large"
+                boxShadow={true}
               />
             </div>
             <h4>{title}</h4>
