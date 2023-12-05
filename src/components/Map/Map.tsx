@@ -129,7 +129,7 @@ const Map = () => {
           center: map.center || [54.782635, 32.045287],
           zoom: 9,
         }}
-        options={{ minZoom: 15 }}
+        options={{ minZoom: 15, yandexMapDisablePoiInteractivity: true }}
         instanceRef={mapRef}
         onLoad={(inst) => {
           ymaps.current = inst;
