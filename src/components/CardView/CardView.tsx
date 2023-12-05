@@ -142,7 +142,7 @@ const CardView = ({
         <div className={styles.tags}>
           {place?.data?.address?.address && (
             <Tag
-              text={`${languageControl("Адрес", "Address")}:${languageControl(
+              text={`${languageControl("Адрес", "Address")}: ${languageControl(
                 place?.data?.address?.address,
                 place?.data?.address?.addressEn,
               )}`}
