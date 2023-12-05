@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Loader, Tag, Title } from "src/components";
-import { useAppDispatch } from "src/hooks";
 import { useGetRoutesQuery } from "src/api/main";
 import { TOURIST_ROUTES_ID } from "src/conts/routes";
+import { Loader, Tag, Title } from "src/components";
 import { updateRoutesAndCenter } from "src/store/slices";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 
 import styles from "./TouristRoutes.module.scss";
 
 const TouristRoutes = () => {
   const dispatch = useAppDispatch();
+  const languageControl = useLanguageControl();
 
   const { data: response } = useGetRoutesQuery(undefined);
   const { data: routes } = useGetRoutesQuery(undefined);
@@ -66,21 +67,30 @@ const TouristRoutes = () => {
               <img src={row.icon?.url} alt="" />
             </div>
             <div className={styles.info}>
-              <h5>{row.title}</h5>
+              <h5>{languageControl(row.title, row.titleEn)}</h5>
               <div className={styles.tags}>
                 <Tag
                   icon={{ name: "geo", color: row.routeColor }}
-                  text={`Протяженность: ${row.length}`}
+                  text={`${languageControl(
+                    "Протяженность",
+                    "Length",
+                  )}: ${languageControl(row.length, row.lengthEn)}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
                 <Tag
                   icon={{ name: "time", color: row.routeColor, size: "small" }}
-                  text={`Время: ${row.duration}`}
+                  text={`${languageControl("Время", "Time")}: ${languageControl(
+                    row.duration,
+                    row.durationEn,
+                  )}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
                 <Tag
                   icon={{ name: "route", color: row.routeColor }}
-                  text={`Тип маршрута: ${row.type}`}
+                  text={`${languageControl(
+                    "Тип маршрута",
+                    "Route type",
+                  )}: ${languageControl(row.type, row.typeEn)}`}
                   color={{ bg: row.backgroundColor, text: row.routeColor }}
                 />
               </div>
