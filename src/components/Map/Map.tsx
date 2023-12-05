@@ -192,7 +192,7 @@ const Map = () => {
                       geometry={route.cords.map((cord) => cord.cord)}
                       options={{
                         strokeColor: route.lineColor,
-                        strokeWidth: 2,
+                        strokeWidth: 3,
                       }}
                     />
                     {route.cords.map((cord, index) => (
