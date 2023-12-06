@@ -24,6 +24,7 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     resizeableEle.style.left = "0";
 
     const onMouseMoveTopResize = (event: any) => {
+      event.preventDefault();
       const clientY = event.touches ? event.touches[0].clientY : event.clientY;
 
       const dy = clientY - y;
@@ -47,6 +48,7 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     };
 
     const onMouseDownTopResize = (event: any) => {
+      event.preventDefault();
       y = event.touches ? event.touches[0].clientY : event.clientY;
 
       const styles = window.getComputedStyle(resizeableEle);
@@ -77,8 +79,8 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
   return (
     <div className="container">
       <div ref={ref} className="resizeable">
-        <div className="resizer-container">
-          <div className="resizer" ref={refTop}></div>
+        <div className="resizer-container" ref={refTop}>
+          <div className="resizer" />
         </div>
         {children}
       </div>
