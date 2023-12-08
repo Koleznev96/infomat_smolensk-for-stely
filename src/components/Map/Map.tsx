@@ -13,6 +13,8 @@ import { useAppDispatch, useAppSelector } from "src/hooks";
 import { updateCurrentIndexRoutePlacemark } from "src/store/slices";
 import {
   CALENDAR_EVENT_ID,
+  SUGGEST_VISIT,
+  SUGGEST_VISIT_ID,
   TOURIST_OBJECTS_CATEGORY_ID_ENTITY,
   TOURIST_OBJECTS_ID_ENTITY,
   TOURIST_ROUTES_ID_VIEW,
@@ -100,6 +102,8 @@ const Map = () => {
       );
     } else if (params.id) {
       navigate(TOURIST_OBJECTS_ID_ENTITY(params.id, id));
+    } else if (window.location.pathname.includes(SUGGEST_VISIT)) {
+      navigate(SUGGEST_VISIT_ID(id));
     }
   };
 
