@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
 
 import { Image } from "src/api/myApi";
-import { useAppDispatch, useLanguageControl } from "src/hooks";
+import { useAppDispatch, useAppSelector, useLanguageControl } from "src/hooks";
 import { Button, ImageSlider, Modal, Tag } from "src/components";
 import {
   useGetEventsIdQuery,
@@ -55,7 +55,10 @@ const CardView = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
+
   const [showQRCode, setShowQRCode] = useState(false);
+
+  const { language } = useAppSelector((state) => state.main);
 
   const { data: place } = useGetPlaceIdQuery(placeId || "", {
     skip: !!eventId,
@@ -99,7 +102,7 @@ const CardView = ({
       );
       return;
     }
-  }, [dispatch, place, route, event, placeId, routeId, eventId]);
+  }, [dispatch, place, route, event, placeId, routeId, eventId, language]);
 
   const handleClickShowOnMap = () => {
     if (route?.data?.id && routeId) {

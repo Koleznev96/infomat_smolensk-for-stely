@@ -1,5 +1,4 @@
 import React from "react";
-import { YMaps } from "@pbe/react-yandex-maps";
 import { useIdleTimer } from "react-idle-timer";
 
 import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
@@ -75,42 +74,35 @@ const ReactRoutes = () => {
   );
 
   return (
-    <YMaps
-      query={{
-        apikey: "f89a7ec4-649c-4e9e-b286-86fd506b69bb",
-        lang: language,
-      }}
-    >
-      <Routes>
-        <Route path="/" element={HeaderLayout}>
-          <Route path="/" element={<MainContent />} />
-          <Route path={TOURIST_OBJECTS} element={ContentLayout}>
-            <Route path={TOURIST_OBJECTS} element={<TouristObjects />} />
-            <Route path=":id" element={<WithoutCategory />} />
-            <Route path=":id/:entityId" element={<WithoutCategoryEntity />} />
-            <Route path=":categoryId-category" element={<Category />} />
-            <Route path=":categoryId-category/:id" element={<CategoryId />} />
-            <Route
-              path=":categoryId-category/:id/:entityId"
-              element={<CategoryEntityId />}
-            />
-          </Route>
-          <Route path={TOURIST_ROUTES} element={ContentLayout}>
-            <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />
-            <Route path=":id" element={<TouristRoute />} />
-            <Route path=":id/:entityId" element={<Subject />} />
-          </Route>
-          <Route path={SUGGEST_VISIT} element={ContentLayout}>
-            <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />
-            <Route path=":entityId" element={<SuggestCard />} />
-          </Route>
-          <Route path={CALENDAR_EVENT} element={ContentLayout}>
-            <Route path={CALENDAR_EVENT} element={<CalendarEvents />} />
-            <Route path=":entityId" element={<CalendarCard />} />
-          </Route>
+    <Routes>
+      <Route path="/" element={HeaderLayout}>
+        <Route path="/" element={<MainContent />} />
+        <Route path={TOURIST_OBJECTS} element={ContentLayout}>
+          <Route path={TOURIST_OBJECTS} element={<TouristObjects />} />
+          <Route path=":id" element={<WithoutCategory />} />
+          <Route path=":id/:entityId" element={<WithoutCategoryEntity />} />
+          <Route path=":categoryId-category" element={<Category />} />
+          <Route path=":categoryId-category/:id" element={<CategoryId />} />
+          <Route
+            path=":categoryId-category/:id/:entityId"
+            element={<CategoryEntityId />}
+          />
         </Route>
-      </Routes>
-    </YMaps>
+        <Route path={TOURIST_ROUTES} element={ContentLayout}>
+          <Route path={TOURIST_ROUTES} element={<TouristRoutes />} />
+          <Route path=":id" element={<TouristRoute />} />
+          <Route path=":id/:entityId" element={<Subject />} />
+        </Route>
+        <Route path={SUGGEST_VISIT} element={ContentLayout}>
+          <Route path={SUGGEST_VISIT} element={<SuggestVisit />} />
+          <Route path=":entityId" element={<SuggestCard />} />
+        </Route>
+        <Route path={CALENDAR_EVENT} element={ContentLayout}>
+          <Route path={CALENDAR_EVENT} element={<CalendarEvents />} />
+          <Route path=":entityId" element={<CalendarCard />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 };
 

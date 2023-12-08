@@ -6,6 +6,7 @@ import {
   ZoomControl,
   GeolocationControl,
   Placemark,
+  YMaps,
 } from "@pbe/react-yandex-maps";
 
 import { useAppDispatch, useAppSelector } from "src/hooks";
@@ -29,7 +30,7 @@ const Map = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const { map } = useAppSelector((state) => state.main);
+  const { map, language } = useAppSelector((state) => state.main);
 
   useEffect(() => {
     mapRef.current?.panTo(map.center);
@@ -120,143 +121,172 @@ const Map = () => {
     }
   };
 
+  const mapElements = () => {
+    return (
+      <div id="map" className={styles.mapContainer}>
+        <MapY
+          style={{ width: "100%", height: "100%", position: "relative" }}
+          modules={["templateLayoutFactory"]}
+          defaultState={{
+            center: map.center || [54.782635, 32.045287],
+            zoom: 9,
+          }}
+          options={{ minZoom: 15, yandexMapDisablePoiInteractivity: true }}
+          instanceRef={mapRef}
+          onLoad={(inst) => {
+            ymaps.current = inst;
+            setIsLoaded(true);
+          }}
+        >
+          <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
+          <ZoomControl options={{ position: { right: 10, top: 350 } }} />
+          {isLoaded && (
+            <>
+              {map.type === "place-mark" && (
+                <React.Fragment>
+                  {map.placeMarksType.map((cor, index) => (
+                    <Placemark
+                      key={index}
+                      geometry={cor.cords}
+                      onClick={() =>
+                        handleClickOnPlacemark(cor.id, cor.subCatId)
+                      }
+                      options={{
+                        pane: "overlaps",
+                        iconLayout:
+                          ymaps.current?.templateLayoutFactory?.createClass(
+                            placeMarkContent(
+                              cor.url,
+                              cor.text,
+                              cor.backgroundColor,
+                              map.placeMarksType?.length === 1,
+                            ),
+                          ),
+                      }}
+                    />
+                  ))}
+                </React.Fragment>
+              )}
+              {map.type === "placemark-event" && (
+                <React.Fragment>
+                  {map.placeMarksEvent.map((cor, index) => (
+                    <Placemark
+                      key={index}
+                      geometry={cor.cords}
+                      onClick={() => handleClickOnEvent(cor.id)}
+                      options={{
+                        pane: "overlaps",
+                        iconLayout:
+                          ymaps.current?.templateLayoutFactory?.createClass(
+                            placeMarkEventContent(
+                              cor.text,
+                              map.placeMarksEvent.length === 1,
+                            ),
+                          ),
+                      }}
+                    />
+                  ))}
+                </React.Fragment>
+              )}
+              {map.type === "route" && (
+                <React.Fragment>
+                  {map.routes.map((route, index) => (
+                    <React.Fragment key={index}>
+                      <Polyline
+                        geometry={route.cords.map((cord) => cord.cord)}
+                        options={{
+                          strokeColor: route.lineColor,
+                          strokeWidth: 3,
+                        }}
+                      />
+                      {route.cords.map((cord, index) => (
+                        <Placemark
+                          key={index}
+                          geometry={cord.cord}
+                          onClick={() =>
+                            handleClickOnRouteNumber(cord.id, route.id, index)
+                          }
+                          options={{
+                            pane: "overlaps",
+                            iconLayout:
+                              ymaps.current?.templateLayoutFactory?.createClass(
+                                routeContent(index + 1, route.lineColor),
+                              ),
+                          }}
+                        />
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              )}
+              {map.type === "route-placemark" && (
+                <React.Fragment>
+                  {map.routeWithPlacemark.map((route, index) => (
+                    <React.Fragment key={index}>
+                      <Polyline
+                        geometry={route.cords.map((cord) => cord.cord)}
+                        options={{
+                          strokeColor: route.lineColor,
+                          strokeWidth: 2,
+                        }}
+                      />
+                      {route.cords.map((cord, index) => (
+                        <Placemark
+                          key={index}
+                          geometry={cord.cord}
+                          onClick={() =>
+                            handleClickOnRouteNumber(cord.id, route.id, index)
+                          }
+                          options={{
+                            pane: "overlaps",
+                            iconLayout:
+                              ymaps.current?.templateLayoutFactory?.createClass(
+                                map.currentPlacemarkIndex === index
+                                  ? placeMarkContent(
+                                      route.url,
+                                      route.text,
+                                      "white",
+                                      true,
+                                    )
+                                  : routeContent(index + 1, route.lineColor),
+                              ),
+                          }}
+                        />
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </React.Fragment>
+              )}
+            </>
+          )}
+        </MapY>
+      </div>
+    );
+  };
+
   return (
-    <div id="map" className={styles.mapContainer}>
-      <MapY
-        style={{ width: "100%", height: "100%", position: "relative" }}
-        modules={["templateLayoutFactory"]}
-        defaultState={{
-          center: map.center || [54.782635, 32.045287],
-          zoom: 9,
-        }}
-        options={{ minZoom: 15, yandexMapDisablePoiInteractivity: true }}
-        instanceRef={mapRef}
-        onLoad={(inst) => {
-          ymaps.current = inst;
-          setIsLoaded(true);
-        }}
-      >
-        <GeolocationControl options={{ position: { right: 10, top: 570 } }} />
-        <ZoomControl options={{ position: { right: 10, top: 350 } }} />
-        {isLoaded && (
-          <>
-            {map.type === "place-mark" && (
-              <React.Fragment>
-                {map.placeMarksType.map((cor, index) => (
-                  <Placemark
-                    key={index}
-                    geometry={cor.cords}
-                    onClick={() => handleClickOnPlacemark(cor.id, cor.subCatId)}
-                    options={{
-                      pane: "overlaps",
-                      iconLayout:
-                        ymaps.current?.templateLayoutFactory?.createClass(
-                          placeMarkContent(
-                            cor.url,
-                            cor.text,
-                            cor.backgroundColor,
-                            map.placeMarksType?.length === 1,
-                          ),
-                        ),
-                    }}
-                  />
-                ))}
-              </React.Fragment>
-            )}
-            {map.type === "placemark-event" && (
-              <React.Fragment>
-                {map.placeMarksEvent.map((cor, index) => (
-                  <Placemark
-                    key={index}
-                    geometry={cor.cords}
-                    onClick={() => handleClickOnEvent(cor.id)}
-                    options={{
-                      pane: "overlaps",
-                      iconLayout:
-                        ymaps.current?.templateLayoutFactory?.createClass(
-                          placeMarkEventContent(
-                            cor.text,
-                            map.placeMarksEvent.length === 1,
-                          ),
-                        ),
-                    }}
-                  />
-                ))}
-              </React.Fragment>
-            )}
-            {map.type === "route" && (
-              <React.Fragment>
-                {map.routes.map((route, index) => (
-                  <React.Fragment key={index}>
-                    <Polyline
-                      geometry={route.cords.map((cord) => cord.cord)}
-                      options={{
-                        strokeColor: route.lineColor,
-                        strokeWidth: 3,
-                      }}
-                    />
-                    {route.cords.map((cord, index) => (
-                      <Placemark
-                        key={index}
-                        geometry={cord.cord}
-                        onClick={() =>
-                          handleClickOnRouteNumber(cord.id, route.id, index)
-                        }
-                        options={{
-                          pane: "overlaps",
-                          iconLayout:
-                            ymaps.current?.templateLayoutFactory?.createClass(
-                              routeContent(index + 1, route.lineColor),
-                            ),
-                        }}
-                      />
-                    ))}
-                  </React.Fragment>
-                ))}
-              </React.Fragment>
-            )}
-            {map.type === "route-placemark" && (
-              <React.Fragment>
-                {map.routeWithPlacemark.map((route, index) => (
-                  <React.Fragment key={index}>
-                    <Polyline
-                      geometry={route.cords.map((cord) => cord.cord)}
-                      options={{
-                        strokeColor: route.lineColor,
-                        strokeWidth: 2,
-                      }}
-                    />
-                    {route.cords.map((cord, index) => (
-                      <Placemark
-                        key={index}
-                        geometry={cord.cord}
-                        onClick={() =>
-                          handleClickOnRouteNumber(cord.id, route.id, index)
-                        }
-                        options={{
-                          pane: "overlaps",
-                          iconLayout:
-                            ymaps.current?.templateLayoutFactory?.createClass(
-                              map.currentPlacemarkIndex === index
-                                ? placeMarkContent(
-                                    route.url,
-                                    route.text,
-                                    "white",
-                                    true,
-                                  )
-                                : routeContent(index + 1, route.lineColor),
-                            ),
-                        }}
-                      />
-                    ))}
-                  </React.Fragment>
-                ))}
-              </React.Fragment>
-            )}
-          </>
-        )}
-      </MapY>
-    </div>
+    <>
+      {language === "ru_RU" && (
+        <YMaps
+          query={{
+            apikey: "f89a7ec4-649c-4e9e-b286-86fd506b69bb",
+            lang: "ru_RU",
+          }}
+        >
+          {mapElements()}
+        </YMaps>
+      )}
+      {language === "en_US" && (
+        <YMaps
+          query={{
+            apikey: "f89a7ec4-649c-4e9e-b286-86fd506b69bb",
+            lang: "en_US",
+          }}
+        >
+          {mapElements()}
+        </YMaps>
+      )}
+    </>
   );
 };
 
