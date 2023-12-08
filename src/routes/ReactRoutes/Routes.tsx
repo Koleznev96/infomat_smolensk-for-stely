@@ -1,5 +1,7 @@
 import React from "react";
 import { YMaps } from "@pbe/react-yandex-maps";
+import { useIdleTimer } from "react-idle-timer";
+
 import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 
 import {
@@ -32,6 +34,11 @@ import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
+  const idle = useIdleTimer({
+    timeout: 1000 * 60 * 3,
+    onIdle: () => navigate("/"),
+  });
+
   const languageControl = useLanguageControl();
   const language = useAppSelector((state) => state.main.language);
 
