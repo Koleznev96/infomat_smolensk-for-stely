@@ -174,8 +174,14 @@ export const mainSlice = createSlice({
           })) || [],
         id: route.id || 0,
         text:
-          route.stops?.[state.map.currentPlacemarkIndex || 0]?.place?.title ||
-          "",
+          state.language === "ru_RU"
+            ? route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
+                ?.title || ""
+            : route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
+                ?.titleEn ||
+              route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
+                ?.title ||
+              "",
         url: route.icon?.url || "",
         lineColor: route.routeColor || "",
       }));

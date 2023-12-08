@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-import { Card, Loader, Title } from "src/components";
-import { useAppDispatch, useLanguageControl } from "src/hooks";
 import { SUGGEST_VISIT_ID } from "src/conts/routes";
+import { Card, Loader, Title } from "src/components";
 import { useGetSuggestPlacesQuery } from "src/api/main";
 import { updatePlaceMarksAndCenter } from "src/store/slices";
+import { useAppDispatch, useLanguageControl } from "src/hooks";
 
 import styles from "./SuggestVisit.module.scss";
 
