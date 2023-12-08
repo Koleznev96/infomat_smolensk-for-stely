@@ -20,7 +20,7 @@ import {
   CategoryEntityId,
 } from "src/routes";
 
-import { useAppSelector, useLanguageControl } from "src/hooks";
+import { useLanguageControl } from "src/hooks";
 
 import {
   CALENDAR_EVENT,
@@ -39,7 +39,6 @@ const ReactRoutes = () => {
   });
 
   const languageControl = useLanguageControl();
-  const language = useAppSelector((state) => state.main.language);
 
   const HeaderLayout = (
     <div className="wrapper">
