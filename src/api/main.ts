@@ -38,12 +38,45 @@ export const mainApi = createApi({
     }),
     getPlaces: builder.query<
       ApiPagePlaceShortOut,
-      undefined | { search: string }
+      undefined | { search?: string; page?: number }
     >({
-      query: (query: { search: string }) =>
-        query?.search
-          ? `places?status=PUBLISHED&size=50&search=${query.search}`
-          : "places?status=PUBLISHED&size=50",
+      queryFn: async (query) => {
+        if (query?.search) {
+          const response = await fetch(
+            `${isDev}/places?status=PUBLISHED&size=100&search=${query.search}`,
+          );
+
+          const result = await response.json();
+
+          return { data: result };
+        }
+
+        const fetchedData: ApiPagePlaceShortOut = {
+          rows: [],
+          total: 0,
+        };
+
+        const fetchData = async (pageNumber: number): Promise<void> => {
+          const response = await fetch(
+            `${isDev}/places?status=PUBLISHED&size=100&page=${pageNumber}`,
+          );
+
+          const result: ApiPagePlaceShortOut = await response.json();
+
+          if (result.rows) {
+            fetchedData.rows = [...(fetchedData.rows || []), ...result.rows];
+            fetchedData.total = result.total;
+          }
+
+          if (pageNumber < 4) {
+            await fetchData(pageNumber + 1);
+          }
+        };
+
+        await fetchData(query?.page || 0);
+
+        return { data: fetchedData };
+      },
     }),
     getPlaceId: builder.query<ApiResponsePlaceOut, string>({
       query: (id: string) => `places/${id}`,

@@ -111,38 +111,46 @@ const Header = () => {
     if (debounceValue) {
       const getData = async () => {
         await events({ search: debounceValue });
+
         await places({ search: debounceValue });
       };
 
       void getData();
-
-      const dataEvents =
-        eventsData?.rows?.map((event) => ({
-          type: "events" as const,
-          image: event.cover?.url3x2Original || "",
-          title: event.title,
-          titleEn: event.titleEn,
-          description: event.description,
-          descriptionEn: event.descriptionEn,
-          link: CALENDAR_EVENT_ID(event.id),
-        })) || [];
-
-      const dataPlaces =
-        placesData?.rows?.map((place) => ({
-          type: "places" as const,
-          image: place.cover?.url3x2Original || "",
-          title: place.title,
-          titleEn: place.titleEn,
-          description: place.description,
-          descriptionEn: place.descriptionEn,
-          link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
-        })) || [];
-
-      setSearchObjects([...dataEvents, ...dataPlaces]);
     } else {
       setSearchObjects([]);
     }
-  }, [debounceValue, events, eventsData?.rows, places, placesData?.rows]);
+  }, [debounceValue, events, places]);
+
+  useEffect(() => {
+    if (!debounceValue) {
+      setSearchObjects([]);
+      return;
+    }
+
+    const dataEvents =
+      eventsData?.rows?.map((event) => ({
+        type: "events" as const,
+        image: event.cover?.url3x2Original || "",
+        title: event.title,
+        titleEn: event.titleEn,
+        description: event.description,
+        descriptionEn: event.descriptionEn,
+        link: CALENDAR_EVENT_ID(event.id),
+      })) || [];
+
+    const dataPlaces =
+      placesData?.rows?.map((place) => ({
+        type: "places" as const,
+        image: place.cover?.url3x2Original || "",
+        title: place.title,
+        titleEn: place.titleEn,
+        description: place.description,
+        descriptionEn: place.descriptionEn,
+        link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
+      })) || [];
+
+    setSearchObjects([...dataEvents, ...dataPlaces]);
+  }, [debounceValue, eventsData, placesData]);
 
   const changeLanguage = (lang: "ru_RU" | "en_US") => {
     dispatch(updateLanguage(lang));
