@@ -60,8 +60,11 @@ const CalendarEvents = () => {
           cover={row.cover}
           type="full"
           tags={{
-            date: row.startDate || "",
-            time: `${row.startTime || ""}-${row.endTime || ""}`,
+            date:
+              `${row.startDate} ${row.endDate ? "-" + row.endDate : ""}` || "",
+            time: `${row.startTime || ""} ${
+              row.endTime ? "-" + row.endTime : ""
+            }`,
             size: "large",
           }}
           title={languageControl(row.title, row.titleEn)}

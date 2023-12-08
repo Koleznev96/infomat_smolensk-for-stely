@@ -19,13 +19,14 @@ const CalendarCard = () => {
     <CardView
       eventId={params.entityId || ""}
       title={languageControl(response.data.title, response.data.titleEn)}
-      images={response.data.photos}
+      images={[response.data.cover || {}, ...(response?.data?.photos || [])]}
       descriptionParagraph={languageControl(
         response.data.description,
         response.data.descriptionEn,
       )}
       buttons={{
         showOnMapLink: true,
+        QRCodeLink: response.data.linkForQrCode,
       }}
     />
   );

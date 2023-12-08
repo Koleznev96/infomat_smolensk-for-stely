@@ -201,7 +201,9 @@ const CardView = ({
             <>
               <Tag
                 text={`${languageControl("Дата", "Date")}: ${event?.data
-                  ?.startDate}`}
+                  ?.startDate}${
+                  event?.data?.endDate ? "-" + event.data.endDate : ""
+                }`}
                 icon={{
                   name: "cal",
                   color: "#5624D3",
@@ -214,7 +216,9 @@ const CardView = ({
               />
               <Tag
                 text={`${languageControl("Время", "Time")}: ${event?.data
-                  ?.startTime}`}
+                  ?.startTime}${
+                  event?.data?.endTime ? "-" + event.data.endTime : ""
+                }`}
                 icon={{
                   name: "time",
                   color: "#5624D3",
@@ -226,8 +230,13 @@ const CardView = ({
                 }}
               />
               <Tag
-                text={`${languageControl("Адрес", "Address")}: ${event?.data
-                  ?.address?.address}`}
+                text={`${languageControl(
+                  "Адрес",
+                  "Address",
+                )}: ${languageControl(
+                  event?.data?.address?.address,
+                  event?.data?.address?.addressEn,
+                )}`}
                 icon={{
                   name: "geo",
                   color: "#5624D3",
