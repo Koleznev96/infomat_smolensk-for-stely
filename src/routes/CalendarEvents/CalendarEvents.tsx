@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { Card, Loader, Title } from "src/components";
-import { useAppDispatch, useLanguageControl } from "src/hooks";
+import { useAppDispatch, useDateControl, useLanguageControl } from "src/hooks";
 import { CALENDAR_EVENT_ID } from "src/conts/routes";
 import { useGetEventsQuery } from "src/api/main";
 import { updatePlaceMarksEvent } from "src/store/slices";
@@ -11,6 +11,7 @@ import styles from "./CalendarEvents.module.scss";
 const CalendarEvents = () => {
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
+  const dateControl = useDateControl();
   const { data: response } = useGetEventsQuery(undefined);
 
   useEffect(() => {
@@ -61,7 +62,9 @@ const CalendarEvents = () => {
           type="full"
           tags={{
             date:
-              `${row.startDate} ${row.endDate ? "-" + row.endDate : ""}` || "",
+              `${dateControl(row.startDate)} ${
+                row.endDate ? "-" + dateControl(row.endDate) : ""
+              }` || "",
             time: `${row.startTime || ""} ${
               row.endTime ? "-" + row.endTime : ""
             }`,

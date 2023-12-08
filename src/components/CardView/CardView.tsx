@@ -3,7 +3,12 @@ import QRCode from "react-qr-code";
 import { useNavigate } from "react-router-dom";
 
 import { Image } from "src/api/myApi";
-import { useAppDispatch, useAppSelector, useLanguageControl } from "src/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useDateControl,
+  useLanguageControl,
+} from "src/hooks";
 import { Button, ImageSlider, Modal, Tag } from "src/components";
 import {
   useGetEventsIdQuery,
@@ -55,6 +60,7 @@ const CardView = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
+  const dateControl = useDateControl();
 
   const [showQRCode, setShowQRCode] = useState(false);
 
@@ -203,10 +209,9 @@ const CardView = ({
           {eventId && (
             <>
               <Tag
-                text={`${languageControl("Дата", "Date")}: ${event?.data
-                  ?.startDate}${
-                  event?.data?.endDate ? "-" + event.data.endDate : ""
-                }`}
+                text={`${languageControl("Дата", "Date")}: ${dateControl(
+                  event?.data?.startDate,
+                )}${event?.data?.endDate ? "-" + event.data.endDate : ""}`}
                 icon={{
                   name: "cal",
                   color: "#5624D3",

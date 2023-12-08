@@ -29,3 +29,12 @@ export const useLanguageControl = () => {
   return (titleRu?: string, titleEN?: string) =>
     language === "ru_RU" ? titleRu || "" : titleEN || titleRu || "";
 };
+
+export const useDateControl = () => {
+  const { language } = useAppSelector((state) => state.main);
+
+  return (date?: string) =>
+    language === "ru_RU"
+      ? new Date(date || "").toLocaleDateString("ru-RU")
+      : new Date(date || "").toLocaleDateString("en-EN");
+};
