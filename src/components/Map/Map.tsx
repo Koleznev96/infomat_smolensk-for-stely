@@ -15,7 +15,6 @@ import {
   CALENDAR_EVENT_ID,
   SUGGEST_VISIT,
   SUGGEST_VISIT_ID,
-  TOURIST_OBJECTS_CATEGORY_ID_ENTITY,
   TOURIST_OBJECTS_ID_ENTITY,
   TOURIST_ROUTES_ID_VIEW,
 } from "src/conts/routes";
@@ -100,10 +99,8 @@ const Map = () => {
   };
 
   const handleClickOnPlacemark = (id: number, subCatId: number) => {
-    if (!params.entityId && params.categoryId) {
-      navigate(
-        TOURIST_OBJECTS_CATEGORY_ID_ENTITY(params.categoryId, subCatId, id),
-      );
+    if (!params.entityId) {
+      navigate(TOURIST_OBJECTS_ID_ENTITY(subCatId, id));
     } else if (params.id) {
       navigate(TOURIST_OBJECTS_ID_ENTITY(params.id, id));
     } else if (window.location.pathname.includes(SUGGEST_VISIT)) {

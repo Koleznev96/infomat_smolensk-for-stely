@@ -16,6 +16,7 @@ import {
   CALENDAR_EVENT_ID,
   SUGGEST_VISIT,
   TOURIST_OBJECTS,
+  TOURIST_OBJECTS_ID_ENTITY,
   TOURIST_ROUTES,
 } from "src/conts/routes";
 
@@ -146,7 +147,7 @@ const Header = () => {
         titleEn: place.titleEn,
         description: place.description,
         descriptionEn: place.descriptionEn,
-        link: `${TOURIST_OBJECTS}/${place.subcategory?.id}/${place.id}`,
+        link: TOURIST_OBJECTS_ID_ENTITY(place.subcategory?.id, place?.id),
       })) || [];
 
     setSearchObjects([...dataEvents, ...dataPlaces]);

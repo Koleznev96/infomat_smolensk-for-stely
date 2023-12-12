@@ -529,9 +529,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   startTime: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   endTime?: string;
   /**
    * The phone of event
@@ -607,9 +607,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   startTime?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -990,9 +990,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   startTime?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   endTime?: string;
   /**
    * The phone of event
@@ -1178,6 +1178,7 @@ export interface PlaceShortOut {
   /** The description of place in English */
   descriptionEn?: string;
   subcategory?: PlaceSubcategoryShortOut;
+  category?: PlaceCategoryShortOut;
   address?: AddressOut;
 }
 
@@ -1215,9 +1216,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   startTime?: string;
-  /** @example "16:03" */
+  /** @example "05:03" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;
