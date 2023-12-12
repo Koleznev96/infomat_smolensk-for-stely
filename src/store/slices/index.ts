@@ -21,7 +21,6 @@ interface Places {
   cords: number[];
   url: string;
   text: string;
-  colorText: string;
   backgroundColor: string;
 }
 interface Stops {
@@ -90,7 +89,6 @@ export const mainSlice = createSlice({
             ? row?.title || ""
             : row?.titleEn || row?.title || "",
         url: row?.subcategory?.icon?.url || "",
-        colorText: "",
         backgroundColor:
           row.subcategory?.backgroundColor ||
           row?.subcategory?.category?.backgroundColor ||

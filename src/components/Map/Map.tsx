@@ -207,6 +207,7 @@ const Map = () => {
                         .filter((stop) => stop.id !== -1)
                         .map((cord, index) => (
                           <Placemark
+                            key={index}
                             geometry={cord.cord}
                             onClick={() =>
                               handleClickOnRouteNumber(cord.id, route.id)
@@ -229,10 +230,11 @@ const Map = () => {
                   {map.routeWithPlacemark.map((route, index) => (
                     <React.Fragment key={index}>
                       <Polyline
+                        key={index}
                         geometry={route.cords.map((cord) => cord.cord)}
                         options={{
                           strokeColor: route.lineColor,
-                          strokeWidth: 2,
+                          strokeWidth: 3,
                         }}
                       />
                       {route.cords
