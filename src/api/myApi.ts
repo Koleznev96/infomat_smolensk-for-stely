@@ -253,7 +253,8 @@ export interface StopIn {
    * The id of place
    * @format int64
    */
-  placeId: number;
+  placeId?: number;
+  address?: AddressIn;
   /**
    * The sequence number of stop in route
    * @format byte
@@ -334,6 +335,7 @@ export interface StopOut {
    */
   id?: number;
   place?: StopPlace;
+  address?: AddressOut;
   /**
    * The sequence number of stop
    * @format byte
@@ -341,7 +343,7 @@ export interface StopOut {
   sequenceNumber?: string;
 }
 
-/** The place related to that stop */
+/** The place related to that stop (mutual exclusion with address) */
 export interface StopPlace {
   /**
    * The id of place
@@ -527,9 +529,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   startTime: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   endTime?: string;
   /**
    * The phone of event
@@ -605,9 +607,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   startTime?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -988,9 +990,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   startTime?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   endTime?: string;
   /**
    * The phone of event
@@ -1213,9 +1215,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   startTime?: string;
-  /** @example "21:31" */
+  /** @example "16:03" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;

@@ -27,6 +27,7 @@ interface Places {
 interface Stops {
   id: number;
   cord: Array<number>;
+  sequenceNumber: number | string | null;
 }
 
 interface Routes {
@@ -134,13 +135,18 @@ export const mainSlice = createSlice({
       state.map.routes = action.payload.routes?.map((route) => ({
         cords:
           route?.stops?.map((stop) => ({
-            id: stop.place?.id || 0,
+            id: stop.place?.id || -1,
             cord: [
-              stop.place?.address?.latitude || 0,
-              stop.place?.address?.longitude || 0,
+              stop.place?.address?.latitude || stop.address?.latitude || 0,
+              stop.place?.address?.longitude || stop.address?.longitude || 0,
             ],
+            sequenceNumber: stop.sequenceNumber || null,
           })) || [],
         id: route.id || 0,
+        text:
+          state.language === "ru_RU"
+            ? route?.title || ""
+            : route?.titleEn || route?.title || "",
         lineColor: route.routeColor || "",
       }));
 
@@ -167,10 +173,11 @@ export const mainSlice = createSlice({
         cords:
           route?.stops?.map((stop) => ({
             cord: [
-              stop.place?.address?.latitude || 0,
-              stop.place?.address?.longitude || 0,
+              stop.place?.address?.latitude || stop.address?.latitude || 0,
+              stop.place?.address?.longitude || stop.address?.longitude || 0,
             ],
-            id: stop.place?.id || 0,
+            id: stop.place?.id || -1,
+            sequenceNumber: stop.sequenceNumber || null,
           })) || [],
         id: route.id || 0,
         text:

@@ -99,29 +99,35 @@ const TouristRoute = () => {
           {languageControl("Объекты на маршруте", "Tourist objects on route")}
         </h5>
         {response.data.stops?.map((stop, index) => (
-          <Link
-            onClick={() => setIndexStop(index)}
-            to={TOURIST_ROUTES_ID_VIEW(params.id, stop.place?.id)}
-            key={stop.id}
-          >
-            <div className={styles.object}>
-              <div className={styles.image}>
-                <img src={stop.place?.cover?.url3x2Original} alt="" />
-                <div className={styles.number}>{index + 1}</div>
-              </div>
-              <div className={styles.info}>
-                <h6>
-                  {languageControl(stop?.place?.title, stop?.place?.titleEn)}
-                </h6>
-                <p>
-                  {languageControl(
-                    stop?.place?.address?.address,
-                    stop?.place?.address?.addressEn,
-                  )}
-                </p>
-              </div>
-            </div>
-          </Link>
+          <React.Fragment key={stop.id}>
+            {stop?.sequenceNumber && (
+              <Link
+                onClick={() => setIndexStop(index)}
+                to={TOURIST_ROUTES_ID_VIEW(params.id, stop.place?.id)}
+              >
+                <div className={styles.object}>
+                  <div className={styles.image}>
+                    <img src={stop.place?.cover?.url3x2Original} alt="" />
+                    <div className={styles.number}>{stop.sequenceNumber}</div>
+                  </div>
+                  <div className={styles.info}>
+                    <h6>
+                      {languageControl(
+                        stop?.place?.title,
+                        stop?.place?.titleEn,
+                      )}
+                    </h6>
+                    <p>
+                      {languageControl(
+                        stop?.place?.address?.address,
+                        stop?.place?.address?.addressEn,
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            )}
+          </React.Fragment>
         ))}
       </div>
     </div>
