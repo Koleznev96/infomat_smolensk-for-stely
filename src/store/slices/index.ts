@@ -27,7 +27,6 @@ interface Places {
 interface Stops {
   id: number;
   cord: Array<number>;
-  sequenceNumber: number | string | null;
 }
 
 interface Routes {
@@ -140,7 +139,6 @@ export const mainSlice = createSlice({
               stop.place?.address?.latitude || stop.address?.latitude || 0,
               stop.place?.address?.longitude || stop.address?.longitude || 0,
             ],
-            sequenceNumber: stop.sequenceNumber || null,
           })) || [],
         id: route.id || 0,
         text:
@@ -177,29 +175,33 @@ export const mainSlice = createSlice({
               stop.place?.address?.longitude || stop.address?.longitude || 0,
             ],
             id: stop.place?.id || -1,
-            sequenceNumber: stop.sequenceNumber || null,
           })) || [],
         id: route.id || 0,
         text:
           state.language === "ru_RU"
-            ? route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
-                ?.title || ""
-            : route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
-                ?.titleEn ||
-              route.stops?.[state.map.currentPlacemarkIndex || 0]?.place
-                ?.title ||
+            ? route.stops?.find(
+                (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+              )?.place?.title || ""
+            : route.stops?.find(
+                (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+              )?.place?.titleEn ||
+              route.stops?.find(
+                (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+              )?.place?.title ||
               "",
         url: route.icon?.url || "",
         lineColor: route.routeColor || "",
       }));
 
       const locationLatitude =
-        action?.payload?.center?.stops?.[state.map.currentPlacemarkIndex || 0]
-          ?.place?.address?.latitude ?? action.payload.center.address?.latitude;
+        action?.payload?.center?.stops?.find(
+          (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+        )?.place?.address?.latitude ?? action.payload.center.address?.latitude;
 
       const locationLongitude =
-        action?.payload?.center?.stops?.[state.map.currentPlacemarkIndex || 0]
-          ?.place?.address?.longitude ??
+        action?.payload?.center?.stops?.find(
+          (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+        )?.place?.address?.longitude ??
         action.payload.center.address?.longitude;
 
       state.map.center = [locationLatitude || 0, locationLongitude || 0];
@@ -212,12 +214,14 @@ export const mainSlice = createSlice({
     },
     panTo: (state, action: PayloadAction<RouteOut & PlaceShortOut>) => {
       const locationLatitude =
-        action?.payload?.stops?.[state.map.currentPlacemarkIndex || 0]?.place
-          ?.address?.latitude ?? action.payload?.address?.latitude;
+        action?.payload?.stops?.find(
+          (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+        )?.place?.address?.latitude ?? action.payload?.address?.latitude;
 
       const locationLongitude =
-        action?.payload?.stops?.[state.map.currentPlacemarkIndex || 0]?.place
-          ?.address?.longitude ?? action.payload?.address?.longitude;
+        action?.payload?.stops?.find(
+          (stop) => stop?.place?.id === state.map.currentPlacemarkIndex,
+        )?.place?.address?.longitude ?? action.payload?.address?.longitude;
 
       state.map.center = [locationLatitude || 0, locationLongitude || 0];
     },

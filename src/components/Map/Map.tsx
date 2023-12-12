@@ -111,12 +111,8 @@ const Map = () => {
     }
   };
 
-  const handleClickOnRouteNumber = (
-    id: number,
-    routeId: number,
-    index: number,
-  ) => {
-    dispatch(updateCurrentIndexRoutePlacemark(index));
+  const handleClickOnRouteNumber = (id: number, routeId: number) => {
+    dispatch(updateCurrentIndexRoutePlacemark(id));
 
     if (params.entityId !== id.toString()) {
       navigate(TOURIST_ROUTES_ID_VIEW(routeId, id));
@@ -207,32 +203,23 @@ const Map = () => {
                           strokeWidth: 3,
                         }}
                       />
-                      {route.cords.map((cord, index) => (
-                        <React.Fragment key={index}>
-                          {!!cord.sequenceNumber && (
-                            <Placemark
-                              geometry={cord.cord}
-                              onClick={() =>
-                                handleClickOnRouteNumber(
-                                  cord.id,
-                                  route.id,
-                                  index,
-                                )
-                              }
-                              options={{
-                                pane: "overlaps",
-                                iconLayout:
-                                  ymaps.current?.templateLayoutFactory?.createClass(
-                                    routeContent(
-                                      cord.sequenceNumber,
-                                      route.lineColor,
-                                    ),
-                                  ),
-                              }}
-                            />
-                          )}
-                        </React.Fragment>
-                      ))}
+                      {route.cords
+                        .filter((stop) => stop.id !== -1)
+                        .map((cord, index) => (
+                          <Placemark
+                            geometry={cord.cord}
+                            onClick={() =>
+                              handleClickOnRouteNumber(cord.id, route.id)
+                            }
+                            options={{
+                              pane: "overlaps",
+                              iconLayout:
+                                ymaps.current?.templateLayoutFactory?.createClass(
+                                  routeContent(index + 1, route.lineColor),
+                                ),
+                            }}
+                          />
+                        ))}
                     </React.Fragment>
                   ))}
                 </React.Fragment>
@@ -248,40 +235,31 @@ const Map = () => {
                           strokeWidth: 2,
                         }}
                       />
-                      {route.cords.map((cord, index) => (
-                        <>
-                          {!!cord.sequenceNumber && (
-                            <Placemark
-                              key={index}
-                              geometry={cord.cord}
-                              onClick={() =>
-                                handleClickOnRouteNumber(
-                                  cord.id,
-                                  route.id,
-                                  index,
-                                )
-                              }
-                              options={{
-                                pane: "overlaps",
-                                iconLayout:
-                                  ymaps.current?.templateLayoutFactory?.createClass(
-                                    map.currentPlacemarkIndex === index
-                                      ? placeMarkContent(
-                                          route.url,
-                                          route.text,
-                                          "white",
-                                          true,
-                                        )
-                                      : routeContent(
-                                          cord.sequenceNumber,
-                                          route.lineColor,
-                                        ),
-                                  ),
-                              }}
-                            />
-                          )}
-                        </>
-                      ))}
+                      {route.cords
+                        .filter((stop) => stop.id !== -1)
+                        .map((cord, index) => (
+                          <Placemark
+                            key={index}
+                            geometry={cord.cord}
+                            onClick={() =>
+                              handleClickOnRouteNumber(cord.id, route.id)
+                            }
+                            options={{
+                              pane: "overlaps",
+                              iconLayout:
+                                ymaps.current?.templateLayoutFactory?.createClass(
+                                  map.currentPlacemarkIndex === cord.id
+                                    ? placeMarkContent(
+                                        route.url,
+                                        route.text,
+                                        "white",
+                                        true,
+                                      )
+                                    : routeContent(index + 1, route.lineColor),
+                                ),
+                            }}
+                          />
+                        ))}
                     </React.Fragment>
                   ))}
                 </React.Fragment>

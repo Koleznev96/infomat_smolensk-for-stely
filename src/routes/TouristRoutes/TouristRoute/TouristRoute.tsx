@@ -32,8 +32,8 @@ const TouristRoute = () => {
     );
   }, [dispatch, response]);
 
-  const setIndexStop = (index: number) => {
-    dispatch(updateCurrentIndexRoutePlacemark(index));
+  const setIdStop = (id: number) => {
+    dispatch(updateCurrentIndexRoutePlacemark(id));
   };
 
   if (!response?.data?.id) {
@@ -98,37 +98,33 @@ const TouristRoute = () => {
         <h5>
           {languageControl("Объекты на маршруте", "Tourist objects on route")}
         </h5>
-        {response.data.stops?.map((stop, index) => (
-          <React.Fragment key={stop.id}>
-            {stop?.sequenceNumber && (
-              <Link
-                onClick={() => setIndexStop(index)}
-                to={TOURIST_ROUTES_ID_VIEW(params.id, stop.place?.id)}
-              >
-                <div className={styles.object}>
-                  <div className={styles.image}>
-                    <img src={stop.place?.cover?.url3x2Original} alt="" />
-                    <div className={styles.number}>{stop.sequenceNumber}</div>
-                  </div>
-                  <div className={styles.info}>
-                    <h6>
-                      {languageControl(
-                        stop?.place?.title,
-                        stop?.place?.titleEn,
-                      )}
-                    </h6>
-                    <p>
-                      {languageControl(
-                        stop?.place?.address?.address,
-                        stop?.place?.address?.addressEn,
-                      )}
-                    </p>
-                  </div>
+        {response.data.stops
+          ?.filter((stop) => !!stop?.place?.id)
+          ?.map((stop, index) => (
+            <Link
+              key={index}
+              onClick={() => setIdStop(stop?.place?.id || 0)}
+              to={TOURIST_ROUTES_ID_VIEW(params.id, stop.place?.id)}
+            >
+              <div className={styles.object}>
+                <div className={styles.image}>
+                  <img src={stop.place?.cover?.url3x2Original} alt="" />
+                  <div className={styles.number}>{index + 1}</div>
                 </div>
-              </Link>
-            )}
-          </React.Fragment>
-        ))}
+                <div className={styles.info}>
+                  <h6>
+                    {languageControl(stop?.place?.title, stop?.place?.titleEn)}
+                  </h6>
+                  <p>
+                    {languageControl(
+                      stop?.place?.address?.address,
+                      stop?.place?.address?.addressEn,
+                    )}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
