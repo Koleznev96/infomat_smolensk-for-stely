@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useIdleTimer } from "react-idle-timer";
 
-import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import {
   CalendarCard,
@@ -30,15 +36,30 @@ import {
 } from "src/conts/routes";
 
 import { Button, ChangedBlock, Header, Map, Breadcrumbs } from "src/components";
+import { useGetGeneralQuery } from "src/api/main";
 
 const ReactRoutes = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const idle = useIdleTimer({
     timeout: 1000 * 60 * 3,
-    onIdle: () => navigate("/"),
+    onIdle: () => {
+      navigate("/");
+      // @ts-ignore
+      window.ym(95698781, "reachGoal", "new-session");
+    },
   });
 
   const languageControl = useLanguageControl();
+
+  const { data: response } = useGetGeneralQuery(undefined);
+
+  useEffect(() => {
+    if (response?.data?.yandexMetricCode) {
+      // @ts-ignore
+      window.ym(response?.data?.yandexMetricCode, "hit", window.location.href);
+    }
+  }, [location.pathname, response?.data?.yandexMetricCode]);
 
   const HeaderLayout = (
     <div className="wrapper">
