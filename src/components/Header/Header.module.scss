@@ -73,6 +73,10 @@
           padding: 10px 16px;
           border: 1px solid var(--border-color);
 
+          &:hover {
+            background-color: darken(white, 10%);
+          }
+
           &:first-child {
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
@@ -150,6 +154,10 @@
         border-radius: 8px;
         border: none;
         outline: none;
+
+        &:focus {
+          box-shadow: 1px 1px 10px 1px var(--border-color);
+        }
       }
 
       .resultSection {
@@ -171,6 +179,11 @@
           justify-content: space-between;
           gap: 20px;
           cursor: pointer;
+
+          &:hover {
+            border-radius: 10px;
+            background-color: darken(white, 10%);
+          }
 
           img {
             min-width: 176px;

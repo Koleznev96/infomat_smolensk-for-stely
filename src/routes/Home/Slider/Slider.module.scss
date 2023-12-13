@@ -42,6 +42,10 @@
         width: 40px;
         height: 10px;
         background-color: #667085;
+
+        &:hover {
+          background-color: darken(#667085, 10%);
+        }
       }
     }
   }

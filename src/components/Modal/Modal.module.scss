@@ -23,6 +23,10 @@
       bottom: 15px;
       left: 15px;
       background: white;
+
+      &:hover {
+        background-color: darken(white, 10%);
+      }
     }
 
     .buttons {
@@ -39,13 +43,17 @@
       div {
         border-radius: 50%;
         background-color: white;
+
+        &:hover {
+          background-color: darken(white, 10%);
+        }
       }
     }
 
     img {
       height: 100%;
-      width: 100%;
-      object-fit: cover;
+      max-width: 1070px;
+      object-fit: fill;
     }
   }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import yandexRU from "src/icons/header/yandexRU.svg";
@@ -58,6 +58,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
 
+  const outsideRef = useRef<null | HTMLDivElement>(null);
+
   const [date, setDate] = useState(new Date());
   const [inputValue, setInputValue] = useState("");
   const [searchObjects, setSearchObjects] = useState<SearchObjects[]>([]);
@@ -105,6 +107,22 @@ const Header = () => {
       setDate(new Date());
     }, 1000);
     return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const checkClickOutSide = (event: MouseEvent) => {
+      if (
+        outsideRef.current &&
+        !outsideRef.current.contains(event.target as Node)
+      ) {
+        setSearchObjects([]);
+        setInputValue("");
+      }
+    };
+
+    window.addEventListener("click", checkClickOutSide);
+
+    return () => window.removeEventListener("click", checkClickOutSide);
   }, []);
 
   useEffect(() => {
@@ -336,7 +354,7 @@ const Header = () => {
             onChange={(e) => setInputValue(e.target.value)}
           />
           {searchObjects?.length >= 1 ? (
-            <div className={styles.resultSection}>
+            <div className={styles.resultSection} ref={outsideRef}>
               {searchObjects.map((object, index) => (
                 <div
                   onClick={() => goToObject(object.link || "#")}

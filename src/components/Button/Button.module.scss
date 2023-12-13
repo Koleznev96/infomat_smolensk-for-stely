@@ -9,6 +9,10 @@
   border-radius: 10px;
   cursor: pointer;
 
+  &:hover {
+    background-color: darken(#fff, 5%);
+  }
+
   button {
     all: unset;
     display: flex;
