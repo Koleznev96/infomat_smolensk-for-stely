@@ -6,7 +6,7 @@ import { useLanguageControl } from "src/hooks";
 import styles from "./Modal.module.scss";
 
 interface ModalProps {
-  type: "image" | "qrcode";
+  type?: "image" | "qrcode";
   visible: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -114,12 +114,14 @@ const Modal = ({
               <div>
                 {children}
                 <span>
-                  Отсканировав данный QR-код Вы сможете получить дополнительную
-                  информацию о данном объекте в приложении «Мой Смоленск»
+                  {languageControl(
+                    "Отсканировав данный QR-код Вы сможете получить дополнительную информацию о данном объекте в приложении «Мой Смоленск»",
+                    "Scan the QR code to get additional information about this object in the «My Smolensk App»",
+                  )}
                 </span>
               </div>
               <Button className={styles.button} onClick={onClose}>
-                Закрыть
+                {languageControl("Закрыть", "Close")}
               </Button>
             </div>
           )}

@@ -20,8 +20,8 @@
 
     .close {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
+      bottom: 15px;
+      left: 15px;
       background: white;
     }
 
@@ -44,6 +44,8 @@
 
     img {
       height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
