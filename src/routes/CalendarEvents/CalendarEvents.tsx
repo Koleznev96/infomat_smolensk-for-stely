@@ -41,7 +41,7 @@ const CalendarEvents = () => {
   return (
     <div className={styles.calendarEvents}>
       <Title
-        text={languageControl("Календарь событий", "Calendar events")}
+        text={languageControl("Календарь мероприятий", "Calendar events")}
         svg={
           <>
             <svg
