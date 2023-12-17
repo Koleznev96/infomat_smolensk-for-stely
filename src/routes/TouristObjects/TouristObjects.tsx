@@ -14,7 +14,7 @@ const TouristObjects = () => {
   const languageControl = useLanguageControl();
 
   const { data: response } = useGetCategoriesQuery(undefined);
-  const { data: places } = useGetPlacesQuery({ page: 1 });
+  const { data: places } = useGetPlacesQuery({ page: 0 });
 
   useEffect(() => {
     if (!places?.rows?.length) {
