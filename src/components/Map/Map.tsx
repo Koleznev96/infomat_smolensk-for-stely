@@ -9,6 +9,7 @@ import {
   YMaps,
 } from "@pbe/react-yandex-maps";
 
+import { useGetSpecialPlacesQuery } from "src/api/main";
 import { useAppDispatch, useAppSelector } from "src/hooks";
 import { updateCurrentIndexRoutePlacemark } from "src/store/slices";
 import {
@@ -33,9 +34,21 @@ const Map = () => {
 
   const { map, language } = useAppSelector((state) => state.main);
 
+  const { data: response } = useGetSpecialPlacesQuery(undefined);
+
   useEffect(() => {
     mapRef.current?.panTo(map.center);
   }, [map.center, map.type]);
+
+  const specialPlacesContent = (url?: string, bg?: string) => {
+    return `
+        <span class="special-places-content-react-smolensk">
+            <div class=special-places-content-react-smolensk-content" style="background-color: ${bg}">
+              <img src="${url}" alt="icon-places">
+            </div>
+        </span>
+      `;
+  };
 
   const placeMarkContent = (
     url?: string,
@@ -143,6 +156,24 @@ const Map = () => {
           <ZoomControl options={{ position: { right: 10, top: 350 } }} />
           {isLoaded && (
             <>
+              {response?.rows?.map((places) => (
+                <Placemark
+                  key={places.id}
+                  geometry={[
+                    places.address?.latitude,
+                    places.address?.longitude,
+                  ]}
+                  options={{
+                    iconLayout:
+                      ymaps.current?.templateLayoutFactory?.createClass(
+                        specialPlacesContent(
+                          places?.icon?.url,
+                          places.backgroundColor,
+                        ),
+                      ),
+                  }}
+                />
+              ))}
               {map.type === "place-mark" && (
                 <React.Fragment>
                   {map.placeMarksType.map((cor, index) => (

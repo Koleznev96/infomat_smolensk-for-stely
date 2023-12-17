@@ -4,6 +4,7 @@ import {
   ApiPagePlaceCategoryOut,
   ApiPagePlaceShortOut,
   ApiPageRouteShortOut,
+  ApiPageSpecialPlaceOut,
   ApiResponseEventOut,
   ApiResponseGeneralOut,
   ApiResponsePlaceCategoryOut,
@@ -116,6 +117,9 @@ export const mainApi = createApi({
     getWeather: builder.query<YandexWeather, undefined>({
       query: () => "weather",
     }),
+    getSpecialPlaces: builder.query<ApiPageSpecialPlaceOut, undefined>({
+      query: () => "specialPlaces",
+    }),
   }),
 });
 
@@ -135,4 +139,5 @@ export const {
   useGetRoutesQuery,
   useGetRoutesIdQuery,
   useGetWeatherQuery,
+  useGetSpecialPlacesQuery,
 } = mainApi;

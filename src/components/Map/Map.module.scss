@@ -97,3 +97,27 @@
   line-height: normal;
   border-radius: 5px;
 }
+
+[class*="special-places-content-react-smolensk"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+
+  [class*="special-places-content-react-smolensk-content"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    z-index: 1;
+    border: 3px solid #fff;
+    position: relative;
+    top: -30px;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
+}
