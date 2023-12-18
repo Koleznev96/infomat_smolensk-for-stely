@@ -356,6 +356,8 @@ export interface StopPlace {
   titleEn?: string;
   cover?: Image;
   address?: AddressOut;
+  /** The status of place */
+  status?: "DRAFT" | "PUBLISHED";
 }
 
 /** The frame which describes coordinates and size for cropping cover */
@@ -529,9 +531,9 @@ export interface EventCreate {
    * @format date
    */
   endDate?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   startTime: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   endTime?: string;
   /**
    * The phone of event
@@ -607,9 +609,9 @@ export interface EventOut {
    * @format date
    */
   endDate?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   startTime?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   endTime?: string;
   /** The phone of event */
   phone?: string;
@@ -990,9 +992,9 @@ export interface EventPatch {
    * @format date
    */
   endDate?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   startTime?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   endTime?: string;
   /**
    * The phone of event
@@ -1216,9 +1218,9 @@ export interface EventShortOut {
    * @format date
    */
   endDate?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   startTime?: string;
-  /** @example "05:03" */
+  /** @example "04:47" */
   endTime?: string;
   /** The description of event in Russian */
   description?: string;

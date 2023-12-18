@@ -99,7 +99,9 @@ const TouristRoute = () => {
           {languageControl("Объекты на маршруте", "Tourist objects on route")}
         </h5>
         {response.data.stops
-          ?.filter((stop) => !!stop?.place?.id)
+          ?.filter(
+            (stop) => !!stop?.place?.id && stop?.place?.status !== "DRAFT",
+          )
           ?.map((stop, index) => (
             <Link
               key={index}
