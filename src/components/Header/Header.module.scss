@@ -140,6 +140,7 @@
       border: 1px solid var(--border-color);
       border-radius: 8px;
       width: 100%;
+      background-color: white;
 
       span {
         position: absolute;
@@ -164,7 +165,6 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
-        background-color: white;
         max-height: 476px;
         height: 100%;
         z-index: 1;
@@ -215,6 +215,14 @@
             }
           }
         }
+      }
+
+      .nothing {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        height: 80px;
       }
     }
   }

@@ -328,6 +328,7 @@ const Header = () => {
                 ? "0 0 0 6px #edeff2, 0 1px 2px 0 rgba(16, 24, 40, 0.05)"
                 : "",
           }}
+          ref={outsideRef}
         >
           <span>
             <svg
@@ -352,8 +353,8 @@ const Header = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          {searchObjects?.length >= 1 ? (
-            <div className={styles.resultSection} ref={outsideRef}>
+          {searchObjects?.length >= 1 && (
+            <div className={styles.resultSection}>
               {searchObjects.map((object, index) => (
                 <div
                   onClick={() => goToObject(object.link || "#")}
@@ -373,8 +374,11 @@ const Header = () => {
                 </div>
               ))}
             </div>
-          ) : (
-            ""
+          )}
+          {!searchObjects?.length && inputValue && (
+            <p className={styles.nothing}>
+              {languageControl("Ничего не найдено", "Nothing found")}
+            </p>
           )}
         </div>
       </div>
