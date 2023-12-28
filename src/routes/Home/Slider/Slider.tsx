@@ -35,7 +35,7 @@ const Slider = () => {
 
   return (
     <div className={styles.slider}>
-      <div>{sliders?.[currentSlide]}</div>
+      {sliders?.[currentSlide]}
       <div className={styles.slider_controller}>
         <div className={styles.slider_action}>
           {sliders?.map((elem, index) => (
