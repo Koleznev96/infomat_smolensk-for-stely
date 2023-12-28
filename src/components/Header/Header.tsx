@@ -61,6 +61,7 @@ const Header = () => {
   const outsideRef = useRef<null | HTMLDivElement>(null);
 
   const [date, setDate] = useState(new Date());
+  const [moscowTime, setMoscowTime] = useState(new Date());
   const [inputValue, setInputValue] = useState("");
   const [searchObjects, setSearchObjects] = useState<SearchObjects[]>([]);
   const debounceValue = useDebounce(inputValue, 500);
@@ -71,16 +72,6 @@ const Header = () => {
   const [places, { data: placesData }] = useLazyGetPlacesQuery();
 
   const { language } = useAppSelector((state) => state.main);
-
-  const moscowTime = useMemo(
-    () =>
-      new Date().toLocaleTimeString(language.replace("_", "-"), {
-        timeZone: "Europe/Moscow",
-        hour: "numeric",
-        minute: "numeric",
-      }),
-    [language],
-  );
 
   const title = useMemo(() => {
     const path = location.pathname;
@@ -105,7 +96,9 @@ const Header = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setDate(new Date());
+      setMoscowTime(new Date());
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, []);
 
@@ -268,7 +261,13 @@ const Header = () => {
               })}
             </span>
           </span>
-          <span>{moscowTime}</span>
+          <span>
+            {moscowTime.toLocaleTimeString(language.replace("_", "-"), {
+              timeZone: "Europe/Moscow",
+              hour: "numeric",
+              minute: "numeric",
+            })}
+          </span>
         </div>
         <div className={styles.top}>
           <div className={styles.weather}>
