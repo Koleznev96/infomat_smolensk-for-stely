@@ -14,12 +14,18 @@ const Slider = () => {
       key={video.id}
       controls={false}
       autoPlay={true}
-      loop={true}
       controlsList={undefined}
+      onEnded={onVideoEnd}
     >
       <source src={video.url} />
     </video>
   ));
+
+  function onVideoEnd() {
+    const videoLength = response?.data?.videos?.length || 0;
+
+    setCurrentSlide((prev) => (prev + 1) % videoLength);
+  }
 
   const handleChangeSlider = (current: number) => {
     setCurrentSlide(current);
