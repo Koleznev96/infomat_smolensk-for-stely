@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-import { index } from "src/store";
 import { ReactRoutes } from "src/routes";
+
+import { index } from "src/store";
 
 function App() {
   useEffect(() => {
