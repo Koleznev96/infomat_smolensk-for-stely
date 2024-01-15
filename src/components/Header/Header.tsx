@@ -67,7 +67,7 @@ const Header = () => {
   const debounceValue = useDebounce(inputValue, 500);
 
   const { data: response } = useGetGeneralQuery(undefined);
-  const { data: weather } = useGetWeatherQuery(undefined);
+  const { data: weather, refetch } = useGetWeatherQuery(undefined);
   const [events, { data: eventsData }] = useLazyGetEventsQuery();
   const [places, { data: placesData }] = useLazyGetPlacesQuery();
 
@@ -99,7 +99,17 @@ const Header = () => {
       setMoscowTime(new Date());
     }, 1000);
 
-    return () => clearInterval(intervalId);
+    const weatherIntervalId = setInterval(
+      () => {
+        refetch();
+      },
+      1000 * 60 * 30,
+    );
+
+    return () => {
+      clearInterval(intervalId);
+      clearInterval(weatherIntervalId);
+    };
   }, []);
 
   useEffect(() => {
@@ -216,34 +226,49 @@ const Header = () => {
     setSearchObjects([]);
   };
 
-  const currentTimeOfDay = (currentTime?: Part) => {
-    switch (currentTime?.part_name) {
-      case "morning":
-        return (
-          <>
-            {languageControl("Утром", "Morning")} {currentTime?.temp_max || 0}
-          </>
-        );
-      case "day":
-        return (
-          <>
-            {languageControl("Днем", "Afternoon")} {currentTime?.temp_max || 0}
-          </>
-        );
-      case "evening":
-        return (
-          <>
-            {languageControl("Вечером", "Evening")} {currentTime?.temp_max || 0}
-          </>
-        );
-      case "night":
-        return (
-          <>
-            {languageControl("Ночью", "Night")} {currentTime?.temp_max || 0}
-          </>
-        );
-    }
-  };
+  const currentWeather = useMemo(() => {
+    const currentTimeOfDay = (currentTime?: Part) => {
+      switch (currentTime?.part_name) {
+        case "morning":
+          return (
+            <>
+              {languageControl("Утром", "Morning")} {currentTime?.temp_max || 0}
+            </>
+          );
+        case "day":
+          return (
+            <>
+              {languageControl("Днем", "Afternoon")}{" "}
+              {currentTime?.temp_max || 0}
+            </>
+          );
+        case "evening":
+          return (
+            <>
+              {languageControl("Вечером", "Evening")}{" "}
+              {currentTime?.temp_max || 0}
+            </>
+          );
+        case "night":
+          return (
+            <>
+              {languageControl("Ночью", "Night")} {currentTime?.temp_max || 0}
+            </>
+          );
+      }
+    };
+
+    return (
+      <>
+        <span className={styles.blur}>
+          {currentTimeOfDay(weather?.forecast?.parts[0])}°C
+        </span>
+        <span className={styles.blur}>
+          {currentTimeOfDay(weather?.forecast?.parts[1])}°C
+        </span>
+      </>
+    );
+  }, [languageControl, weather?.forecast?.parts]);
 
   return (
     <div className={styles.header}>
@@ -283,12 +308,7 @@ const Header = () => {
                 {weather?.fact?.icon && <SVGIcon path={weather?.fact?.icon} />}
                 {weather?.fact?.temp || 0}°C
               </span>
-              <span className={styles.blur}>
-                {currentTimeOfDay(weather?.forecast?.parts[0])}°C
-              </span>
-              <span className={styles.blur}>
-                {currentTimeOfDay(weather?.forecast?.parts[1])}°C
-              </span>
+              {currentWeather}
             </span>
           </div>
           <div className={styles.language}>
