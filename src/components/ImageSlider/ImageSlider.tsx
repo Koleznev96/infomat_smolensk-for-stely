@@ -12,7 +12,15 @@ interface ImageSliderProps {
 const ImageSlider = ({ images }: ImageSliderProps) => {
   const contentRef = useRef<null | HTMLDivElement>(null);
 
+  const mouseCoords = useRef({
+    startX: 0,
+    startY: 0,
+    scrollLeft: 0,
+    scrollTop: 0,
+  });
+
   const [visible, setVisible] = React.useState(false);
+  const [isMouseDown, setIsMouseDown] = React.useState(false);
   const [currentImages, setCurrentImages] = React.useState(0);
   const [isShowArrows, setIsShowArrows] = React.useState({
     left: false,
@@ -68,6 +76,37 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
     setCurrentImages(index);
   };
 
+  const handleDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!contentRef.current) return;
+    e.preventDefault();
+    const slider = contentRef.current;
+    const startX = e.touches[0].clientX - slider.offsetLeft;
+    const startY = e.touches[0].clientY - slider.offsetTop;
+    const scrollLeft = slider.scrollLeft;
+    const scrollTop = slider.scrollTop;
+    mouseCoords.current = { startX, startY, scrollLeft, scrollTop };
+    setIsMouseDown(true);
+    document.body.style.cursor = "grabbing";
+  };
+
+  const handleDragEnd = () => {
+    setIsMouseDown(false);
+    if (!contentRef.current) return;
+    document.body.style.cursor = "default";
+  };
+
+  const handleDrag = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMouseDown || !contentRef.current) return;
+    e.preventDefault();
+    const slider = contentRef.current;
+    const x = e.touches[0].clientX - slider.offsetLeft;
+    const y = e.touches[0].clientY - slider.offsetTop;
+    const walkX = (x - mouseCoords.current.startX) * 1.5;
+    const walkY = (y - mouseCoords.current.startY) * 1.5;
+    slider.scrollLeft = mouseCoords.current.scrollLeft - walkX;
+    slider.scrollTop = mouseCoords.current.scrollTop - walkY;
+  };
+
   return (
     <div className={styles.imageSlider}>
       <Modal
@@ -78,7 +117,14 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
       >
         <img src={images?.[currentImages]?.urlOriginal} alt="" />
       </Modal>
-      <div className={styles.slider} ref={contentRef} onScroll={scrollCheck}>
+      <div
+        className={styles.slider}
+        ref={contentRef}
+        onScroll={scrollCheck}
+        onTouchStart={handleDragStart}
+        onTouchEnd={handleDragEnd}
+        onTouchMove={handleDrag}
+      >
         {images?.map((image, index) => (
           <img
             key={image.id}

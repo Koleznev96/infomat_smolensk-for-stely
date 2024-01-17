@@ -43,7 +43,6 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     };
 
     const onMouseUpTopResize = () => {
-      document.removeEventListener("mousemove", onMouseMoveTopResize);
       document.removeEventListener("touchmove", onMouseMoveTopResize);
     };
 
@@ -55,9 +54,7 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
       resizeableEle.style.bottom = styles.bottom;
       resizeableEle.style.top = "";
 
-      document.addEventListener("mousemove", onMouseMoveTopResize);
       document.addEventListener("touchmove", onMouseMoveTopResize);
-      document.addEventListener("mouseup", onMouseUpTopResize);
       document.addEventListener("touchend", onMouseUpTopResize);
     };
 
@@ -67,11 +64,9 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
 
     const resizerTop = refTop.current;
 
-    resizerTop.addEventListener("mousedown", onMouseDownTopResize);
     resizerTop.addEventListener("touchstart", onMouseDownTopResize);
 
     return () => {
-      resizerTop.removeEventListener("mousedown", onMouseDownTopResize);
       resizerTop.removeEventListener("touchstart", onMouseDownTopResize);
     };
   }, []);
