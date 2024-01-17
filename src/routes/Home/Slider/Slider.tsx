@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useGetGeneralQuery } from "src/api/main";
 
@@ -7,7 +7,13 @@ import styles from "./Slider.module.scss";
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
 
-  const { data: response } = useGetGeneralQuery(undefined);
+  const { data: response, refetch } = useGetGeneralQuery(undefined);
+
+  useEffect(() => {
+    const timer = setInterval(() => refetch(), 1000 * 60 * 10);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const sliders = response?.data?.videos?.map((video) => (
     <video
