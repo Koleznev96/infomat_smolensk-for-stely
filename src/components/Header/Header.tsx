@@ -11,6 +11,8 @@ import { ReactComponent as GB } from "src/icons/header/gb.svg";
 
 import { Part } from "src/api/weather";
 
+import KeyboardWrapper from "src/components/Header/KeyboardWrapper";
+
 import {
   CALENDAR_EVENT,
   CALENDAR_EVENT_ID,
@@ -58,12 +60,14 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const languageControl = useLanguageControl();
 
+  const keyboardRef = useRef<any | null>(null);
   const outsideRef = useRef<null | HTMLDivElement>(null);
 
   const [date, setDate] = useState(new Date());
   const [moscowTime, setMoscowTime] = useState(new Date());
   const [inputValue, setInputValue] = useState("");
   const [searchObjects, setSearchObjects] = useState<SearchObjects[]>([]);
+  const [toggleShowKeyboard, setToggleShowKeyboard] = useState(false);
   const debounceValue = useDebounce(inputValue, 500);
 
   const { data: response } = useGetGeneralQuery(undefined);
@@ -120,6 +124,7 @@ const Header = () => {
       ) {
         setSearchObjects([]);
         setInputValue("");
+        setToggleShowKeyboard(false);
       }
     };
 
@@ -339,7 +344,7 @@ const Header = () => {
         </div>
         <img className={styles.backgroundImage} src={headBG} alt="head-bg" />
       </div>
-      <div className={styles.headerBottom}>
+      <div className={styles.headerBottom} ref={outsideRef}>
         <div
           className={styles.content}
           style={{
@@ -348,7 +353,6 @@ const Header = () => {
                 ? "0 0 0 6px #edeff2, 0 1px 2px 0 rgba(16, 24, 40, 0.05)"
                 : "",
           }}
-          ref={outsideRef}
         >
           <span>
             <svg
@@ -371,7 +375,12 @@ const Header = () => {
             type="text"
             placeholder={languageControl("Поиск", "Search")}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setInputValue(value);
+              keyboardRef.current?.setInput(value);
+            }}
+            onFocus={() => setToggleShowKeyboard(true)}
           />
           {searchObjects?.length >= 1 && (
             <div className={styles.resultSection}>
@@ -401,6 +410,15 @@ const Header = () => {
             </p>
           )}
         </div>
+        {toggleShowKeyboard && (
+          <div className={styles.keyboard}>
+            <KeyboardWrapper
+              onChange={setInputValue}
+              language={language}
+              keyboardRef={keyboardRef}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

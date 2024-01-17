@@ -8257,6 +8257,11 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-simple-keyboard@^3.7.66:
+  version "3.7.66"
+  resolved "https://registry.yarnpkg.com/react-simple-keyboard/-/react-simple-keyboard-3.7.66.tgz#cc1bdb165b33002cf0a5e95dbce91f816d77b700"
+  integrity sha512-HSPWQTvQXgdElsLuXu8t2SlUHI0ZRypK2MAhul1DmGZkFykrJZKmwdQZ10ed3a1wrs5dj5WccYxIPxgGMgnUPQ==
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
@@ -8845,6 +8850,11 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
+simple-keyboard-layouts@^3.3.56:
+  version "3.3.56"
+  resolved "https://registry.yarnpkg.com/simple-keyboard-layouts/-/simple-keyboard-layouts-3.3.56.tgz#0fe62f0bfa903bcbe6db9896e964656a75f549cb"
+  integrity sha512-/Jilejbub4y7ha+dCgiWpIpGiFpTk2/w+74OYZLmy5Zo+RZLxkbZWMeEQFD5OgVV1pp9DLwL0h2TbpP3fLPKcQ==
 
 sisteransi@^1.0.5:
   version "1.0.5"
