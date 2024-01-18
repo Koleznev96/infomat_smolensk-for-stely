@@ -10,14 +10,18 @@ interface IProps {
   onChange: (input: string) => void;
   keyboardRef: any;
   language: "ru_RU" | "en_US";
+  inputRef: React.MutableRefObject<HTMLInputElement | null>;
 }
 
 const KeyboardWrapper: FunctionComponent<IProps> = ({
   onChange,
   keyboardRef,
   language = "ru_RU",
+  inputRef,
 }) => {
   const [layoutName, setLayoutName] = useState("default");
+
+  inputRef.current?.focus();
 
   const onKeyPress = (button: string) => {
     if (button === "{shift}" || button === "{lock}") {

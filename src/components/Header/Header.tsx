@@ -61,6 +61,7 @@ const Header = () => {
   const languageControl = useLanguageControl();
 
   const keyboardRef = useRef<any | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const outsideRef = useRef<null | HTMLDivElement>(null);
 
   const [date, setDate] = useState(new Date());
@@ -373,6 +374,7 @@ const Header = () => {
           </span>
           <input
             type="text"
+            ref={inputRef}
             placeholder={languageControl("Поиск", "Search")}
             value={inputValue}
             onChange={(e) => {
@@ -416,6 +418,7 @@ const Header = () => {
               onChange={setInputValue}
               language={language}
               keyboardRef={keyboardRef}
+              inputRef={inputRef}
             />
           </div>
         )}

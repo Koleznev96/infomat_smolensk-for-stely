@@ -78,7 +78,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
 
   const handleDragStart = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!contentRef.current) return;
-    e.preventDefault();
+
     const slider = contentRef.current;
     const startX = e.touches[0].clientX - slider.offsetLeft;
     const startY = e.touches[0].clientY - slider.offsetTop;
@@ -97,7 +97,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
 
   const handleDrag = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!isMouseDown || !contentRef.current) return;
-    e.preventDefault();
+
     const slider = contentRef.current;
     const x = e.touches[0].clientX - slider.offsetLeft;
     const y = e.touches[0].clientY - slider.offsetTop;
