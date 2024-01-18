@@ -20,7 +20,7 @@ const ChangedBlock = ({ children }: ChangedBlockProps) => {
     let height = parseInt(styles.height, 10);
     let y = 0;
 
-    resizeableEle.style.top = "-130px";
+    resizeableEle.style.top = "-210px";
     resizeableEle.style.left = "0";
 
     const onMouseMoveTopResize = (event: any) => {
