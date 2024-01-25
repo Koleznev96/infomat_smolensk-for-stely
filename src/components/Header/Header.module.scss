@@ -227,10 +227,11 @@
     .keyboard {
       position: fixed;
       left: 50%;
-      bottom: 260px;
+      //   bottom: 50%;
       width: 1000px;
       height: 500px;
       z-index: 10;
+      top: 580px;
       transform: translate(-50%, 50%);
     }
   }

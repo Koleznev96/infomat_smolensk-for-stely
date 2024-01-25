@@ -85,7 +85,7 @@ const Header = () => {
       case path.includes(TOURIST_OBJECTS):
         return languageControl(
           "Туристские объекты на карте города",
-          "Tourist objects on the map of the city",
+          "Tourist objects on the map of the city"
         );
       case path.includes(SUGGEST_VISIT):
         return languageControl("Рекомендуем", "Recommended");
@@ -108,7 +108,7 @@ const Header = () => {
       () => {
         refetch();
       },
-      1000 * 60 * 30,
+      1000 * 60 * 30
     );
 
     return () => {
@@ -398,7 +398,7 @@ const Header = () => {
                     <p>
                       {languageControl(
                         object.description,
-                        object.descriptionEn,
+                        object.descriptionEn
                       )}
                     </p>
                   </div>
